@@ -1,0 +1,6 @@
+<?php
+
+require_once __DIR__ . '/SplClassLoader.php';
+
+$Loader = new SplClassLoader( 'Lertify\Lastfm', __DIR__ . '/../src' );
+$Loader->register();

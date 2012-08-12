@@ -1,0 +1,21 @@
+{
+    "name": "lertify/lastfm-api",
+    "type": "library",
+    "description": "Last.fm API v2 client",
+    "homepage": "https://github.com/lertify/lastfm-api",
+    "keywords": ["lastfm", "api"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lertify Team",
+            "homepage": "http://lertify.me"
+        }
+    ],
+    "require": {
+        "php":                ">=5.3.2",
+        "ext-curl":           "*"
+    },
+    "autoload": {
+        "psr-0": { "Lertify\\Lastfm\\": "src/" }
+    }
+}
