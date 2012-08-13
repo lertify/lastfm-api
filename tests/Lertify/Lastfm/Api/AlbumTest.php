@@ -21,10 +21,22 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 	{
 		$AlbumCollection = $this->lastfm->album()->search( 'Conspiracy of One' );
 
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Collection', $AlbumCollection );
 		$this->assertEquals( 'object', gettype( $AlbumCollection ) );
+		$this->assertEquals( 1, $AlbumCollection->count() );
+
+		/** @var $Album \Lertify\Lastfm\Api\Data\Album\Album */
+		foreach ( $AlbumCollection->getAlbums() as $Album )
+		{
+			$this->assertEquals( 'The Offspring', $Album->getArtist() );
+			$this->assertEquals( 'Conspiracy of One', $Album->getName() );
+		}
 	}
 
-	protected function tearDown()
+	public function testTopTag()
 	{
+		$TagCollection = $this->lastfm->album()->getTopTags( 'Radiohead', 'The Bends' );
+
+		$this->assertGreaterThan( '1', $TagCollection->count() );
 	}
 }

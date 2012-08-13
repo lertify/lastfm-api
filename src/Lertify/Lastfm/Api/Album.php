@@ -54,6 +54,69 @@ class Album extends AbstractApi
 	}
 
 	/**
+	 * @param string $artistName
+	 * @param string $albumName
+	 * @param bool $autocorrect
+	 * @return Data\Tag\Collection
+	 */
+	public function getTopTags( $artistName, $albumName, $autocorrect = false )
+	{
+		$params = array(
+			'method'      => self::PREFIX . __FUNCTION__,
+			'artist'      => $artistName,
+			'album'       => $albumName,
+			'autocorrect' => $autocorrect,
+		);
+
+		return $this->fetchTopTagCollection( $params );
+	}
+
+	/**
+	 * @param string $mbid
+	 * @param bool $autocorrect
+	 * @return Data\Tag\Collection
+	 */
+	public function getTopTagsByMbid( $mbid, $autocorrect = false )
+	{
+		$params = array(
+			'method'      => self::PREFIX . __FUNCTION__,
+			'mbid'        => $mbid,
+			'autocorrect' => $autocorrect,
+		);
+
+		return $this->fetchTopTagCollection( $params );
+	}
+
+	/**
+	 * @param array $params
+	 * @return Data\Tag\Collection
+	 */
+	private function fetchTopTagCollection( array $params )
+	{
+		$result = $this->getClient()->get( '', $params );
+
+		/** @var $Xml \SimpleXMLElement */
+		$Xml               = simplexml_load_string( trim( $result ) );
+		$TopTagsCollection = new Data\Tag\Collection();
+
+		$TopTagsCollection->setArtistName( trim( $Xml->toptags['artist'] ) );
+		$TopTagsCollection->setAlbumName( trim( $Xml->toptags['album'] ) );
+
+		foreach ( $Xml->toptags->tag as $tagRow )
+		{
+			$Tag = new Data\Tag\Tag();
+
+			$Tag->setName( trim( $tagRow->name ) );
+			$Tag->setUrl( trim( $tagRow->url ) );
+			$Tag->setCount( (int) $tagRow->count );
+
+			$TopTagsCollection->addTag( $Tag );
+		}
+
+		return $TopTagsCollection;
+	}
+
+	/**
 	 * @param array $params
 	 * @return array
 	 */

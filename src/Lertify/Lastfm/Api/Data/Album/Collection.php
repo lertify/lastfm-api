@@ -27,4 +27,20 @@ class Collection
 	{
 		$this->albums = array_merge( $this->albums, $albumsList );
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getAlbums()
+	{
+		return $this->albums;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function count()
+	{
+		return count( $this->albums );
+	}
 }
