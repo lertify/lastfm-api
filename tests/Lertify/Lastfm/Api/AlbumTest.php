@@ -33,7 +33,7 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testTopTag()
+	public function testGetTopTag()
 	{
 		$TagCollection = $this->lastfm->album()->getTopTags( 'Radiohead', 'The Bends' );
 
@@ -44,5 +44,16 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 		$this->assertGreaterThan( '1', $TagCollection->count() );
 
 		//$this->assertEquals( 100, $TagCollection->count() );
+	}
+
+	public function testGetInfo()
+	{
+		$Album = $this->lastfm->album()->getInfo( 'The Offspring', 'Conspiracy of One' );
+
+		$this->assertEquals( 14, $Album->getTracks()->count() );
+
+		$Album = $this->lastfm->album()->getInfo( 'Cher', 'Believe' );
+
+		$this->assertNotEmpty( $Album->getWikiSummary() );
 	}
 }

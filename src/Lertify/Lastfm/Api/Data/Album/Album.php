@@ -5,6 +5,8 @@
  */
 namespace Lertify\Lastfm\Api\Data\Album;
 
+use Lertify\Lastfm\Api\Data;
+
 class Album
 {
 	/**
@@ -30,7 +32,7 @@ class Album
 	/**
 	 * @var bool
 	 */
-	private $streamable;
+	private $streamable = false;
 
 	/**
 	 * @var string
@@ -41,6 +43,46 @@ class Album
 	 * @var array
 	 */
 	private $images = array();
+
+	/**
+	 * @var string
+	 */
+	private $releaseDate = '';
+
+	/**
+	 * @var int
+	 */
+	private $listeners = 0;
+
+	/**
+	 * @var int
+	 */
+	private $playcount = 0;
+
+	/**
+	 * @var Data\Track\Collection
+	 */
+	private $tracks;
+
+	/**
+	 * @var Data\Tag\Collection
+	 */
+	private $topTags;
+
+	/**
+	 * @var string
+	 */
+	private $wikiPublishedAt;
+
+	/**
+	 * @var string
+	 */
+	private $wikiSummary;
+
+	/**
+	 * @var string
+	 */
+	private $wikiContent;
 
 	/**
 	 * @param int $id
@@ -153,5 +195,133 @@ class Album
 	public function getImages()
 	{
 		return $this->images;
+	}
+
+	/**
+	 * @param string $releaseDate
+	 */
+	public function setReleaseDate( $releaseDate )
+	{
+		$this->releaseDate = $releaseDate;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getReleaseDate()
+	{
+		return $this->releaseDate;
+	}
+
+	/**
+	 * @param int $listeners
+	 */
+	public function setListeners( $listeners )
+	{
+		$this->listeners = $listeners;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getListeners()
+	{
+		return $this->listeners;
+	}
+
+	/**
+	 * @param int $playcount
+	 */
+	public function setPlaycount( $playcount )
+	{
+		$this->playcount = $playcount;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPlaycount()
+	{
+		return $this->playcount;
+	}
+
+	/**
+	 * @param Data\Track\Collection $Tracks
+	 */
+	public function setTracks( Data\Track\Collection $Tracks )
+	{
+		$this->tracks = $Tracks;
+	}
+
+	/**
+	 * @return Data\Track\Collection
+	 */
+	public function getTracks()
+	{
+		return $this->tracks;
+	}
+
+	/**
+	 * @param Data\Tag\Collection $TopTags
+	 */
+	public function setTopTags( Data\Tag\Collection $TopTags )
+	{
+		$this->topTags = $TopTags;
+	}
+
+	/**
+	 * @return Data\Tag\Collection
+	 */
+	public function getTopTags()
+	{
+		return $this->topTags;
+	}
+
+	/**
+	 * @param string $wikiPublishedAt
+	 */
+	public function setWikiPublishedAt( $wikiPublishedAt )
+	{
+		$this->wikiPublishedAt = $wikiPublishedAt;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getWikiPublishedAt()
+	{
+		return $this->wikiPublishedAt;
+	}
+
+	/**
+	 * @param string $wikiSummary
+	 */
+	public function setWikiSummary( $wikiSummary )
+	{
+		$this->wikiSummary = $wikiSummary;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getWikiSummary()
+	{
+		return $this->wikiSummary;
+	}
+
+	/**
+	 * @param string $wikiContent
+	 */
+	public function setWikiContent( $wikiContent )
+	{
+		$this->wikiContent = $wikiContent;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getWikiContent()
+	{
+		return $this->wikiContent;
 	}
 }

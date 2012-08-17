@@ -6,7 +6,7 @@
 namespace Lertify\Lastfm\Api;
 
 use Lertify\Lastfm\Api\Data,
-	Lertify\Lastfm\Util\Util;
+Lertify\Lastfm\Util\Util;
 
 class Album extends AbstractApi
 {
@@ -28,14 +28,86 @@ class Album extends AbstractApi
 		// @todo Need to implement
 	}
 
+	/**
+	 * @param string $artistName
+	 * @param string $albumName
+	 * @param bool $autocorrect
+	 * @param string $username
+	 * @param string|null $lang
+	 * @return Data\Album\Album
+	 */
 	public function getInfo( $artistName, $albumName, $autocorrect = false, $username = '', $lang = null )
 	{
-		// @todo Need to implement
+		$params = array(
+			'artist'      => $artistName,
+			'album'       => $albumName,
+			'autocorrect' => $autocorrect,
+			'username'    => $username,
+			'lang'        => $lang,
+		);
+
+		$result = $this->getClient()->get( self::PREFIX . 'getInfo', $params );
+
+		/** @var $AlbumXml \SimpleXMLElement */
+		$Xml = simplexml_load_string( trim( $result ) );
+
+		return $this->fillAlbumInfo( $Xml->album );
 	}
 
+	/**
+	 * @param string $mbId
+	 * @param string $username
+	 * @param string|null $lang
+	 * @return Data\Album\Album
+	 */
 	public function getInfoByMbid( $mbId, $username = '', $lang = null )
 	{
-		// @todo Need to implement
+		$params = array(
+			'mbid'     => $mbId,
+			'username' => $username,
+			'lang'     => $lang,
+		);
+
+		$result = $this->getClient()->get( self::PREFIX . 'getInfo', $params );
+
+		/** @var $AlbumXml \SimpleXMLElement */
+		$Xml = simplexml_load_string( trim( $result ) );
+
+		return $this->fillAlbumInfo( $Xml->album );
+	}
+
+	/**
+	 * @param \SimpleXMLElement $AlbumXml
+	 * @return Data\Album\Album
+	 */
+	private function fillAlbumInfo( \SimpleXMLElement $AlbumXml )
+	{
+		$Album = new Data\Album\Album();
+
+		$Album->setId( (int) $AlbumXml->id );
+		$Album->setName( Util::toSting( $AlbumXml->name ) );
+		$Album->setArtist( Util::toSting( $AlbumXml->artist ) );
+		$Album->setUrl( Util::toSting( $AlbumXml->url ) );
+		$Album->setMbid( Util::toSting( $AlbumXml->mbid ) );
+		$Album->setReleaseDate( Util::toSting( $AlbumXml->releasedate ) );
+		$Album->setListeners( (int) $AlbumXml->listeners );
+		$Album->setPlaycount( (int) $AlbumXml->playcount );
+
+		foreach ( $AlbumXml->image as $image )
+		{
+			if ( '' === ( $imageUrl = trim( $image ) ) )
+			{
+				continue;
+			}
+
+			$Album->addImage( Util::toSting( $image['size'] ), $imageUrl );
+		}
+
+		$this->addTracks( $Album, $AlbumXml->tracks );
+		$this->addTopTags( $Album, $AlbumXml->toptags );
+		$this->addBiography( $Album, $AlbumXml->wiki );
+
+		return $Album;
 	}
 
 	/**
@@ -177,5 +249,68 @@ class Album extends AbstractApi
 		}
 
 		return $albums;
+	}
+
+	/**
+	 * @param Data\Album\Album $Album
+	 * @param \SimpleXMLElement $Tracks
+	 */
+	private function addTracks( Data\Album\Album $Album, \SimpleXMLElement $Tracks )
+	{
+		$TrackCollection = new Data\Track\Collection();
+
+		/** @var $TrackXml \SimpleXMLElement */
+		foreach ( $Tracks->track as $TrackXml )
+		{
+			$Track = new Data\Track\Track();
+
+			$Track->setRank( (int) $TrackXml['rank'] );
+			$Track->setName( Util::toSting( $TrackXml->name ) );
+			$Track->setDuration( (int) $TrackXml->duration );
+			$Track->setMbId( Util::toSting( $TrackXml->mbid ) );
+			$Track->setUrl( Util::toSting( $TrackXml->url ) );
+			$Track->setStreamableFulltrack( (bool) ( (int) $TrackXml->streamable['fulltrack'] ) );
+			$Track->setStreamable( (bool) ( (int) $TrackXml->streamable ) );
+			$Track->setArtistName( Util::toSting( $TrackXml->artist->name ) );
+			$Track->setArtistMbId( Util::toSting( $TrackXml->artist->mbid ) );
+			$Track->setArtistUrl( Util::toSting( $TrackXml->artist->url ) );
+
+			$TrackCollection->addTrack( $Track );
+		}
+
+		$Album->setTracks( $TrackCollection );
+	}
+
+	/**
+	 * @param Data\Album\Album $Album
+	 * @param \SimpleXMLElement $TopTags
+	 */
+	private function addTopTags( Data\Album\Album $Album, \SimpleXMLElement $TopTags )
+	{
+		$TopTagCollection = new Data\Tag\Collection();
+
+		/** @var $TagXml \SimpleXMLElement */
+		foreach ( $TopTags->tag as $TagXml )
+		{
+			$Tag = new Data\Tag\Tag();
+
+			$Tag->setName( Util::toSting( $TagXml->name ) );
+			$Tag->setUrl( Util::toSting( $TagXml->url ) );
+
+			$TopTagCollection->addTag( $Tag );
+		}
+
+		$Album->setTopTags( $TopTagCollection );
+	}
+
+	/**
+	 * @param Data\Album\Album $Album
+	 * @param \SimpleXMLElement $Wiki
+	 */
+	private function addBiography( Data\Album\Album $Album, \SimpleXMLElement $Wiki )
+	{
+		$Album->setWikiPublishedAt( Util::toSting( $Wiki->published ) );
+		$Album->setWikiSummary( Util::toSting( $Wiki->summary ) );
+		$Album->setWikiContent( Util::toSting( $Wiki->content ) );
 	}
 }
