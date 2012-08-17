@@ -14,10 +14,10 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'] );
+		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
 	}
 
-	public function testAlbum()
+	public function testSearch()
 	{
 		$AlbumCollection = $this->lastfm->album()->search( 'Conspiracy of One' );
 
@@ -38,5 +38,11 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 		$TagCollection = $this->lastfm->album()->getTopTags( 'Radiohead', 'The Bends' );
 
 		$this->assertGreaterThan( '1', $TagCollection->count() );
+
+		$TagCollection = $this->lastfm->album()->getTopTagsByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4' );
+
+		$this->assertGreaterThan( '1', $TagCollection->count() );
+
+		//$this->assertEquals( 100, $TagCollection->count() );
 	}
 }

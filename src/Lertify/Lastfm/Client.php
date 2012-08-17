@@ -24,6 +24,11 @@ class Client
 	 */
 	private $apiKey;
 
+	/**
+	 * @var
+	 */
+	private $secretKey;
+
     /**
      * The list of loaded API instances
      *
@@ -33,8 +38,9 @@ class Client
 
 	/**
 	 * @param string $apiKey
+	 * @param string $apiSecretKey
 	 */
-	public function __construct( $apiKey )
+	public function __construct( $apiKey, $apiSecretKey )
     {
         $this->apiUrl = self::URL . self::VERSION;
 		$this->apiKey = $apiKey;
@@ -57,30 +63,63 @@ class Client
 	}
 
 	/**
-	 * @param string $path
+	 * @param string $method
 	 * @param array $parameters
 	 * @param array $options
 	 * @return mixed
 	 */
-	public function get( $path, array $parameters = array(), $options = array() )
+	public function get( $method, array $parameters = array(), $options = array() )
 	{
-		$ch = curl_init();
+		$Curl = new \Lertify\Lastfm\Util\Curl();
+		$Curl->curlGet( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
 
+		return $Curl->fetch();
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $parameters
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function post( $method, array $parameters = array(), $options = array() )
+	{
+		$Curl = new \Lertify\Lastfm\Util\Curl();
+		$Curl->curlPost( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
+
+		return $Curl->fetch();
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $parameters
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function put( $method, array $parameters = array(), $options = array() )
+	{
+		$Curl = new \Lertify\Lastfm\Util\Curl();
+		$Curl->curlPut( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
+
+		return $Curl->fetch();
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $parameters
+	 * @param array $options
+	 * @return array
+	 */
+	private function parseRequestParameters( $method, array $parameters = array(), $options = array() )
+	{
 		$defaultParameters = array(
 			'api_key'  => $this->apiKey,
-        );
+		);
 
-		$parameters = array_merge( $defaultParameters, $parameters );
-		$query      = http_build_query( $parameters );
+		$parameters['method'] = $method;
+		$parameters           = array_merge( $defaultParameters, $parameters );
 
-		curl_setopt_array( $ch, array(
-			CURLOPT_URL            => $this->apiUrl . '?' . $query,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_HEADER         => false,
-			CURLOPT_FAILONERROR    => true,
-		) );
-
-		return curl_exec( $ch );
+		return $parameters;
 	}
 
 	/**

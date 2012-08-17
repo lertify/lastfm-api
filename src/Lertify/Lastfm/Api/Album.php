@@ -5,25 +5,50 @@
  */
 namespace Lertify\Lastfm\Api;
 
-use Lertify\Lastfm\Api\Data;
+use Lertify\Lastfm\Api\Data,
+	Lertify\Lastfm\Util\Util;
 
 class Album extends AbstractApi
 {
 	const
 		PREFIX = 'album.';
 
+	public function addTags()
+	{
+		// @todo Need to implement
+	}
+
+	public function getBuylinks( $artistName, $albumName, $autocorrect = false, $country = 'United States' )
+	{
+		// @todo Need to implement
+	}
+
+	public function getBuylinksByMbid( $mbId, $country = 'United States' )
+	{
+		// @todo Need to implement
+	}
+
+	public function getInfo( $artistName, $albumName, $autocorrect = false, $username = '', $lang = null )
+	{
+		// @todo Need to implement
+	}
+
+	public function getInfoByMbid( $mbId, $username = '', $lang = null )
+	{
+		// @todo Need to implement
+	}
+
 	/**
-	 * @param $albumName
+	 * @param string $albumName
 	 * @return Data\Album\Collection
 	 */
 	public function search( $albumName )
 	{
 		$params = array(
-			'method'  => self::PREFIX . __FUNCTION__,
-			'album'   => $albumName,
+			'album' => $albumName,
 		);
 
-		$result = $this->getClient()->get( '', $params );
+		$result = $this->getClient()->get( self::PREFIX . 'search', $params );
 
 		/** @var $Xml \SimpleXMLElement */
 		$Xml = simplexml_load_string( trim( $result ) );
@@ -47,7 +72,7 @@ class Album extends AbstractApi
 
 			$params['page'] = $i;
 
-			$AlbumCollection->addAlbums( $this->fetchAdditionalPage( $params ) );
+			$AlbumCollection->addAlbums( $this->fetchAdditionalPage( self::PREFIX . 'search', $params ) );
 		}
 
 		return $AlbumCollection;
@@ -62,52 +87,49 @@ class Album extends AbstractApi
 	public function getTopTags( $artistName, $albumName, $autocorrect = false )
 	{
 		$params = array(
-			'method'      => self::PREFIX . __FUNCTION__,
 			'artist'      => $artistName,
 			'album'       => $albumName,
 			'autocorrect' => $autocorrect,
 		);
 
-		return $this->fetchTopTagCollection( $params );
+		return $this->fetchTopTagCollection( self::PREFIX . 'getTopTags', $params );
 	}
 
 	/**
-	 * @param string $mbid
-	 * @param bool $autocorrect
+	 * @param string $mbId
 	 * @return Data\Tag\Collection
 	 */
-	public function getTopTagsByMbid( $mbid, $autocorrect = false )
+	public function getTopTagsByMbid( $mbId )
 	{
 		$params = array(
-			'method'      => self::PREFIX . __FUNCTION__,
-			'mbid'        => $mbid,
-			'autocorrect' => $autocorrect,
+			'mbid' => $mbId,
 		);
 
-		return $this->fetchTopTagCollection( $params );
+		return $this->fetchTopTagCollection( self::PREFIX . 'getTopTags', $params );
 	}
 
 	/**
+	 * @param string $method
 	 * @param array $params
 	 * @return Data\Tag\Collection
 	 */
-	private function fetchTopTagCollection( array $params )
+	private function fetchTopTagCollection( $method, array $params )
 	{
-		$result = $this->getClient()->get( '', $params );
+		$result = $this->getClient()->get( $method, $params );
 
 		/** @var $Xml \SimpleXMLElement */
 		$Xml               = simplexml_load_string( trim( $result ) );
 		$TopTagsCollection = new Data\Tag\Collection();
 
-		$TopTagsCollection->setArtistName( trim( $Xml->toptags['artist'] ) );
-		$TopTagsCollection->setAlbumName( trim( $Xml->toptags['album'] ) );
+		$TopTagsCollection->setArtistName( Util::toSting( $Xml->toptags['artist'] ) );
+		$TopTagsCollection->setAlbumName( Util::toSting( $Xml->toptags['album'] ) );
 
 		foreach ( $Xml->toptags->tag as $tagRow )
 		{
 			$Tag = new Data\Tag\Tag();
 
-			$Tag->setName( trim( $tagRow->name ) );
-			$Tag->setUrl( trim( $tagRow->url ) );
+			$Tag->setName( Util::toSting( $tagRow->name ) );
+			$Tag->setUrl( Util::toSting( $tagRow->url ) );
 			$Tag->setCount( (int) $tagRow->count );
 
 			$TopTagsCollection->addTag( $Tag );
@@ -117,12 +139,13 @@ class Album extends AbstractApi
 	}
 
 	/**
+	 * @param string $method
 	 * @param array $params
 	 * @return array
 	 */
-	private function fetchAdditionalPage( array $params )
+	private function fetchAdditionalPage( $method, array $params )
 	{
-		$result = $this->getClient()->get( '', $params );
+		$result = $this->getClient()->get( $method, $params );
 
 		/** @var $Xml \SimpleXMLElement */
 		$Xml = simplexml_load_string( trim( $result ) );
