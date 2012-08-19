@@ -1,6 +1,6 @@
 <?php
 /**
- * @author  Eugene Serkin <jserkin@gmail.com>
+ * @author  Eugene Serkin <jeserkin@gmail.com>
  * @version $Id$
  */
 namespace Lertify\Lastfm\Api;
