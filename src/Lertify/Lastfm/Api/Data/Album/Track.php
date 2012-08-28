@@ -3,7 +3,7 @@
  * @author  Eugene Serkin <jeserkin@gmail.com>
  * @version $Id$
  */
-namespace Lertify\Lastfm\Api\Data\Track;
+namespace Lertify\Lastfm\Api\Data\Album;
 
 class Track
 {

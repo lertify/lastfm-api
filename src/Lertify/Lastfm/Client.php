@@ -1,12 +1,13 @@
 <?php
 /**
- * @author  Eugene Serkin <jserkin@gmail.com>
+ * @author  Eugene Serkin <jeserkin@gmail.com>
  * @version $Id$
  */
 namespace Lertify\Lastfm;
 
-use Lertify\Lastfm\Api;
-use Lertify\Lastfm\Api\ApiInterface;
+use Lertify\Lastfm\Api,
+	Lertify\Lastfm\Api\ApiInterface,
+	InvalidArgumentException;
 
 class Client
 {
@@ -25,26 +26,27 @@ class Client
 	private $apiKey;
 
 	/**
-	 * @var
+	 * @var string
 	 */
-	private $secretKey;
+	private $apiSecretKey;
 
-    /**
-     * The list of loaded API instances
-     *
-     * @var array
-     */
-    private $apis = array();
+	/**
+	 * The list of loaded API instances
+	 *
+	 * @var array
+	 */
+	private $apis = array();
 
 	/**
 	 * @param string $apiKey
 	 * @param string $apiSecretKey
 	 */
 	public function __construct( $apiKey, $apiSecretKey )
-    {
-        $this->apiUrl = self::URL . self::VERSION;
-		$this->apiKey = $apiKey;
-    }
+	{
+		$this->apiUrl       = self::URL . self::VERSION;
+		$this->apiKey       = $apiKey;
+		$this->apiSecretKey = $apiSecretKey;
+	}
 
 	/**
 	 * @return string
@@ -60,6 +62,14 @@ class Client
 	public function getApiKey()
 	{
 		return $this->apiKey;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getApiSecretKey()
+	{
+		return $this->apiSecretKey;
 	}
 
 	/**
@@ -120,6 +130,27 @@ class Client
 		$parameters           = array_merge( $defaultParameters, $parameters );
 
 		return $parameters;
+	}
+
+	/**
+	 * @param string $apiName
+	 * @throws InvalidArgumentException
+	 * @return Api\AbstractApi
+	 */
+	public function api( $apiName )
+	{
+		switch ( $apiName )
+		{
+			case 'album':
+			{
+				return $this->album();
+			}
+
+			default:
+			{
+				throw new InvalidArgumentException( 'No such api at present time!' );
+			}
+		}
 	}
 
 	/**

@@ -1,12 +1,22 @@
 <?php
 /**
- * @author  Eugene Serkin <jserkin@gmail.com>
+ * @author  Eugene Serkin <jeserkin@gmail.com>
  * @version $Id$
  */
-namespace Lertify\Lastfm\Api\Data\Tag;
+namespace Lertify\Lastfm\Api\Data\Album;
 
 class Tag
 {
+	/**
+	 * @var string
+	 */
+	private $artist;
+
+	/**
+	 * @var string
+	 */
+	private $album;
+
 	/**
 	 * @var string
 	 */
@@ -21,6 +31,46 @@ class Tag
 	 * @var int
 	 */
 	private $count;
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @param string $artist
+	 */
+	public function setArtist( $artist )
+	{
+		$this->artist = $artist;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getArtist()
+	{
+		return $this->artist;
+	}
+
+	/**
+	 * @param string $album
+	 */
+	public function setAlbum( $album )
+	{
+		$this->album = $album;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAlbum()
+	{
+		return $this->album;
+	}
 
 	/**
 	 * @param string $name

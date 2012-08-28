@@ -1,6 +1,6 @@
 <?php
 /**
- * @author  Eugene Serkin <jserkin@gmail.com>
+ * @author  Eugene Serkin <jeserkin@gmail.com>
  * @version $Id$
  */
 namespace Lertify\Lastfm\Api;
@@ -10,12 +10,13 @@ use Lertify\Lastfm\Client;
 abstract class AbstractApi implements ApiInterface
 {
 	/**
-	 * @var \Lertify\Lastfm\Client
+	 * @var Client
 	 */
 	private $client;
 
 	/**
-	 * @param \Lertify\Lastfm\Client $client
+	 * @param Client $client
+	 * @return AbstractApi
 	 */
 	public function __construct( Client $client )
 	{
@@ -23,21 +24,43 @@ abstract class AbstractApi implements ApiInterface
 	}
 
 	/**
-	 * @param string $path
-	 * @param array $parameters
-	 * @param array $requestOptions
-	 * @return mixed
-	 */
-	protected function get( $path, array $parameters = array(), $requestOptions = array() )
-	{
-		return $this->client->get( $path, $parameters, $requestOptions );
-	}
-
-	/**
-	 * @return \Lertify\Lastfm\Client
+	 * @return Client
 	 */
 	protected function getClient()
 	{
 		return $this->client;
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $parameters
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function get( $method, array $parameters = array(), $options = array() )
+	{
+		return $this->client->get( $method, $parameters, $options );
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $parameters
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function post( $method, array $parameters = array(), $options = array() )
+	{
+		return $this->client->post( $method, $parameters, $options );
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $parameters
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function put( $method, array $parameters = array(), $options = array() )
+	{
+		return $this->client->put( $method, $parameters, $options );
 	}
 }

@@ -33,6 +33,11 @@ class PagedCollection
 	private $totalResults;
 
 	/**
+	 * @var int
+	 */
+	private $limit;
+
+	/**
 	 * Create ArrayCollection.
 	 *
 	 * @param Closure $Callback page retrieve callback
@@ -55,7 +60,7 @@ class PagedCollection
 	 */
 	private function loadPage( $number )
 	{
-		$pageData = call_user_func( $this->callback, $number );
+		$pageData = call_user_func( $this->callback, $number, $this->getLimit() );
 
 		if ( null === $pageData )
 		{
@@ -128,5 +133,21 @@ class PagedCollection
 		}
 
 		return $this->totalPages;
+	}
+
+	/**
+	 * @param int $limit
+	 */
+	public function setLimit( $limit )
+	{
+		$this->limit = $limit;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLimit()
+	{
+		return $this->limit;
 	}
 }

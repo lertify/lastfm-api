@@ -5,7 +5,7 @@
  */
 namespace Lertify\Lastfm\Api\Data\Album;
 
-use Lertify\Lastfm\Api\Data;
+use Lertify\Lastfm\Api\Data\ArrayCollection;
 
 class Album
 {
@@ -40,7 +40,7 @@ class Album
 	private $mbid;
 
 	/**
-	 * @var array
+	 * @var ArrayCollection
 	 */
 	private $images = array();
 
@@ -60,12 +60,12 @@ class Album
 	private $playcount = 0;
 
 	/**
-	 * @var Data\Track\Collection
+	 * @var ArrayCollection
 	 */
 	private $tracks;
 
 	/**
-	 * @var Data\Tag\Collection
+	 * @var ArrayCollection
 	 */
 	private $topTags;
 
@@ -181,16 +181,15 @@ class Album
 	}
 
 	/**
-	 * @param string $size
-	 * @param string $url
+	 * @param ArrayCollection $Images
 	 */
-	public function addImage( $size, $url )
+	public function setImages( ArrayCollection $Images )
 	{
-		$this->images[ $size ] = $url;
+		$this->images = $Images;
 	}
 
 	/**
-	 * @return array
+	 * @return ArrayCollection
 	 */
 	public function getImages()
 	{
@@ -246,15 +245,15 @@ class Album
 	}
 
 	/**
-	 * @param Data\Track\Collection $Tracks
+	 * @param ArrayCollection $Tracks
 	 */
-	public function setTracks( Data\Track\Collection $Tracks )
+	public function setTracks( ArrayCollection $Tracks )
 	{
 		$this->tracks = $Tracks;
 	}
 
 	/**
-	 * @return Data\Track\Collection
+	 * @return ArrayCollection
 	 */
 	public function getTracks()
 	{
@@ -262,15 +261,15 @@ class Album
 	}
 
 	/**
-	 * @param Data\Tag\Collection $TopTags
+	 * @param ArrayCollection $TopTags
 	 */
-	public function setTopTags( Data\Tag\Collection $TopTags )
+	public function setTopTags( ArrayCollection $TopTags )
 	{
 		$this->topTags = $TopTags;
 	}
 
 	/**
-	 * @return Data\Tag\Collection
+	 * @return ArrayCollection
 	 */
 	public function getTopTags()
 	{

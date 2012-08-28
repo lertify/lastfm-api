@@ -1,6 +1,6 @@
 <?php
 /**
- * @author  Eugene Serkin <jserkin@gmail.com>
+ * @author  Eugene Serkin <jeserkin@gmail.com>
  * @version $Id$
  */
 namespace Lertify\Lastfm\Tests;
@@ -14,7 +14,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'] );
+		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
 	}
 
 	/**
