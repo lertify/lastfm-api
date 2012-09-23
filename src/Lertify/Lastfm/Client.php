@@ -7,7 +7,10 @@ namespace Lertify\Lastfm;
 
 use Lertify\Lastfm\Api,
 	Lertify\Lastfm\Api\ApiInterface,
-	InvalidArgumentException;
+	Lertify\Lastfm\Util\Curl,
+	Lertify\Lastfm\Exception\NotFoundException,
+	InvalidArgumentException,
+	RuntimeException;
 
 class Client
 {
@@ -76,14 +79,38 @@ class Client
 	 * @param string $method
 	 * @param array $parameters
 	 * @param array $options
-	 * @return mixed
+	 * @throws RuntimeException
+	 * @throws NotFoundException
+	 * @return array
 	 */
 	public function get( $method, array $parameters = array(), $options = array() )
 	{
-		$Curl = new \Lertify\Lastfm\Util\Curl();
+		$Curl = new Curl();
 		$Curl->curlGet( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
 
-		return $Curl->fetch();
+		$response = $Curl->fetch();
+
+		if ( false !== ( $error = $Curl->getError() ) )
+		{
+			throw new RuntimeException( $error );
+		}
+
+		$response = json_decode( $response, true );
+		$httpCode = $Curl->getCurlInfo( CURLINFO_HTTP_CODE );
+
+		$Curl->closeRequest();
+
+		if ( 503 == $httpCode )
+		{
+            throw new RuntimeException( 'Limit exceeded' );
+        }
+
+        if( 404 == $httpCode )
+		{
+            throw new NotFoundException( ( isset( $response['error'] ) ? $response['error'] : 'Unknown error message' ) );
+        }
+
+		return $response;
 	}
 
 	/**
@@ -94,7 +121,7 @@ class Client
 	 */
 	public function post( $method, array $parameters = array(), $options = array() )
 	{
-		$Curl = new \Lertify\Lastfm\Util\Curl();
+		$Curl = new Curl();
 		$Curl->curlPost( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
 
 		return $Curl->fetch();
@@ -108,7 +135,7 @@ class Client
 	 */
 	public function put( $method, array $parameters = array(), $options = array() )
 	{
-		$Curl = new \Lertify\Lastfm\Util\Curl();
+		$Curl = new Curl();
 		$Curl->curlPut( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
 
 		return $Curl->fetch();
@@ -125,6 +152,11 @@ class Client
 		$defaultParameters = array(
 			'api_key'  => $this->apiKey,
 		);
+
+		if ( isset( $options['json'] ) )
+		{
+			$parameters['format'] = 'json';
+		}
 
 		$parameters['method'] = $method;
 		$parameters           = array_merge( $defaultParameters, $parameters );
@@ -146,6 +178,11 @@ class Client
 				return $this->album();
 			}
 
+			case 'artist':
+			{
+				return $this->artist();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -165,6 +202,20 @@ class Client
 
 		return $this->apis['album'];
 	}
+
+
+    /**
+     * @return Api\Artist
+     */
+    public function artist()
+    {
+        if ( ! isset( $this->apis['artist'] ) )
+        {
+            $this->apis['artist'] = new Api\Artist( $this );
+        }
+
+        return $this->apis['artist'];
+    }
 
 	public function clearHeaders()
 	{

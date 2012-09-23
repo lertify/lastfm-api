@@ -23,10 +23,6 @@ class Album extends AbstractApi
 
 	/**
 	 * @link http://www.last.fm/api/show/album.addTags
-	 *
-	 * @param string $artist
-	 * @param string $album
-	 * @param array $tags
 	 */
 	public function addTags( $artist, $album, array $tags )
 	{
@@ -263,49 +259,44 @@ class Album extends AbstractApi
 			$params = array_merge( $params, array( 'page' => $page, 'limit' => $limit ) );
 
 			/** @var $self Album */
-			$result = $self->get( Album::PREFIX . 'search', $params );
+			$result  = $self->get( Album::PREFIX . 'search', $params );
+			$results = $result['results'];
 
-			/** @var $Xml \SimpleXMLElement */
-			$Xml = simplexml_load_string( trim( $result ) );
+			$totalResults = (int) $results['opensearch:totalResults'];
+			$itemsPerPage = (int) $results['opensearch:itemsPerPage'];
 
-			if ( ! $Xml )
-			{
-				throw new PageNotFoundException( 'No response or incorrect response received!' );
-			}
-
-			if ( isset( $Xml->error ) )
-			{
-				throw new NotFoundException( Util::toSting( $Xml->error ), (int) $Xml->error['code'] );
-			}
-
-			$Xml->registerXPathNamespace( 'opensearch', 'http://a9.com/-/spec/opensearch/1.1/' );
-
-			$totalResults = (int) current( $Xml->xpath( '//opensearch:totalResults' ) );
-			$itemsPerPage = (int) current( $Xml->xpath( '//opensearch:itemsPerPage' ) );
-
-			if ( ! isset( $Xml->results->albummatches->album ) )
+			if ( empty( $results['albummatches'] ) )
 			{
 				return null;
 			}
 
+			if ( isset( $results['albummatches']['album'][0] ) )
+			{
+				$albumsList = $results['albummatches']['album'];
+			}
+			else
+			{
+				$albumsList = array( $results['albummatches']['album'] );
+			}
+
 			$Albums = new ArrayCollection();
 
-			foreach ( $Xml->results->albummatches->album as $AlbumXml )
+			foreach ( $albumsList as $albumRow )
 			{
 				$Album = new Data\Album\Album();
 
-				$Album->setId( (int) $AlbumXml->id );
-				$Album->setName( Util::toSting( $AlbumXml->name ) );
-				$Album->setArtist( Util::toSting( $AlbumXml->artist ) );
-				$Album->setUrl( Util::toSting( $AlbumXml->url ) );
-				$Album->setStreamable( (bool) ( (int) $AlbumXml->streamable ) );
-				$Album->setMbid( Util::toSting( $AlbumXml->mbid ) );
+				$Album->setId( (int) $albumRow['id'] );
+				$Album->setName( Util::toSting( $albumRow['name'] ) );
+				$Album->setArtist( Util::toSting( $albumRow['artist'] ) );
+				$Album->setUrl( Util::toSting( $albumRow['url'] ) );
+				$Album->setStreamable( (bool) ( (int) $albumRow['streamable'] ) );
+				$Album->setMbid( Util::toSting( $albumRow['mbid'] ) );
 
 				$Images = new ArrayCollection();
 
-				foreach ( $AlbumXml->image as $image )
+				foreach ( $albumRow['image'] as $image )
 				{
-					if ( '' === ( $imageUrl = trim( $image ) ) )
+					if ( '' === ( $imageUrl = trim( $image['#text'] ) ) )
 					{
 						continue;
 					}
@@ -346,57 +337,67 @@ class Album extends AbstractApi
 	{
 		$result = $this->get( self::PREFIX . 'getBuylinks', $params );
 
-		/** @var $Xml \SimpleXMLElement */
-		$Xml = simplexml_load_string( trim( $result ) );
-
-		if ( ! $Xml )
-		{
-			throw new PageNotFoundException( 'No response or incorrect response received!' );
-		}
-
-		if ( isset( $Xml->error ) )
-		{
-			throw new NotFoundException( Util::toSting( $Xml->error ), (int) $Xml->error['code'] );
-		}
-
 		$PhysicalsList = new ArrayCollection();
 
-		foreach ( $Xml->affiliations->physicals->affiliation as $AffiliationXml )
+		if ( ! isset( $result['affiliations'] ) )
+		{
+			return new ArrayCollection();
+		}
+
+		if ( isset( $result['affiliations']['physicals']['affiliation'][0] ) )
+		{
+			$physicalsAffiliations = $result['affiliations']['physicals']['affiliation'];
+		}
+		else
+		{
+			$physicalsAffiliations = array( $result['affiliations']['physicals']['affiliation'] );
+		}
+
+		foreach ( $physicalsAffiliations as $affiliationRow )
 		{
 			$Affiliation = new Affiliation();
 
-			$Affiliation->setSupplierName( Util::toSting( $AffiliationXml->supplierName ) );
+			$Affiliation->setSupplierName( Util::toSting( $affiliationRow['supplierName'] ) );
 
-			if ( $AffiliationXml->price )
+			if ( isset( $affiliationRow['price'] ) )
 			{
-				$Affiliation->setPriceCurrency( Util::toSting( $AffiliationXml->price[0]->currency ) );
-				$Affiliation->setPriceAmount( Util::toSting( $AffiliationXml->price[0]->amount ) );
+				$Affiliation->setPriceCurrency( Util::toSting( $affiliationRow['price']['currency'] ) );
+				$Affiliation->setPriceAmount( Util::toSting( $affiliationRow['price']['amount'] ) );
 			}
 
-			$Affiliation->setBuyLink( Util::toSting( $AffiliationXml->buyLink ) );
-			$Affiliation->setSupplierIcon( Util::toSting( $AffiliationXml->supplierIcon ) );
-			$Affiliation->setIsSearch( (bool) ( (int) $AffiliationXml->isSearch ) );
+			$Affiliation->setBuyLink( Util::toSting( $affiliationRow['buyLink'] ) );
+			$Affiliation->setSupplierIcon( Util::toSting( $affiliationRow['supplierIcon'] ) );
+			$Affiliation->setIsSearch( (bool) ( (int) $affiliationRow['isSearch'] ) );
 
 			$PhysicalsList->add( $Affiliation );
 		}
 
 		$DownloadsList = new ArrayCollection();
 
-		foreach ( $Xml->affiliations->downloads->affiliation as $DownloadsXml )
+		if ( isset( $result['affiliations']['downloads']['affiliation'][0] ) )
+		{
+			$downloadsAffiliations = $result['affiliations']['downloads']['affiliation'];
+		}
+		else
+		{
+			$downloadsAffiliations = array( $result['affiliations']['downloads']['affiliation'] );
+		}
+
+		foreach ( $downloadsAffiliations as $affiliationRow )
 		{
 			$Affiliation = new Affiliation();
 
-			$Affiliation->setSupplierName( Util::toSting( $DownloadsXml->supplierName ) );
+			$Affiliation->setSupplierName( Util::toSting( $affiliationRow['supplierName'] ) );
 
-			if ( $DownloadsXml->price )
+			if ( isset( $affiliationRow['price'] ) )
 			{
-				$Affiliation->setPriceCurrency( Util::toSting( $DownloadsXml->price[0]->currency ) );
-				$Affiliation->setPriceAmount( Util::toSting( $DownloadsXml->price[0]->amount ) );
+				$Affiliation->setPriceCurrency( Util::toSting( $affiliationRow['price']['currency'] ) );
+				$Affiliation->setPriceAmount( Util::toSting( $affiliationRow['price']['amount'] ) );
 			}
 
-			$Affiliation->setBuyLink( Util::toSting( $DownloadsXml->buyLink ) );
-			$Affiliation->setSupplierIcon( Util::toSting( $DownloadsXml->supplierIcon ) );
-			$Affiliation->setIsSearch( (bool) ( (int) $DownloadsXml->isSearch ) );
+			$Affiliation->setBuyLink( Util::toSting( $affiliationRow['buyLink'] ) );
+			$Affiliation->setSupplierIcon( Util::toSting( $affiliationRow['supplierIcon'] ) );
+			$Affiliation->setIsSearch( (bool) ( (int) $affiliationRow['isSearch'] ) );
 
 			$DownloadsList->add( $Affiliation );
 		}
@@ -417,37 +418,25 @@ class Album extends AbstractApi
 	 */
 	private function fillAlbumInfo( array $params )
 	{
-		$result = $this->get( self::PREFIX . 'getInfo', $params );
-
-		/** @var $Xml \SimpleXMLElement */
-		$Xml = simplexml_load_string( trim( $result ) );
-
-		if ( ! $Xml )
-		{
-			throw new PageNotFoundException( 'No response or incorrect response received!' );
-		}
-
-		if ( isset( $Xml->error ) )
-		{
-			throw new NotFoundException( Util::toSting( $Xml->error ), (int) $Xml->error['code'] );
-		}
+		$result      = $this->get( self::PREFIX . 'getInfo', $params );
+		$resultAlbum = $result['album'];
 
 		$Album = new Data\Album\Album();
 
-		$Album->setId( (int) $Xml->album->id );
-		$Album->setName( Util::toSting( $Xml->album->name ) );
-		$Album->setArtist( Util::toSting( $Xml->album->artist ) );
-		$Album->setUrl( Util::toSting( $Xml->album->url ) );
-		$Album->setMbid( Util::toSting( $Xml->album->mbid ) );
-		$Album->setReleaseDate( Util::toSting( $Xml->album->releasedate ) );
-		$Album->setListeners( (int) $Xml->album->listeners );
-		$Album->setPlaycount( (int) $Xml->album->playcount );
+		$Album->setId( (int) $resultAlbum['id'] );
+		$Album->setName( Util::toSting( $resultAlbum['name'] ) );
+		$Album->setArtist( Util::toSting( $resultAlbum['artist'] ) );
+		$Album->setUrl( Util::toSting( $resultAlbum['url'] ) );
+		$Album->setMbid( Util::toSting( $resultAlbum['mbid'] ) );
+		$Album->setReleaseDate( Util::toSting( $resultAlbum['releasedate'] ) );
+		$Album->setListeners( (int) $resultAlbum['listeners'] );
+		$Album->setPlaycount( (int) $resultAlbum['playcount'] );
 
 		$Images = new ArrayCollection();
 
-		foreach ( $Xml->album->image as $image )
+		foreach ( $resultAlbum['image'] as $image )
 		{
-			if ( '' === ( $imageUrl = Util::toSting( $image ) ) )
+			if ( '' === ( $imageUrl = Util::toSting( $image['#text'] ) ) )
 			{
 				continue;
 			}
@@ -457,9 +446,9 @@ class Album extends AbstractApi
 
 		$Album->setImages( $Images );
 
-		$this->addTracks( $Album, $Xml->album->tracks );
-		$this->addTopTags( $Album, $Xml->album->toptags );
-		$this->addBiography( $Album, $Xml->album->wiki );
+		$this->addTracks( $Album, $resultAlbum['tracks'] );
+		$this->addTopTags( $Album, $resultAlbum['toptags'] );
+		$this->addBiography( $Album, isset( $resultAlbum['wiki'] ) ? $resultAlbum['wiki'] : array() );
 
 		return $Album;
 	}
@@ -479,35 +468,22 @@ class Album extends AbstractApi
 
 			/** @var $self Album */
 			$result = $self->get( Album::PREFIX . 'getShouts', $params );
+			$resultShouts = $result['shouts'];
 
-			/** @var $Xml \SimpleXMLElement */
-			$Xml = simplexml_load_string( trim( $result ) );
-
-			if ( ! $Xml )
-			{
-				throw new PageNotFoundException( 'No response or incorrect response received!' );
-			}
-
-			if ( isset( $Xml->error ) )
-			{
-				throw new NotFoundException( Util::toSting( $Xml->error ), (int) $Xml->error['code'] );
-			}
-
-			$totalPages = (int) $Xml->shouts['totalPages'];
-			$total      = (int) $Xml->shouts['total'];
+			$totalPages = (int) $resultShouts['@attr']['totalPages'];
+			$total      = (int) $resultShouts['@attr']['total'];
 
 			$List = new ArrayCollection();
 
-			/** @var $ShoutXml \SimpleXmlElement */
-			foreach ( $Xml->shouts->shout as $ShoutXml )
+			foreach ( $resultShouts['shout'] as $shoutRow )
 			{
 				$Shout = new Shout();
 
-				$Shout->setArtist( Util::toSting( $Xml->shouts['artist'] ) );
-				$Shout->setAlbum( Util::toSting( $Xml->shouts['album'] ) );
-				$Shout->setBody( Util::toSting( $ShoutXml->body ) );
-				$Shout->setAuthor( Util::toSting( $ShoutXml->author ) );
-				$Shout->setDate( Util::toSting( $ShoutXml->date ) );
+				$Shout->setArtist( Util::toSting( $resultShouts['@attr']['artist'] ) );
+				$Shout->setAlbum( Util::toSting( $resultShouts['@attr']['album'] ) );
+				$Shout->setBody( Util::toSting( $shoutRow['body'] ) );
+				$Shout->setAuthor( Util::toSting( $shoutRow['author'] ) );
+				$Shout->setDate( Util::toSting( $shoutRow['date'] ) );
 
 				$List->add( $Shout );
 			}
@@ -530,39 +506,44 @@ class Album extends AbstractApi
 	 */
 	private function fetchTags( array $params )
 	{
-		$result = $this->get( self::PREFIX . 'getTags', $params );
+		$result     = $this->get( self::PREFIX . 'getTags', $params );
+		$resultTags = $result['tags'];
 
-		/** @var $Xml \SimpleXMLElement */
-		$Xml = simplexml_load_string( trim( $result ) );
-
-		if ( ! $Xml )
+		if ( isset( $resultTags['#text'] ) )
 		{
-			throw new PageNotFoundException( 'No response or incorrect response received!' );
+			$artistName = Util::toSting( $resultTags['artist'] );
+			$albumName  = Util::toSting( $resultTags['album'] );
 		}
-
-		if ( isset( $Xml->error ) )
+		else
 		{
-			throw new NotFoundException( Util::toSting( $Xml->error ), (int) $Xml->error['code'] );
+			$artistName = Util::toSting( $resultTags['@attr']['artist'] );
+			$albumName  = Util::toSting( $resultTags['@attr']['album'] );
 		}
-
-		$artistName = Util::toSting( $Xml->tags['artist'] );
-		$albumName  = Util::toSting( $Xml->tags['album'] );
 
 		$List = new ArrayCollection();
 
-		if ( empty( $Xml->tags ) )
+		if ( ! isset( $resultTags['tag'] ) )
 		{
 			return $List;
 		}
 
-		foreach ( $Xml->tags->tag as $TagXml )
+		if ( isset( $resultTags['tag'][0] ) )
+		{
+			$tags = $resultTags['tag'];
+		}
+		else
+		{
+			$tags = array( $resultTags['tag'] );
+		}
+
+		foreach ( $tags as $tagRow )
 		{
 			$Tag = new Tag();
 
 			$Tag->setArtist( $artistName );
 			$Tag->setAlbum( $albumName );
-			$Tag->setName( Util::toSting( $TagXml->name ) );
-			$Tag->setUrl( Util::toSting( $TagXml->url ) );
+			$Tag->setName( Util::toSting( $tagRow['name'] ) );
+			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
 
 			$List->add( $Tag );
 		}
@@ -578,35 +559,45 @@ class Album extends AbstractApi
 	 */
 	private function fetchTopTagCollection( array $params )
 	{
-		$result = $this->getClient()->get( self::PREFIX . 'getTopTags', $params );
+		$result        = $this->get( self::PREFIX . 'getTopTags', $params );
+		$resultTopTags = $result['toptags'];
 
-		/** @var $Xml \SimpleXMLElement */
-		$Xml = simplexml_load_string( trim( $result ) );
-
-		if ( ! $Xml )
+		if ( isset( $resultTopTags['#text'] ) )
 		{
-			throw new PageNotFoundException( 'No response or incorrect response received!' );
+			$artistName = Util::toSting( $resultTopTags['artist'] );
+			$albumName  = Util::toSting( $resultTopTags['album'] );
 		}
-
-		if ( isset( $Xml->error ) )
+		else
 		{
-			throw new NotFoundException( Util::toSting( $Xml->error ), (int) $Xml->error['code'] );
+			$artistName = Util::toSting( $resultTopTags['@attr']['artist'] );
+			$albumName  = Util::toSting( $resultTopTags['@attr']['album'] );
 		}
-
-		$artistName = Util::toSting( $Xml->toptags['artist'] );
-		$albumName  = Util::toSting( $Xml->toptags['album'] );
 
 		$TopTags = new ArrayCollection();
 
-		foreach ( $Xml->toptags->tag as $TagXml )
+		if ( ! isset( $resultTopTags['tag'] ) )
+		{
+			return $TopTags;
+		}
+
+		if ( isset( $resultTopTags['tag'][0] ) )
+		{
+			$tags = $resultTopTags['tag'];
+		}
+		else
+		{
+			$tags = array( $resultTopTags['tag'] );
+		}
+
+		foreach ( $tags as $tagRow )
 		{
 			$Tag = new Tag();
 
 			$Tag->setArtist( $artistName );
 			$Tag->setAlbum( $albumName );
-			$Tag->setName( Util::toSting( $TagXml->name ) );
-			$Tag->setUrl( Util::toSting( $TagXml->url ) );
-			$Tag->setCount( (int) $TagXml->count );
+			$Tag->setName( Util::toSting( $tagRow['name'] ) );
+			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
+			$Tag->setCount( (int) $tagRow['count'] );
 
 			$TopTags->add( $Tag );
 		}
@@ -616,27 +607,27 @@ class Album extends AbstractApi
 
 	/**
 	 * @param Data\Album\Album $Album
-	 * @param \SimpleXMLElement $TracksXml
+	 * @param array $tracks
 	 */
-	private function addTracks( Data\Album\Album $Album, \SimpleXMLElement $TracksXml )
+	private function addTracks( Data\Album\Album $Album, array $tracks )
 	{
 		$Tracks = new ArrayCollection();
 
 		/** @var $TrackXml \SimpleXMLElement */
-		foreach ( $TracksXml->track as $TrackXml )
+		foreach ( $tracks['track'] as $trackRow )
 		{
 			$Track = new Track();
 
-			$Track->setRank( (int) $TrackXml['rank'] );
-			$Track->setName( Util::toSting( $TrackXml->name ) );
-			$Track->setDuration( (int) $TrackXml->duration );
-			$Track->setMbId( Util::toSting( $TrackXml->mbid ) );
-			$Track->setUrl( Util::toSting( $TrackXml->url ) );
-			$Track->setStreamableFulltrack( (bool) ( (int) $TrackXml->streamable['fulltrack'] ) );
-			$Track->setStreamable( (bool) ( (int) $TrackXml->streamable ) );
-			$Track->setArtistName( Util::toSting( $TrackXml->artist->name ) );
-			$Track->setArtistMbId( Util::toSting( $TrackXml->artist->mbid ) );
-			$Track->setArtistUrl( Util::toSting( $TrackXml->artist->url ) );
+			$Track->setRank( (int) $trackRow['@attr']['rank'] );
+			$Track->setName( Util::toSting( $trackRow['name'] ) );
+			$Track->setDuration( (int) $trackRow['duration'] );
+			$Track->setMbId( Util::toSting( $trackRow['mbid'] ) );
+			$Track->setUrl( Util::toSting( $trackRow['url'] ) );
+			$Track->setStreamableFulltrack( (bool) ( (int) $trackRow['streamable']['fulltrack'] ) );
+			$Track->setStreamable( (bool) ( (int) $trackRow['streamable']['#text'] ) );
+			$Track->setArtistName( Util::toSting( $trackRow['artist']['name'] ) );
+			$Track->setArtistMbId( Util::toSting( $trackRow['artist']['mbid'] ) );
+			$Track->setArtistUrl( Util::toSting( $trackRow['artist']['url'] ) );
 
 			$Tracks->add( $Track );
 		}
@@ -646,19 +637,18 @@ class Album extends AbstractApi
 
 	/**
 	 * @param Data\Album\Album $Album
-	 * @param \SimpleXMLElement $TopTagsXml
+	 * @param array $topTags
 	 */
-	private function addTopTags( Data\Album\Album $Album, \SimpleXMLElement $TopTagsXml )
+	private function addTopTags( Data\Album\Album $Album, array $topTags )
 	{
 		$TopTags = new ArrayCollection();
 
-		/** @var $TagXml \SimpleXMLElement */
-		foreach ( $TopTagsXml->tag as $TagXml )
+		foreach ( $topTags['tag'] as $tagRow )
 		{
 			$Tag = new Tag();
 
-			$Tag->setName( Util::toSting( $TagXml->name ) );
-			$Tag->setUrl( Util::toSting( $TagXml->url ) );
+			$Tag->setName( Util::toSting( $tagRow['name'] ) );
+			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
 
 			$TopTags->add( $Tag );
 		}
@@ -668,12 +658,15 @@ class Album extends AbstractApi
 
 	/**
 	 * @param Data\Album\Album $Album
-	 * @param \SimpleXMLElement $Wiki
+	 * @param array $wiki
 	 */
-	private function addBiography( Data\Album\Album $Album, \SimpleXMLElement $Wiki )
+	private function addBiography( Data\Album\Album $Album, array $wiki )
 	{
-		$Album->setWikiPublishedAt( Util::toSting( $Wiki->published ) );
-		$Album->setWikiSummary( Util::toSting( $Wiki->summary ) );
-		$Album->setWikiContent( Util::toSting( $Wiki->content ) );
+		if ( ! empty( $wiki ) )
+		{
+			$Album->setWikiPublishedAt( Util::toSting( $wiki['published'] ) );
+			$Album->setWikiSummary( Util::toSting( $wiki['summary'] ) );
+			$Album->setWikiContent( Util::toSting( $wiki['content'] ) );
+		}
 	}
 }

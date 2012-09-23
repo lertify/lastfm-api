@@ -39,6 +39,8 @@ abstract class AbstractApi implements ApiInterface
 	 */
 	public function get( $method, array $parameters = array(), $options = array() )
 	{
+		$options['json'] = true;
+
 		return $this->client->get( $method, $parameters, $options );
 	}
 

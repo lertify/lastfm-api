@@ -123,8 +123,6 @@ class Curl
 
 		$result = $this->sendRequest();
 
-		$this->closeRequest();
-
 		return $result;
 	}
 
@@ -190,7 +188,7 @@ class Curl
 		return curl_exec( $this->curl );
 	}
 
-	protected function closeRequest()
+	public function closeRequest()
 	{
 		curl_close( $this->curl );
 	}
@@ -319,5 +317,32 @@ class Curl
 	public function setCurlTimeout( $curlTimeout )
 	{
 		$this->curlTimeout = $curlTimeout;
+	}
+
+	/**
+	 * @return bool|string
+	 */
+	public function getError()
+	{
+		if ( curl_errno( $this->curl ) )
+		{
+			return curl_error( $this->curl );
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param int $option
+	 * @return array|mixed
+	 */
+	public function getCurlInfo( $option = null )
+	{
+		if ( null !== $option )
+		{
+			return curl_getinfo( $this->curl, $option );
+		}
+
+		return curl_getinfo( $this->curl );
 	}
 }

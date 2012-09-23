@@ -15,7 +15,7 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @var string
 	 */
-	protected $tester = '';
+	protected $tester = 'jserkin';
 
 	protected function setUp()
 	{
