@@ -52,6 +52,8 @@ abstract class AbstractApi implements ApiInterface
 	 */
 	public function post( $method, array $parameters = array(), $options = array() )
 	{
+		$options['json'] = true;
+
 		return $this->client->post( $method, $parameters, $options );
 	}
 

@@ -12,11 +12,6 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected $lastfm;
 
-	/**
-	 * @var string
-	 */
-	protected $tester = 'jserkin';
-
 	protected function setUp()
 	{
 		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
@@ -24,6 +19,8 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddTags()
 	{
+		$status = $this->lastfm->album()->addTags( 'Coldplay', 'Mylo Xyloto', array( 'Awesome', 'Top' ), $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $status );
 	}
 
 	public function testGetBuylinks()
@@ -79,12 +76,12 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetTags()
 	{
-		$Tags = $this->lastfm->album()->getTags( 'The Offspring', 'Conspiracy of One', $this->tester );
+		$Tags = $this->lastfm->album()->getTags( 'The Offspring', 'Conspiracy of One', $GLOBALS['tests_username'] );
 
 		$this->assertNotEmpty( $Tags, 'Can not be empty' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
 
-		$Tags = $this->lastfm->album()->getTagsByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4', $this->tester );
+		$Tags = $this->lastfm->album()->getTagsByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4', $GLOBALS['tests_username'] );
 
 		$this->assertEquals( 0, $Tags->count(), 'Must be empty' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
@@ -105,6 +102,11 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 
 	public function testRemoveTag()
 	{
+		$status = $this->lastfm->album()->removeTag( 'Coldplay', 'Mylo Xyloto', 'great', $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $status );
+
+		$status = $this->lastfm->album()->removeTag( 'Coldplay', 'Mylo Xyloto', 'Awesome', $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $status );
 	}
 
 	public function testSearch()
@@ -130,5 +132,7 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 
 	public function testShare()
 	{
+		$status = $this->lastfm->album()->share( 'Coldplay', 'Mylo Xyloto', $GLOBALS['tests_email'], $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $status );
 	}
 }

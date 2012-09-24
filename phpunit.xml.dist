@@ -15,6 +15,12 @@
 	<php>
 		<var name="api_key" value=""/>
 		<var name="api_secret_key" value=""/>
+		<var name="auth_token" value=""/>
+		<var name="auth_session_key" value=""/>
+
+		<var name="tests_email" value=""/>
+		<var name="tests_username" value=""/>
+		<var name="tests_password" value=""/>
 	</php>
 
 	<testsuites>

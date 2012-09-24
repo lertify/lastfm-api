@@ -14,7 +14,8 @@ use Lertify\Lastfm\Api\Data\ArrayCollection,
 	Lertify\Lastfm\Api\Data\Album\Track,
 	Lertify\Lastfm\Util\Util,
 	Lertify\Lastfm\Exception\PageNotFoundException,
-	Lertify\Lastfm\Exception\NotFoundException;
+	Lertify\Lastfm\Exception\NotFoundException,
+	InvalidArgumentException;
 
 class Album extends AbstractApi
 {
@@ -23,10 +24,31 @@ class Album extends AbstractApi
 
 	/**
 	 * @link http://www.last.fm/api/show/album.addTags
+	 *
+	 * @param string $artist
+	 * @param string $album
+	 * @param array $tags
+	 * @param string $sk
+	 * @throws InvalidArgumentException
+	 * @return string
 	 */
-	public function addTags( $artist, $album, array $tags )
+	public function addTags( $artist, $album, array $tags, $sk )
 	{
-		// @todo No implemenration due to problem with authentication
+		if ( count( $tags ) > 10 )
+		{
+			throw new InvalidArgumentException( 'The allowed maximum is 10 tags per request' );
+		}
+
+		$params = array(
+			'artist' => $artist,
+			'album'  => $album,
+			'tags'   => implode( ',', $tags ),
+			'sk'     => $sk,
+		);
+
+		$result = $this->post( self::PREFIX . 'addTags', $params, array( 'is_signed' => true ) );
+
+		return $result['status'];
 	}
 
 	/**
@@ -232,11 +254,24 @@ class Album extends AbstractApi
 	}
 
 	/**
-	 * @link http://www.last.fm/api/show/album.removeTag
+	 * @param string $artist
+	 * @param string $album
+	 * @param string $tag
+	 * @param string $sk
+	 * @return string
 	 */
-	public function removeTag( $artist, $album, $tag )
+	public function removeTag( $artist, $album, $tag, $sk )
 	{
-		// @todo No implemenration due to problem with authentication
+		$params = array(
+			'artist' => $artist,
+			'album'  => $album,
+			'tag'    => $tag,
+			'sk'     => $sk,
+		);
+
+		$result = $this->post( self::PREFIX . 'removeTag', $params, array( 'is_signed' => true ) );
+
+		return $result['status'];
 	}
 
 	/**
@@ -321,10 +356,44 @@ class Album extends AbstractApi
 
 	/**
 	 * @link http://www.last.fm/api/show/album.share
+	 *
+	 * @param string $artist
+	 * @param string $album
+	 * @param string|array $recipient
+	 * @param string $sk
+	 * @param bool $public
+	 * @param string|null $message
+	 * @throws InvalidArgumentException
+	 * @return string
 	 */
-	public function share( $artist, $album, $recipient, $public = false, $message = null )
+	public function share( $artist, $album, $recipient, $sk, $public = false, $message = null )
 	{
-		// @todo No implemenration due to problem with authentication
+		if ( is_array( $recipient ) )
+		{
+			if ( count( $recipient ) > 10 )
+			{
+				throw new InvalidArgumentException( 'The allowed maximum is 10 recipients per request' );
+			}
+
+			$recipient = implode( ',', $recipient );
+		}
+
+		$params = array(
+			'artist'    => $artist,
+			'album'     => $album,
+			'recipient' => $recipient,
+			'sk'        => $sk,
+			'public'    => (int) $public,
+		);
+
+		if ( null !== $message )
+		{
+			$params['message'] = $message;
+		}
+
+		$result = $this->post( self::PREFIX . 'share', $params, array( 'is_signed' => true ) );
+
+		return $result['status'];
 	}
 
 	/**

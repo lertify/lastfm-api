@@ -52,11 +52,19 @@ class Client
 	}
 
 	/**
+	 * @param bool $https
 	 * @return string
 	 */
-	public function getApiUrl()
+	public function getApiUrl( $https = false )
 	{
-		return $this->apiUrl;
+		$url = $this->apiUrl;
+
+		if ( $https )
+		{
+			$url = str_replace( 'http://', 'https://', $this->apiUrl );
+		}
+
+		return $url;
 	}
 
 	/**
@@ -86,7 +94,55 @@ class Client
 	public function get( $method, array $parameters = array(), $options = array() )
 	{
 		$Curl = new Curl();
-		$Curl->curlGet( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
+		$Curl->curlGet( $this->getApiUrl( isset( $options['https'] ) ), $this->parseRequestParameters( $method, $parameters, $options ) );
+
+		if ( ( isset( $options['https'] ) && true === $options['https'] ) )
+		{
+            $Curl->setCurlParam( CURLOPT_PORT, '445' );
+        }
+
+		$response = $Curl->fetch();
+
+		if ( false !== ( $error = $Curl->getError() ) )
+		{
+			throw new RuntimeException( $error );
+		}
+
+		$response = json_decode( $response, true );
+		$httpCode = $Curl->getCurlInfo( CURLINFO_HTTP_CODE );
+
+		$Curl->closeRequest();
+
+		if ( 503 == $httpCode )
+		{
+            throw new RuntimeException( 'Limit exceeded' );
+        }
+
+        if( 404 == $httpCode )
+		{
+            throw new NotFoundException( ( isset( $response['error'] ) ? $response['error'] : 'Unknown error message' ) );
+        }
+
+		return $response;
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $parameters
+	 * @param array $options
+	 * @throws RuntimeException
+	 * @throws NotFoundException
+	 * @return mixed
+	 */
+	public function post( $method, array $parameters = array(), $options = array() )
+	{
+		$Curl = new Curl();
+		$Curl->curlPost( $this->getApiUrl( isset( $options['https'] ) ), $this->parseRequestParameters( $method, $parameters, $options ) );
+
+		if ( ( isset( $options['https'] ) && true === $options['https'] ) )
+		{
+            $Curl->setCurlParam( CURLOPT_PORT, '445' );
+        }
 
 		$response = $Curl->fetch();
 
@@ -119,20 +175,6 @@ class Client
 	 * @param array $options
 	 * @return mixed
 	 */
-	public function post( $method, array $parameters = array(), $options = array() )
-	{
-		$Curl = new Curl();
-		$Curl->curlPost( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
-
-		return $Curl->fetch();
-	}
-
-	/**
-	 * @param string $method
-	 * @param array $parameters
-	 * @param array $options
-	 * @return mixed
-	 */
 	public function put( $method, array $parameters = array(), $options = array() )
 	{
 		$Curl = new Curl();
@@ -153,15 +195,38 @@ class Client
 			'api_key'  => $this->apiKey,
 		);
 
+		$parameters['method'] = $method;
+		$parameters           = array_merge( $defaultParameters, $parameters );
+
+		if ( isset( $options['is_signed'] ) && true === $options['is_signed'] )
+		{
+            $parameters['api_sig'] = $this->buildSignature( $parameters );
+        }
+
 		if ( isset( $options['json'] ) )
 		{
 			$parameters['format'] = 'json';
 		}
 
-		$parameters['method'] = $method;
-		$parameters           = array_merge( $defaultParameters, $parameters );
-
 		return $parameters;
+	}
+
+	/**
+	 * @param array $parameters
+	 * @return string
+	 */
+	private function buildSignature( array $parameters )
+	{
+		ksort( $parameters );
+
+		$signature = '';
+
+		foreach ( $parameters as $key => $value )
+		{
+			$signature .= $key.$value;
+		}
+
+		return md5( $signature . $this->getApiSecretKey() );
 	}
 
 	/**
@@ -178,10 +243,15 @@ class Client
 				return $this->album();
 			}
 
-			case 'artist':
+			case 'auth':
+			{
+				return $this->auth();
+			}
+
+			/*case 'artist':
 			{
 				return $this->artist();
-			}
+			}*/
 
 			default:
 			{
@@ -203,11 +273,23 @@ class Client
 		return $this->apis['album'];
 	}
 
+	/**
+	 * @return Api\Auth
+	 */
+	public function auth()
+	{
+		if ( ! isset( $this->apis['auth'] ) )
+		{
+			$this->apis['auth'] = new Api\Auth( $this );
+		}
+
+		return $this->apis['auth'];
+	}
 
     /**
-     * @return Api\Artist
+     * @return //Api\Artist
      */
-    public function artist()
+    /*public function artist()
     {
         if ( ! isset( $this->apis['artist'] ) )
         {
@@ -215,7 +297,7 @@ class Client
         }
 
         return $this->apis['artist'];
-    }
+    }*/
 
 	public function clearHeaders()
 	{
