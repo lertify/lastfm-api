@@ -248,10 +248,10 @@ class Client
 				return $this->auth();
 			}
 
-			/*case 'artist':
+			case 'artist':
 			{
 				return $this->artist();
-			}*/
+			}
 
 			default:
 			{
@@ -287,9 +287,9 @@ class Client
 	}
 
     /**
-     * @return //Api\Artist
+     * @return Api\Artist
      */
-    /*public function artist()
+    public function artist()
     {
         if ( ! isset( $this->apis['artist'] ) )
         {
@@ -297,7 +297,7 @@ class Client
         }
 
         return $this->apis['artist'];
-    }*/
+    }
 
 	public function clearHeaders()
 	{

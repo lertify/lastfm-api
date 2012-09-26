@@ -31,11 +31,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 		$AuthService = $this->lastfm->auth();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Auth', $AuthService, 'AuthService is not of Api\Album type!' );
 
-		/*$ArtistService = $this->lastfm->api( 'artist' );
+		$ArtistService = $this->lastfm->api( 'artist' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Artist', $ArtistService, 'ArtistService is not of Api\Artist type!' );
 
 		$ArtistService = $this->lastfm->artist();
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Artist', $ArtistService, 'ArtistService is not of Api\Artist type!' );*/
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Artist', $ArtistService, 'ArtistService is not of Api\Artist type!' );
 	}
 
 	/**
