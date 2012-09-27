@@ -5,7 +5,7 @@
  */
 namespace Lertify\Lastfm\Api\Data\Album;
 
-class Tag
+class Tag extends \Lertify\Lastfm\Api\Data\Tag
 {
 	/**
 	 * @var string
@@ -18,27 +18,9 @@ class Tag
 	private $album;
 
 	/**
-	 * @var string
-	 */
-	private $name;
-
-	/**
-	 * @var string
-	 */
-	private $url;
-
-	/**
 	 * @var int
 	 */
 	private $count;
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->name;
-	}
 
 	/**
 	 * @param string $artist
@@ -70,38 +52,6 @@ class Tag
 	public function getAlbum()
 	{
 		return $this->album;
-	}
-
-	/**
-	 * @param string $name
-	 */
-	public function setName( $name )
-	{
-		$this->name = $name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * @param string $url
-	 */
-	public function setUrl( $url )
-	{
-		$this->url = $url;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUrl()
-	{
-		return $this->url;
 	}
 
 	/**

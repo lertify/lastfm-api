@@ -9,6 +9,7 @@ use Lertify\Lastfm\Api,
 	Lertify\Lastfm\Api\ApiInterface,
 	Lertify\Lastfm\Util\Curl,
 	Lertify\Lastfm\Exception\NotFoundException,
+	Lertify\Lastfm\Exception\StatusCodeException,
 	InvalidArgumentException,
 	RuntimeException;
 
@@ -89,6 +90,7 @@ class Client
 	 * @param array $options
 	 * @throws RuntimeException
 	 * @throws NotFoundException
+	 * @throws StatusCodeException
 	 * @return array
 	 */
 	public function get( $method, array $parameters = array(), $options = array() )
@@ -123,6 +125,15 @@ class Client
             throw new NotFoundException( ( isset( $response['error'] ) ? $response['error'] : 'Unknown error message' ) );
         }
 
+		/**
+		 * Process error codes
+		 * @link http://www.last.fm/api/errorcodes
+		 */
+		if ( isset( $response['error'] ) )
+		{
+			throw new StatusCodeException( $response['message'], $response['error'] );
+		}
+
 		return $response;
 	}
 
@@ -132,6 +143,7 @@ class Client
 	 * @param array $options
 	 * @throws RuntimeException
 	 * @throws NotFoundException
+	 * @throws StatusCodeException
 	 * @return mixed
 	 */
 	public function post( $method, array $parameters = array(), $options = array() )
@@ -165,6 +177,15 @@ class Client
 		{
             throw new NotFoundException( ( isset( $response['error'] ) ? $response['error'] : 'Unknown error message' ) );
         }
+
+		/**
+		 * Process error codes
+		 * @link http://www.last.fm/api/errorcodes
+		 */
+		if ( isset( $response['error'] ) )
+		{
+			throw new StatusCodeException( $response['message'], $response['error'] );
+		}
 
 		return $response;
 	}

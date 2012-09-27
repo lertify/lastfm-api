@@ -115,8 +115,119 @@ class Artist extends AbstractApi
 	}
 
 	/**
+	 * @param string $artist
+	 * @param bool $autocorrect
+	 * @param string|null $lang      ISO 639 alpha-2 code
+	 * @param string|null $username  If supplied, the user's playcount for this artist is included in the response.
+	 * @return Data\Artist\Artist
+	 */
+	public function getInfo( $artist, $autocorrect = false, $lang = null, $username = null )
+	{
+		$params = array(
+			'artist'      => $artist,
+			'autocorrect' => $autocorrect,
+			'lang'        => $lang,
+			'username'    => $username,
+		);
+
+		return $this->fetchInfo( $params );
+	}
+
+	/**
+	 * @param string $mbid
+	 * @param string|null $lang       ISO 639 alpha-2 code
+	 * @param string|null $username   If supplied, the user's playcount for this artist is included in the response.
+	 * @return Data\Artist\Artist
+	 */
+	public function getInfoByMbid( $mbid, $lang = null, $username = null )
+	{
+		$params = array(
+			'mbid'     => $mbid,
+			'lang'     => $lang,
+			'username' => $username,
+		);
+
+		return $this->fetchInfo( $params );
+	}
+
+	/**
 	 * @param array $params
-	 * @throws PageNotFoundException
+	 * @return Data\Artist\Artist
+	 */
+	private function fetchInfo( array $params )
+	{
+		$result       = $this->get( Artist::PREFIX . 'getInfo', $params );
+		$resultArtist = $result['artist'];
+
+		$Artist = new Data\Artist\Artist();
+
+		$Artist->setName( Util::toSting( $resultArtist['name'] ) );
+		$Artist->setMbid( Util::toSting( $resultArtist['mbid'] ) );
+		$Artist->setUrl( Util::toSting( $resultArtist['url'] ) );
+
+		$ArtistImages = new ArrayCollection();
+
+		foreach ( $resultArtist['image'] as $image )
+		{
+			$ArtistImages->set( Util::toSting( $image['size'] ), Util::toSting( $image['#text'] ) );
+		}
+
+		$Artist->setImages( $ArtistImages );
+		$Artist->setStreamable( (bool) $resultArtist['streamable'] );
+
+		$Artist->setListeners( (int) $resultArtist['stats']['listeners'] );
+		$Artist->setPlaycount( (int) $resultArtist['stats']['playcount'] );
+
+		if ( isset( $resultArtist['stats']['listeners'] ) )
+		{
+			$Artist->setUserplaycount( (int) $resultArtist['stats']['listeners'] );
+		}
+
+		$SimilarArtists = new ArrayCollection();
+
+		foreach ( $resultArtist['similar']['artist'] as $similarArtistRow )
+		{
+			$SimilarArtist = new Data\Artist\Artist();
+
+			$SimilarArtist->setName( Util::toSting( $similarArtistRow['name'] ) );
+			$SimilarArtist->setUrl( Util::toSting( $similarArtistRow['url'] ) );
+
+			$SimilarArtistImages = new ArrayCollection();
+
+			foreach ( $similarArtistRow['image'] as $image )
+			{
+				$SimilarArtistImages->set( Util::toSting( $image['size'] ), Util::toSting( $image['#text'] ) );
+			}
+
+			$SimilarArtist->setImages( $SimilarArtistImages );
+			$SimilarArtists->add( $SimilarArtist );
+		}
+
+		$Artist->setSimilar( $SimilarArtists );
+
+		$Tags = new ArrayCollection();
+
+		foreach ( $resultArtist['tags']['tag'] as $tagRow )
+		{
+			$Tag = new Data\Artist\Tag();
+
+			$Tag->setName( Util::toSting( $tagRow['name'] ) );
+			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
+
+			$Tags->add( $Tag );
+		}
+
+		$Artist->setTags( $Tags );
+
+		$Artist->setPublished( $resultArtist['bio']['published'] );
+		$Artist->setSummary( $resultArtist['bio']['summary'] );
+		$Artist->setContent( $resultArtist['bio']['content'] );
+
+		return $Artist;
+	}
+
+	/**
+	 * @param array $params
 	 * @throws NotFoundException
 	 * @return PagedCollection
 	 */

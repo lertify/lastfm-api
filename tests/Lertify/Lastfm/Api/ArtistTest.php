@@ -62,4 +62,21 @@ class ArtistTest extends \PHPUnit_Framework_TestCase
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Venue->getImages(), 'Venue images are not an instance of ArrayCollection' );
 		}
 	}
+
+	public function testGetInfo()
+	{
+		$Artist = $this->lastfm->artist()->getInfo( 'Cher' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Artist, 'Artist is not an instance of Lertify\Lastfm\Api\Data\Artist\Artist' );
+
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getImages(), 'Artist images are not an instance of ArrayCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getSimilar(), 'Similar artists are not an instance of ArrayCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getTags(), 'Tags are not an instance of ArrayCollection' );
+
+		$Artist = $this->lastfm->artist()->getInfoByMbid( '69b39eab-6577-46a4-a9f5-817839092033' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Artist, 'Artist is not an instance of Lertify\Lastfm\Api\Data\Artist\Artist' );
+
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getImages(), 'Artist images are not an instance of ArrayCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getSimilar(), 'Similar artists are not an instance of ArrayCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getTags(), 'Tags are not an instance of ArrayCollection' );
+	}
 }
