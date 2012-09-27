@@ -13,8 +13,6 @@ use Lertify\Lastfm\Api\Data\ArrayCollection,
 	Lertify\Lastfm\Api\Data\Album\Tag,
 	Lertify\Lastfm\Api\Data\Album\Track,
 	Lertify\Lastfm\Util\Util,
-	Lertify\Lastfm\Exception\PageNotFoundException,
-	Lertify\Lastfm\Exception\NotFoundException,
 	InvalidArgumentException;
 
 class Album extends AbstractApi
@@ -278,8 +276,6 @@ class Album extends AbstractApi
 	 * @link http://www.last.fm/api/show/album.search
 	 *
 	 * @param string $album
-	 * @throws PageNotFoundException
-	 * @throws NotFoundException
 	 * @return PagedCollection
 	 */
 	public function search( $album )
@@ -398,8 +394,6 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws PageNotFoundException
-	 * @throws NotFoundException
 	 * @return ArrayCollection
 	 */
 	private function fetchBuylinks( array $params )
@@ -481,8 +475,6 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws PageNotFoundException
-	 * @throws NotFoundException
 	 * @return Data\Album\Album
 	 */
 	private function fillAlbumInfo( array $params )
@@ -524,8 +516,6 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws PageNotFoundException
-	 * @throws NotFoundException
 	 * @return PagedCollection
 	 */
 	private function getShoutsPageCollection( array $params )
@@ -569,8 +559,6 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws PageNotFoundException
-	 * @throws NotFoundException
 	 * @return ArrayCollection
 	 */
 	private function fetchTags( array $params )
@@ -622,8 +610,6 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws PageNotFoundException
-	 * @throws NotFoundException
 	 * @return ArrayCollection
 	 */
 	private function fetchTopTagCollection( array $params )

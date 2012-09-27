@@ -34,10 +34,10 @@ class ArtistTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetEvents()
 	{
-		$Artist = $this->lastfm->artist()->getEvents( 'Muse' );
+		$Events = $this->lastfm->artist()->getEvents( 'Muse' );
 
 		/** @var $Event \Lertify\Lastfm\Api\Data\Artist\Event */
-		foreach ( $Artist->getPage( 1 ) as $Event )
+		foreach ( $Events->getPage( 1 ) as $Event )
 		{
 			$Artists = $Event->getArtists();
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artists, 'Artists are not an instance of ArrayCollection' );
@@ -48,10 +48,10 @@ class ArtistTest extends \PHPUnit_Framework_TestCase
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Venue->getImages(), 'Venue images are not an instance of ArrayCollection' );
 		}
 
-		$Artist = $this->lastfm->artist()->getEventsByMbid( '69b39eab-6577-46a4-a9f5-817839092033' );
+		$Events = $this->lastfm->artist()->getEventsByMbid( '69b39eab-6577-46a4-a9f5-817839092033' );
 
 		/** @var $Event \Lertify\Lastfm\Api\Data\Artist\Event */
-		foreach ( $Artist->getPage( 1 ) as $Event )
+		foreach ( $Events->getPage( 1 ) as $Event )
 		{
 			$Artists = $Event->getArtists();
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artists, 'Artists are not an instance of ArrayCollection' );
@@ -78,5 +78,36 @@ class ArtistTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getImages(), 'Artist images are not an instance of ArrayCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getSimilar(), 'Similar artists are not an instance of ArrayCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artist->getTags(), 'Tags are not an instance of ArrayCollection' );
+	}
+
+	public function testGetPastEvents()
+	{
+		$Events = $this->lastfm->artist()->getPastEvents( 'Сплин' );
+
+		/** @var $Event \Lertify\Lastfm\Api\Data\Artist\Event */
+		foreach ( $Events->getPage( 1 ) as $Event )
+		{
+			$Artists = $Event->getArtists();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artists, 'Artists are not an instance of ArrayCollection' );
+			$this->assertGreaterThanOrEqual( 1, $Artists->count(), 'There aren\'t any artists for this event' );
+
+			$Venue = $Event->getVenue();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Venue', $Venue, 'Venue is not an instance of Data\Artist\Venue' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Venue->getImages(), 'Venue images are not an instance of ArrayCollection' );
+		}
+
+		$Events = $this->lastfm->artist()->getPastEventsByMbid( '69b39eab-6577-46a4-a9f5-817839092033' );
+
+		/** @var $Event \Lertify\Lastfm\Api\Data\Artist\Event */
+		foreach ( $Events->getPage( 1 ) as $Event )
+		{
+			$Artists = $Event->getArtists();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Artists, 'Artists are not an instance of ArrayCollection' );
+			$this->assertGreaterThanOrEqual( 1, $Artists->count(), 'There aren\'t any artists for this event' );
+
+			$Venue = $Event->getVenue();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Venue', $Venue, 'Venue is not an instance of Data\Artist\Venue' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Venue->getImages(), 'Venue images are not an instance of ArrayCollection' );
+		}
 	}
 }
