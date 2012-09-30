@@ -55,6 +55,11 @@ class Artist
 	private $similar;
 
 	/**
+	 * @var float
+	 */
+	private $match;
+
+	/**
 	 * @var ArrayCollection
 	 */
 	private $tags;
@@ -203,7 +208,7 @@ class Artist
 	}
 
 	/**
-	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $similar
+	 * @param ArrayCollection $similar
 	 */
 	public function setSimilar( $similar )
 	{
@@ -211,11 +216,27 @@ class Artist
 	}
 
 	/**
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return ArrayCollection
 	 */
 	public function getSimilar()
 	{
 		return $this->similar;
+	}
+
+	/**
+	 * @param float $match
+	 */
+	public function setMatch( $match )
+	{
+		$this->match = $match;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getMatch()
+	{
+		return $this->match;
 	}
 
 	/**

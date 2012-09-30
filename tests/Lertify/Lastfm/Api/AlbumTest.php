@@ -81,7 +81,17 @@ class AlbumTest extends \PHPUnit_Framework_TestCase
 		$this->assertNotEmpty( $Tags, 'Can not be empty' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
 
+		$Tags = $this->lastfm->album()->getTagsAuth( 'The Offspring', 'Conspiracy of One', $GLOBALS['auth_session_key'] );
+
+		$this->assertNotEmpty( $Tags, 'Can not be empty' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
+
 		$Tags = $this->lastfm->album()->getTagsByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4', $GLOBALS['tests_username'] );
+
+		$this->assertEquals( 0, $Tags->count(), 'Must be empty' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
+
+		$Tags = $this->lastfm->album()->getTagsByMbidAuth( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4', $GLOBALS['auth_session_key'] );
 
 		$this->assertEquals( 0, $Tags->count(), 'Must be empty' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );

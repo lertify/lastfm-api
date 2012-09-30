@@ -178,6 +178,284 @@ class Artist extends AbstractApi
 	}
 
 	/**
+	 * @param string $artist
+	 * @param bool $autocorrect
+	 */
+	public function getPodcast( $artist, $autocorrect = false )
+	{
+		// @todo Can't implement at the moment, due to missing viable working example
+	}
+
+	/**
+	 * @param string $mbid
+	 */
+	public function getPodcastByMbid( $mbid )
+	{
+		// @todo Can't implement at the moment, due to missing viable working example
+	}
+
+	/**
+	 * @param string $artist
+	 * @param bool $autocorrect
+	 * @return PagedCollection
+	 */
+	public function getShouts( $artist, $autocorrect = false )
+	{
+		$params = array(
+			'artist'      => $artist,
+			'autocorrect' => $autocorrect,
+		);
+
+		return $this->fetchShouts( $params );
+	}
+
+	/**
+	 * @param string $mbid
+	 * @return PagedCollection
+	 */
+	public function getShoutsByMbid( $mbid )
+	{
+		$params = array(
+			'mbid' => $mbid,
+		);
+
+		return $this->fetchShouts( $params );
+	}
+
+	/**
+	 * @param string $artist
+	 * @param bool $autocorrect
+	 * @param int|null $limit
+	 * @return Data\Artist\Artist
+	 */
+	public function getSimilar( $artist, $autocorrect = false, $limit = null )
+	{
+		$params = array(
+			'artist'      => $artist,
+			'autocorrect' => $autocorrect,
+			'limit'       => $limit,
+		);
+
+		return $this->fetchSimilar( $params );
+	}
+
+	/**
+	 * @param string $mbid
+	 * @param int|null $limit
+	 * @return Data\Artist\Artist
+	 */
+	public function getSimilarByMbid( $mbid, $limit = null )
+	{
+		$params = array(
+			'mbid'  => $mbid,
+			'limit' => $limit,
+		);
+
+		return $this->fetchSimilar( $params );
+	}
+
+	/**
+	 * @param string $artist
+	 * @param string $username
+	 * @param bool $autocorrect
+	 * @return ArrayCollection
+	 */
+	public function getTags( $artist, $username, $autocorrect = false )
+	{
+		$params = array(
+			'artist'      => $artist,
+			'user'        => $username,
+			'autocorrect' => $autocorrect,
+		);
+
+		return $this->fetchTags( $params );
+	}
+
+	/**
+	 * @param string $artist
+	 * @param string $sk
+	 * @param bool $autocorrect
+	 * @return ArrayCollection
+	 */
+	public function getTagsAuth( $artist, $sk, $autocorrect = false )
+	{
+		$params = array(
+			'artist'      => $artist,
+			'sk'          => $sk,
+			'autocorrect' => $autocorrect,
+		);
+
+		return $this->fetchTags( $params, array( 'is_signed' => true ) );
+	}
+
+	/**
+	 * @param string $mbid
+	 * @param string $username
+	 * @return ArrayCollection
+	 */
+	public function getTagsByMbid( $mbid, $username )
+	{
+		$params = array(
+			'mbid' => $mbid,
+			'user' => $username,
+		);
+
+		return $this->fetchTags( $params );
+	}
+
+	/**
+	 * @param string $mbid
+	 * @param string $sk
+	 * @return ArrayCollection
+	 */
+	public function getTagsByMbidAuth( $mbid, $sk )
+	{
+		$params = array(
+			'mbid' => $mbid,
+			'sk'   => $sk,
+		);
+
+		return $this->fetchTags( $params, array( 'is_signed' => true ) );
+	}
+
+	/**
+	 * @param array $params
+	 * @param array $options
+	 * @throws NotFoundException
+	 * @return ArrayCollection
+	 */
+	private function fetchTags( array $params, array $options = array() )
+	{
+		$result     = $this->get( self::PREFIX . 'getTags', $params, $options );
+		$resultTags = $result['tags'];
+
+		if ( ! isset( $resultTags['tag'] ) )
+		{
+			throw new NotFoundException( 'No tags were found for this artist!' );
+		}
+
+		if ( isset( $resultTags['tag'][0] ) )
+		{
+			$tags = $resultTags['tag'];
+		}
+		else
+		{
+			$tags = array( $resultTags['tag'] );
+		}
+
+		$TagsList = new ArrayCollection();
+
+		foreach ( $tags as $tagRow )
+		{
+			$Tag = new Data\Artist\Tag();
+
+			$Tag->setName( Util::toSting( $tagRow['name'] ) );
+			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
+
+			$TagsList->add( $Tag );
+		}
+
+		return $TagsList;
+	}
+
+	/**
+	 * @param array $params
+	 * @return Data\Artist\Artist
+	 */
+	private function fetchSimilar( array $params )
+	{
+		$result               = $this->get( self::PREFIX . 'getSimilar', $params );
+		$resultSimilarArtists = $result['similarartists'];
+
+		$SimilarArtists = new ArrayCollection();
+
+		foreach ( $resultSimilarArtists['artist'] as $artistRow )
+		{
+			$Artist = new Data\Artist\Artist();
+
+			$Artist->setName( Util::toSting( $artistRow['name'] ) );
+			$Artist->setMbid( Util::toSting( $artistRow['mbid'] ) );
+			$Artist->setMatch( (float) $artistRow['match'] );
+			$Artist->setUrl( Util::toSting( $artistRow['url'] ) );
+			$Artist->setStreamable( (int) $artistRow['streamable'] );
+
+			$ArtistImages = new ArrayCollection();
+
+			foreach ( $artistRow['image'] as $image )
+			{
+				$ArtistImages->set( Util::toSting( $image['size'] ), Util::toSting( $image['#text'] ) );
+			}
+
+			$Artist->setImages( $ArtistImages );
+			$SimilarArtists->add( $Artist );
+		}
+
+		$MainArtist = new Data\Artist\Artist();
+
+		$MainArtist->setName( Util::toSting( $resultSimilarArtists['@attr']['artist'] ) );
+		$MainArtist->setSimilar( $SimilarArtists );
+
+		return $MainArtist;
+	}
+
+	/**
+	 * @param array $params
+	 * @throws NotFoundException
+	 * @return PagedCollection
+	 */
+	private function fetchShouts( array $params )
+	{
+		$self           = $this;
+		$resultCallback = function ( $page, $limit ) use ( $params, $self )
+		{
+			$params = array_merge( $params, array( 'page' => $page, 'limit' => $limit ) );
+
+			/** @var $self Artist */
+			$result       = $self->get( Artist::PREFIX . 'getShouts', $params );
+			$resultShouts = $result['shouts'];
+
+			if ( ! isset( $resultShouts['shout'] ) )
+			{
+				throw new NotFoundException( 'No shouts found for this artist!' );
+			}
+
+			$totalResults = (int) $resultShouts['@attr']['total'];
+			$totalPages   = (int) $resultShouts['@attr']['totalPages'];
+
+			$List = new ArrayCollection();
+
+			if ( isset( $resultShouts['shout'][0] ) )
+			{
+				$shouts = $resultShouts['shout'];
+			}
+			else
+			{
+				$shouts = array( $resultShouts['shout'] );
+			}
+
+			foreach ( $shouts as $shoutRow )
+			{
+				$Shout = new Data\Artist\Shout();
+
+				$Shout->setArtist( Util::toSting( $resultShouts['@attr']['artist'] ) );
+				$Shout->setAuthor( Util::toSting( $shoutRow['author'] ) );
+				$Shout->setBody( Util::toSting( $shoutRow['body'] ) );
+				$Shout->setDate( Util::toSting( $shoutRow['date'] ) );
+
+				$List->add( $Shout );
+			}
+
+			return array(
+				'results'       => $List,
+				'total_pages'   => $totalPages,
+				'total_results' => $totalResults,
+			);
+		};
+
+		return new PagedCollection( $resultCallback );
+	}
+
+	/**
 	 * @param array $params
 	 * @throws NotFoundException
 	 * @return PagedCollection
@@ -198,10 +476,10 @@ class Artist extends AbstractApi
 				throw new NotFoundException( 'No events found for this artist!' );
 			}
 
-			$List = new ArrayCollection();
-
 			$totalResults = (int) $resultEvents['@attr']['total'];
 			$totalPages   = (int) $resultEvents['@attr']['totalPages'];
+
+			$List = new ArrayCollection();
 
 			foreach ( $resultEvents['event'] as $eventRow )
 			{

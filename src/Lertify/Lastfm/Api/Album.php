@@ -186,10 +186,23 @@ class Album extends AbstractApi
 
 	/**
 	 * @link http://www.last.fm/api/show/album.getTags
+	 *
+	 * @param string $artist
+	 * @param string $album
+	 * @param string $sk
+	 * @param bool $autocorrect
+	 * @return ArrayCollection
 	 */
-	public function getTagsAuth( $artist, $album, $autocorrect = false )
+	public function getTagsAuth( $artist, $album, $sk, $autocorrect = false )
 	{
-		// @todo No implemenration due to problem with authentication
+		$params = array(
+			'artist'      => $artist,
+			'album'       => $album,
+			'sk'          => $sk,
+			'autocorrect' => $autocorrect,
+		);
+
+		return $this->fetchTags( $params, array( 'is_signed' => true ) );
 	}
 
 	/**
@@ -211,10 +224,19 @@ class Album extends AbstractApi
 
 	/**
 	 * @link http://www.last.fm/api/show/album.getTags
+	 *
+	 * @param string $mbId
+	 * @param string $sk
+	 * @return ArrayCollection
 	 */
-	public function getTagsByMbidAuth( $mbId )
+	public function getTagsByMbidAuth( $mbId, $sk )
 	{
-		// @todo No implemenration due to problem with authentication
+		$params = array(
+			'mbid' => $mbId,
+			'sk'   => $sk,
+		);
+
+		return $this->fetchTags( $params, array( 'is_signed' => true ) );
 	}
 
 	/**
@@ -559,11 +581,12 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
+	 * @param array $options
 	 * @return ArrayCollection
 	 */
-	private function fetchTags( array $params )
+	private function fetchTags( array $params, array $options = array() )
 	{
-		$result     = $this->get( self::PREFIX . 'getTags', $params );
+		$result     = $this->get( self::PREFIX . 'getTags', $params, $options );
 		$resultTags = $result['tags'];
 
 		if ( isset( $resultTags['#text'] ) )
