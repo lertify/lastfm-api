@@ -18,6 +18,11 @@ class Tag
 	private $url;
 
 	/**
+	 * @var int
+	 */
+	private $count;
+
+	/**
 	 * @return string
 	 */
 	public function __toString()
@@ -55,5 +60,21 @@ class Tag
 	public function getUrl()
 	{
 		return $this->url;
+	}
+
+	/**
+	 * @param int $count
+	 */
+	public function setCount( $count )
+	{
+		$this->count = $count;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCount()
+	{
+		return $this->count;
 	}
 }

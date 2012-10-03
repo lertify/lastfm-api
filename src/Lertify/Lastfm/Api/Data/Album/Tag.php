@@ -18,11 +18,6 @@ class Tag extends \Lertify\Lastfm\Api\Data\Tag
 	private $album;
 
 	/**
-	 * @var int
-	 */
-	private $count;
-
-	/**
 	 * @param string $artist
 	 */
 	public function setArtist( $artist )
@@ -52,21 +47,5 @@ class Tag extends \Lertify\Lastfm\Api\Data\Tag
 	public function getAlbum()
 	{
 		return $this->album;
-	}
-
-	/**
-	 * @param int $count
-	 */
-	public function setCount( $count )
-	{
-		$this->count = $count;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getCount()
-	{
-		return $this->count;
 	}
 }

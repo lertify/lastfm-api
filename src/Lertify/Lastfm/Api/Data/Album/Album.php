@@ -7,7 +7,7 @@ namespace Lertify\Lastfm\Api\Data\Album;
 
 use Lertify\Lastfm\Api\Data\ArrayCollection;
 
-class Album
+class Album extends \Lertify\Lastfm\Api\Data\Album
 {
 	/**
 	 * @var int
@@ -17,32 +17,12 @@ class Album
 	/**
 	 * @var string
 	 */
-	private $name;
-
-	/**
-	 * @var string
-	 */
 	private $artist;
-
-	/**
-	 * @var string
-	 */
-	private $url;
 
 	/**
 	 * @var bool
 	 */
 	private $streamable = false;
-
-	/**
-	 * @var string
-	 */
-	private $mbid;
-
-	/**
-	 * @var ArrayCollection
-	 */
-	private $images = array();
 
 	/**
 	 * @var string
@@ -53,11 +33,6 @@ class Album
 	 * @var int
 	 */
 	private $listeners = 0;
-
-	/**
-	 * @var int
-	 */
-	private $playcount = 0;
 
 	/**
 	 * @var ArrayCollection
@@ -101,22 +76,6 @@ class Album
 	}
 
 	/**
-	 * @param string $name
-	 */
-	public function setName( $name )
-	{
-		$this->name = $name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
 	 * @param string $artist
 	 */
 	public function setArtist( $artist )
@@ -133,22 +92,6 @@ class Album
 	}
 
 	/**
-	 * @param string $url
-	 */
-	public function setUrl( $url )
-	{
-		$this->url = $url;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUrl()
-	{
-		return $this->url;
-	}
-
-	/**
 	 * @param bool $streamable
 	 */
 	public function setStreamable( $streamable )
@@ -162,38 +105,6 @@ class Album
 	public function getStreamable()
 	{
 		return $this->streamable;
-	}
-
-	/**
-	 * @param string $mbid
-	 */
-	public function setMbid( $mbid )
-	{
-		$this->mbid = $mbid;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMbid()
-	{
-		return $this->mbid;
-	}
-
-	/**
-	 * @param ArrayCollection $Images
-	 */
-	public function setImages( ArrayCollection $Images )
-	{
-		$this->images = $Images;
-	}
-
-	/**
-	 * @return ArrayCollection
-	 */
-	public function getImages()
-	{
-		return $this->images;
 	}
 
 	/**
@@ -226,22 +137,6 @@ class Album
 	public function getListeners()
 	{
 		return $this->listeners;
-	}
-
-	/**
-	 * @param int $playcount
-	 */
-	public function setPlaycount( $playcount )
-	{
-		$this->playcount = $playcount;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getPlaycount()
-	{
-		return $this->playcount;
 	}
 
 	/**

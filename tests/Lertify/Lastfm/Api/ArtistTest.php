@@ -115,7 +115,7 @@ class ArtistTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetPodcast()
 	{
-
+		// @todo Can't implement at the moment, due to missing viable working example
 	}
 
 	public function testGetShouts()
@@ -191,5 +191,149 @@ class ArtistTest extends \PHPUnit_Framework_TestCase
 		{
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Tag', $Tag, 'Tag is not an instance of Data\Artist\Tag' );
 		}
+	}
+
+	public function testGetTopAlbums()
+	{
+		$TopAlbums = $this->lastfm->artist()->getTopAlbums( 'Paramore' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $TopAlbums, 'TopAlbums are not an instance of PagedCollection' );
+
+		/** @var $TopAlbum \Lertify\Lastfm\Api\Data\Artist\Album */
+		foreach ( $TopAlbums->getPage( 1 ) as $TopAlbum )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Album', $TopAlbum, 'TopAlbum is not an instance of Data\Artist\Album' );
+
+			$Artist = $TopAlbum->getArtist();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Artist, 'TopAlbum is not an instance of Data\Artist\Artist' );
+
+			$AlbumImages = $TopAlbum->getImages();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $AlbumImages, 'TopAlbum is not an instance of Data\ArrayCollection' );
+		}
+
+		$TopAlbums = $this->lastfm->artist()->getTopAlbumsByMbid( 'f59c5520-5f46-4d2c-b2c4-822eabf53419' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $TopAlbums, 'TopAlbums are not an instance of PagedCollection' );
+
+		/** @var $TopAlbum \Lertify\Lastfm\Api\Data\Artist\Album */
+		foreach ( $TopAlbums->getPage( 1 ) as $TopAlbum )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Album', $TopAlbum, 'TopAlbum is not an instance of Data\Artist\Album' );
+
+			$Artist = $TopAlbum->getArtist();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Artist, 'TopAlbum is not an instance of Data\Artist\Artist' );
+
+			$AlbumImages = $TopAlbum->getImages();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $AlbumImages, 'TopAlbum is not an instance of Data\ArrayCollection' );
+		}
+	}
+
+	public function testGetTopFans()
+	{
+		$TopFans = $this->lastfm->artist()->getTopFans( 'zzzzz' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopFans, 'TopFans is not an instance of Data\ArrayCollection' );
+
+		/** @var $TopFan \Lertify\Lastfm\Api\Data\Artist\Fan */
+		foreach ( $TopFans as $TopFan )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Fan', $TopFan, 'TopFan is not an instance of Data\Artist\Fan' );
+
+			$TopFanImages = $TopFan->getImages();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopFanImages, 'TopFansImages is not an instance of Data\ArrayCollection' );
+		}
+
+		$TopFans = $this->lastfm->artist()->getTopFansByMbid( '3cc05480-ecb7-4527-8922-1e853b90a284' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopFans, 'TopFans is not an instance of Data\ArrayCollection' );
+
+		/** @var $TopFan \Lertify\Lastfm\Api\Data\Artist\Fan */
+		foreach ( $TopFans as $TopFan )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Fan', $TopFan, 'TopFan is not an instance of Data\Artist\Fan' );
+
+			$TopFanImages = $TopFan->getImages();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopFanImages, 'TopFansImages is not an instance of Data\ArrayCollection' );
+		}
+	}
+
+	public function testGetTopTags()
+	{
+		$TopTags = $this->lastfm->artist()->getTopTags( 'Paramore' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopTags, 'TopTags is not an instance of Data\ArrayCollection' );
+
+		/** @var $TopTag \Lertify\Lastfm\Api\Data\Tag */
+		foreach ( $TopTags as $TopTag )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Tag', $TopTag, 'TopTag is not an instance of Data\Tag' );
+		}
+
+		$TopTags = $this->lastfm->artist()->getTopTagsByMbid( 'f59c5520-5f46-4d2c-b2c4-822eabf53419' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopTags, 'TopTags is not an instance of Data\ArrayCollection' );
+
+		/** @var $TopTag \Lertify\Lastfm\Api\Data\Tag */
+		foreach ( $TopTags as $TopTag )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Tag', $TopTag, 'TopTag is not an instance of Data\Tag' );
+		}
+	}
+
+	public function testGetTopTracks()
+	{
+		$TopTracks = $this->lastfm->artist()->getTopTracks( 'Paramore' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $TopTracks, 'TopAlbums are not an instance of PagedCollection' );
+
+		/** @var $TopTrack \Lertify\Lastfm\Api\Data\Artist\Track */
+		foreach ( $TopTracks->getPage( 1 ) as $TopTrack )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Track', $TopTrack, 'TopTrack is not an instance of Data\Artist\Track' );
+
+			$TrackImages = $TopTrack->getImages();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TrackImages, 'TrackImages is not an instance of Data\ArrayCollection' );
+		}
+
+		$TopTracks = $this->lastfm->artist()->getTopTracksByMbid( 'f59c5520-5f46-4d2c-b2c4-822eabf53419' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $TopTracks, 'TopAlbums are not an instance of PagedCollection' );
+
+		/** @var $TopTrack \Lertify\Lastfm\Api\Data\Artist\Track */
+		foreach ( $TopTracks->getPage( 1 ) as $TopTrack )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Track', $TopTrack, 'TopTrack is not an instance of Data\Artist\Track' );
+
+			$TrackImages = $TopTrack->getImages();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TrackImages, 'TrackImages is not an instance of Data\ArrayCollection' );
+		}
+	}
+
+	public function testRemoveTag()
+	{
+		$status = $this->lastfm->artist()->removeTag( 'Coldplay', 'Awesome', $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $status );
+	}
+
+	public function testSearch()
+	{
+		$PagedCollection = $this->lastfm->artist()->search( 'decode' );
+
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $PagedCollection );
+		$this->assertEquals( 'object', gettype( $PagedCollection ) );
+		$this->assertGreaterThanOrEqual( 1, $PagedCollection->count() );
+
+		/** @var $Artist \Lertify\Lastfm\Api\Data\Artist\Artist */
+		foreach ( $PagedCollection->getPage( 1 ) as $Artist )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Artist, 'Artist is not an instance of Data\Artist\Artist' );
+
+			$ArtistImages = $Artist->getImages();
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $ArtistImages, 'ArtistImages is not an instance of Data\ArrayCollection' );
+		}
+	}
+
+	public function testShare()
+	{
+		$status = $this->lastfm->artist()->share( 'Paramore', $GLOBALS['tests_email'], $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $status );
+	}
+
+	public function testShout()
+	{
+		$status = $this->lastfm->artist()->shout( 'Paramore', 'Awesome band', $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $status );
 	}
 }

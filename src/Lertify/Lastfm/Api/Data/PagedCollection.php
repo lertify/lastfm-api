@@ -56,7 +56,7 @@ class PagedCollection
 	/**
 	 * @param int $number
 	 * @return bool
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	private function loadPage( $number )
 	{
