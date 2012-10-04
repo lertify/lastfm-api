@@ -36,6 +36,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$ArtistService = $this->lastfm->artist();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Artist', $ArtistService, 'ArtistService is not of Api\Artist type!' );
+
+		$ChartService = $this->lastfm->api( 'chart' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Chart', $ChartService, 'ChartService is not of Api\Chart type!' );
+
+		$ChartService = $this->lastfm->chart();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Chart', $ChartService, 'ChartService is not of Api\Chart type!' );
 	}
 
 	/**

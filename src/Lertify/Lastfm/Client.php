@@ -274,6 +274,11 @@ class Client
 				return $this->artist();
 			}
 
+			case 'chart':
+			{
+				return $this->chart();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -319,6 +324,19 @@ class Client
 
         return $this->apis['artist'];
     }
+
+	/**
+	 * @return Api\Chart
+	 */
+	public function chart()
+	{
+		if ( ! isset( $this->apis['chart'] ) )
+        {
+            $this->apis['chart'] = new Api\Chart( $this );
+        }
+
+        return $this->apis['chart'];
+	}
 
 	public function clearHeaders()
 	{

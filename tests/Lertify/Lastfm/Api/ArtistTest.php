@@ -309,14 +309,14 @@ class ArtistTest extends \PHPUnit_Framework_TestCase
 
 	public function testSearch()
 	{
-		$PagedCollection = $this->lastfm->artist()->search( 'decode' );
+		$Artists = $this->lastfm->artist()->search( 'decode' );
 
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $PagedCollection );
-		$this->assertEquals( 'object', gettype( $PagedCollection ) );
-		$this->assertGreaterThanOrEqual( 1, $PagedCollection->count() );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $Artists, 'Artists are not an instance of PagedCollection' );
+		$this->assertEquals( 'object', gettype( $Artists ) );
+		$this->assertGreaterThanOrEqual( 1, $Artists->count() );
 
 		/** @var $Artist \Lertify\Lastfm\Api\Data\Artist\Artist */
-		foreach ( $PagedCollection->getPage( 1 ) as $Artist )
+		foreach ( $Artists->getPage( 1 ) as $Artist )
 		{
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Artist, 'Artist is not an instance of Data\Artist\Artist' );
 
