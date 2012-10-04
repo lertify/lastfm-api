@@ -42,6 +42,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$ChartService = $this->lastfm->chart();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Chart', $ChartService, 'ChartService is not of Api\Chart type!' );
+
+		$EventService = $this->lastfm->api( 'event' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Event', $EventService, 'EventService is not of Api\Event type!' );
+
+		$EventService = $this->lastfm->event();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Event', $EventService, 'EventService is not of Api\Event type!' );
 	}
 
 	/**

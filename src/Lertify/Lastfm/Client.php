@@ -279,6 +279,11 @@ class Client
 				return $this->chart();
 			}
 
+			case 'event':
+			{
+				return $this->event();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -336,6 +341,19 @@ class Client
         }
 
         return $this->apis['chart'];
+	}
+
+	/**
+	 * @return Api\Event
+	 */
+	public function event()
+	{
+		if ( ! isset( $this->apis['event'] ) )
+        {
+            $this->apis['event'] = new Api\Event( $this );
+        }
+
+        return $this->apis['event'];
 	}
 
 	public function clearHeaders()
