@@ -48,6 +48,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$EventService = $this->lastfm->event();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Event', $EventService, 'EventService is not of Api\Event type!' );
+
+		$GeoService = $this->lastfm->api( 'geo' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Geo', $GeoService, 'GeoService is not of Api\Geo type!' );
+
+		$GeoService = $this->lastfm->geo();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Geo', $GeoService, 'GeoService is not of Api\Geo type!' );
 	}
 
 	/**

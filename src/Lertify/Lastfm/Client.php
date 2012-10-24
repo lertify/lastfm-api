@@ -284,6 +284,11 @@ class Client
 				return $this->event();
 			}
 
+			case 'geo':
+			{
+				return $this->geo();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -354,6 +359,19 @@ class Client
         }
 
         return $this->apis['event'];
+	}
+
+	/**
+	 * @return Api\Geo
+	 */
+	public function geo()
+	{
+		if ( ! isset( $this->apis['geo'] ) )
+        {
+            $this->apis['geo'] = new Api\Geo( $this );
+        }
+
+        return $this->apis['geo'];
 	}
 
 	public function clearHeaders()
