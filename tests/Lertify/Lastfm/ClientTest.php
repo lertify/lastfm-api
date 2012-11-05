@@ -60,6 +60,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$GroupService = $this->lastfm->group();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Group', $GroupService, 'GroupService is not of Api\Group type!' );
+
+		$PlaylistService = $this->lastfm->api( 'playlist' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Playlist', $PlaylistService, 'PlaylistService is not of Api\Playlist type!' );
+
+		$PlaylistService = $this->lastfm->playlist();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Playlist', $PlaylistService, 'PlaylistService is not of Api\Playlist type!' );
 	}
 
 	/**

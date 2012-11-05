@@ -21,6 +21,7 @@
 		<var name="tests_email" value=""/>
 		<var name="tests_username" value=""/>
 		<var name="tests_password" value=""/>
+		<var name="tests_playlist_id" value=""/>
 	</php>
 
 	<testsuites>

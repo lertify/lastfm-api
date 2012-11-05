@@ -294,6 +294,11 @@ class Client
 				return $this->group();
 			}
 
+			case 'playlist':
+			{
+				return $this->playlist();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -390,6 +395,19 @@ class Client
 		}
 
 		return $this->apis['group'];
+	}
+
+	/**
+	 * @return Api\Playlist
+	 */
+	public function playlist()
+	{
+		if ( ! isset( $this->apis['playlist'] ) )
+		{
+			$this->apis['playlist'] = new Api\Playlist( $this );
+		}
+
+		return $this->apis['playlist'];
 	}
 
 	public function clearHeaders()
