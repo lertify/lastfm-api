@@ -54,6 +54,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$GeoService = $this->lastfm->geo();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Geo', $GeoService, 'GeoService is not of Api\Geo type!' );
+
+		$GroupService = $this->lastfm->api( 'group' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Group', $GroupService, 'GroupService is not of Api\Group type!' );
+
+		$GroupService = $this->lastfm->group();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Group', $GroupService, 'GroupService is not of Api\Group type!' );
 	}
 
 	/**

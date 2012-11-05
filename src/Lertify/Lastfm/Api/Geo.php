@@ -693,12 +693,20 @@ class Geo extends AbstractApi
 		return new PagedCollection( $resultCallback );
 	}
 
+	/**
+	 * @link http://www.last.fm/api/show/geo.getMetroWeeklyChartlist
+	 *
+	 * @param $metro
+	 * @return ArrayCollection
+	 */
 	public function getMetroWeeklyChartlist( $metro )
 	{
 		// @todo Can't implement at the moment, due to missing viable detail description
 	}
 
 	/**
+	 * @link http://www.last.fm/api/show/geo.getMetros
+	 *
 	 * @param string|null $country
 	 * @throws NotFoundException
 	 * @return ArrayCollection
@@ -742,6 +750,8 @@ class Geo extends AbstractApi
 	}
 
 	/**
+	 * @link http://www.last.fm/api/show/geo.getTopArtists
+	 *
 	 * @param string $country
 	 * @throws NotFoundException
 	 * @return PagedCollection
@@ -816,6 +826,8 @@ class Geo extends AbstractApi
 	}
 
 	/**
+	 * @link http://www.last.fm/api/show/geo.getTopTracks
+	 *
 	 * @param string $country
 	 * @param string|null $location
 	 * @throws NotFoundException

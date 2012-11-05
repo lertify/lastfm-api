@@ -43,6 +43,16 @@ class Artist
 	private $listeners;
 
 	/**
+	 * @var int
+	 */
+	private $percentageChange;
+
+	/**
+	 * @var int
+	 */
+	private $rank;
+
+	/**
      * @param string $name
      */
     public function setName( $name )
@@ -152,5 +162,37 @@ class Artist
 	public function getPlaycount()
 	{
 		return $this->playcount;
+	}
+
+	/**
+	 * @param int $percentageChange
+	 */
+	public function setPercentageChange( $percentageChange )
+	{
+		$this->percentageChange = $percentageChange;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPercentageChange()
+	{
+		return $this->percentageChange;
+	}
+
+	/**
+	 * @param int $rank
+	 */
+	public function setRank( $rank )
+	{
+		$this->rank = $rank;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRank()
+	{
+		return $this->rank;
 	}
 }

@@ -17,7 +17,7 @@ class Album extends \Lertify\Lastfm\Api\Data\Album
 	/**
 	 * @var string
 	 */
-	private $artist;
+	protected $artist;
 
 	/**
 	 * @var bool

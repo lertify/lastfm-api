@@ -289,6 +289,11 @@ class Client
 				return $this->geo();
 			}
 
+			case 'group':
+			{
+				return $this->group();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -372,6 +377,19 @@ class Client
         }
 
         return $this->apis['geo'];
+	}
+
+	/**
+	 * @return Api\Group
+	 */
+	public function group()
+	{
+		if ( ! isset( $this->apis['group'] ) )
+		{
+			$this->apis['group'] = new Api\Group( $this );
+		}
+
+		return $this->apis['group'];
 	}
 
 	public function clearHeaders()

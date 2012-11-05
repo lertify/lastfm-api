@@ -17,7 +17,7 @@ class Album
 	/**
 	 * @var Artist
 	 */
-	private $artist;
+	protected $artist;
 
 	/**
 	 * @var string
