@@ -25,7 +25,7 @@ class PlaylistTest extends \PHPUnit_Framework_TestCase
 
 	public function testCreate()
 	{
-		$Playlist = $this->lastfm->playlist()->create( 'Some time', 'Some descr', $GLOBALS['auth_session_key'] );
+		$Playlist = $this->lastfm->playlist()->create( $GLOBALS['auth_session_key'], 'Some time', 'Some descr' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Playlist\Playlist', $Playlist, 'Playlist is not an instance of Data\Playlist\Playlist!' );
 
 		$PlaylistImages = $Playlist->getImages();
@@ -34,7 +34,7 @@ class PlaylistTest extends \PHPUnit_Framework_TestCase
 		$PlaylistOwner = $Playlist->getUser();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Playlist\User', $PlaylistOwner, 'PlaylistOwner is not an instance of Data\Playlist\User!' );
 
-		$Playlist = $this->lastfm->playlist()->create( null, null, $GLOBALS['auth_session_key'] );
+		$Playlist = $this->lastfm->playlist()->create( $GLOBALS['auth_session_key'], null, null );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Playlist\Playlist', $Playlist, 'Playlist is not an instance of Data\Playlist\Playlist!' );
 
 		$PlaylistImages = $Playlist->getImages();

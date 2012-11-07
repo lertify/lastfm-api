@@ -299,6 +299,11 @@ class Client
 				return $this->playlist();
 			}
 
+			case 'radio':
+			{
+				return $this->radio();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -408,6 +413,19 @@ class Client
 		}
 
 		return $this->apis['playlist'];
+	}
+
+	/**
+	 * @return Api\Radio
+	 */
+	public function radio()
+	{
+		if ( ! isset( $this->apis['radio'] ) )
+		{
+			$this->apis['radio'] = new Api\Radio( $this );
+		}
+
+		return $this->apis['radio'];
 	}
 
 	public function clearHeaders()

@@ -39,13 +39,13 @@ class Playlist extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/playlist.create
 	 *
+	 * @param string $sk
 	 * @param string|null $title
 	 * @param string|null $description
-	 * @param string $sk
 	 * @throws \Exception
 	 * @return Data\Playlist\Playlist
 	 */
-	public function create( $title = null, $description = null, $sk )
+	public function create( $sk, $title = null, $description = null )
 	{
 		$params = array(
 			'sk' => $sk,
