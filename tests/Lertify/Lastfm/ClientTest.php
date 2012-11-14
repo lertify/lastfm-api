@@ -72,6 +72,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$RadioService = $this->lastfm->radio();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Radio', $RadioService, 'RadioService is not of Api\Radio type!' );
+
+		$TasteometerService = $this->lastfm->api( 'tasteometer' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Tasteometer', $TasteometerService, 'TasteometerService is not of Api\Tasteometer type!' );
+
+		$TasteometerService = $this->lastfm->tasteometer();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Tasteometer', $TasteometerService, 'TasteometerService is not of Api\Tasteometer type!' );
 	}
 
 	/**

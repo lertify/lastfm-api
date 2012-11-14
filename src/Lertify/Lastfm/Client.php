@@ -304,6 +304,11 @@ class Client
 				return $this->radio();
 			}
 
+			case 'tasteometer':
+			{
+				return $this->tasteometer();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -426,6 +431,19 @@ class Client
 		}
 
 		return $this->apis['radio'];
+	}
+
+	/**
+	 * @return Api\Tasteometer
+	 */
+	public function tasteometer()
+	{
+		if ( ! isset( $this->apis['tasteometer'] ) )
+		{
+			$this->apis['tasteometer'] = new Api\Tasteometer( $this );
+		}
+
+		return $this->apis['tasteometer'];
 	}
 
 	public function clearHeaders()
