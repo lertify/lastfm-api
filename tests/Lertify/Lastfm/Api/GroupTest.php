@@ -1,8 +1,4 @@
 <?php
-/**
- * @author  Eugene Serkin <jeserkin@gmail.com>
- * @version $Id:$
- */
 namespace Lertify\Lastfm\Tests\Api;
 
 class GroupTest extends \PHPUnit_Framework_TestCase

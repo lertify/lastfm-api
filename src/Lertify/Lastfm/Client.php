@@ -2,7 +2,6 @@
 namespace Lertify\Lastfm;
 
 use Lertify\Lastfm\Api,
-	Lertify\Lastfm\Api\ApiInterface,
 	Lertify\Lastfm\Util\Curl,
 	Lertify\Lastfm\Exception\NotFoundException,
 	Lertify\Lastfm\Exception\StatusCodeException,
