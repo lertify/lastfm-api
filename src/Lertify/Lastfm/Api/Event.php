@@ -1,8 +1,4 @@
 <?php
-/**
- * @author  Eugene Serkin <jeserkin@gmail.com>
- * @version $Id$
- */
 namespace Lertify\Lastfm\Api;
 
 use InvalidArgumentException,
@@ -105,6 +101,7 @@ class Event extends AbstractApi
 				}
 
 				$User->setImages( $UserImages );
+				$List->add( $User );
 			}
 
 			return array(

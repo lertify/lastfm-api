@@ -1,8 +1,4 @@
 <?php
-/**
- * @author  Eugene Serkin <jeserkin@gmail.com>
- * @version $Id$
- */
 namespace Lertify\Lastfm\Tests;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
@@ -78,6 +74,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$TasteometerService = $this->lastfm->tasteometer();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Tasteometer', $TasteometerService, 'TasteometerService is not of Api\Tasteometer type!' );
+
+		$VenueService = $this->lastfm->api( 'venue' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Venue', $VenueService, 'VenueService is not of Api\Venue type!' );
+
+		$VenueService = $this->lastfm->venue();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Venue', $VenueService, 'VenueService is not of Api\Venue type!' );
 	}
 
 	/**

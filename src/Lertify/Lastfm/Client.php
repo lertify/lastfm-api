@@ -1,8 +1,4 @@
 <?php
-/**
- * @author  Eugene Serkin <jeserkin@gmail.com>
- * @version $Id$
- */
 namespace Lertify\Lastfm;
 
 use Lertify\Lastfm\Api,
@@ -309,6 +305,11 @@ class Client
 				return $this->tasteometer();
 			}
 
+			case 'venue':
+			{
+				return $this->venue();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -444,6 +445,19 @@ class Client
 		}
 
 		return $this->apis['tasteometer'];
+	}
+
+	/**
+	 * @return Api\Venue
+	 */
+	public function venue()
+	{
+		if ( ! isset( $this->apis['venue'] ) )
+		{
+			$this->apis['venue'] = new Api\Venue( $this );
+		}
+
+		return $this->apis['venue'];
 	}
 
 	public function clearHeaders()
