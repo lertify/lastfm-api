@@ -309,6 +309,11 @@ class Client
 				return $this->venue();
 			}
 
+			case 'library':
+			{
+				return $this->library();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -457,6 +462,19 @@ class Client
 		}
 
 		return $this->apis['venue'];
+	}
+
+	/**
+	 * @return Api\Library
+	 */
+	public function library()
+	{
+		if ( ! isset( $this->apis['library'] ) )
+		{
+			$this->apis['library'] = new Api\Library( $this );
+		}
+
+		return $this->apis['library'];
 	}
 
 	public function clearHeaders()

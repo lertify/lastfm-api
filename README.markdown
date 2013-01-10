@@ -9,6 +9,7 @@ Available services:
 - Event
 - Geo
 - Group
+- Library
 - Playlist
 - Radio
 - Tasteometer

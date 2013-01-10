@@ -80,6 +80,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$VenueService = $this->lastfm->venue();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Venue', $VenueService, 'VenueService is not of Api\Venue type!' );
+
+		$LibraryService = $this->lastfm->api( 'library' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Library', $LibraryService, 'LibraryService is not of Api\Library type!' );
+
+		$LibraryService = $this->lastfm->library();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Library', $LibraryService, 'LibraryService is not of Api\Library type!' );
 	}
 
 	/**
