@@ -20,8 +20,8 @@ class Geo extends AbstractApi
 	 * @param float|null $distance
 	 * @param string|null $tag
 	 * @param bool $festivalsonly
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getEvents( $long = null, $lat = null, $location = null, $distance = null, $tag = null, $festivalsonly = false )
 	{
@@ -198,8 +198,8 @@ class Geo extends AbstractApi
 	 * @param string $country
 	 * @param int|null $start
 	 * @param int|null $end
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getMetroArtistChart( $metro, $country, $start = null, $end = null )
 	{
@@ -277,8 +277,8 @@ class Geo extends AbstractApi
 	 * @param string $country
 	 * @param int|null $start
 	 * @param int|null $end
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getMetroHypeArtistChart( $metro, $country, $start = null, $end = null )
 	{
@@ -355,8 +355,8 @@ class Geo extends AbstractApi
 	 * @param string $country
 	 * @param int|null $start
 	 * @param int|null $end
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getMetroHypeTrackChart( $metro, $country, $start = null, $end = null )
 	{
@@ -443,8 +443,8 @@ class Geo extends AbstractApi
 	 * @param string $country
 	 * @param int|null $start
 	 * @param int|null $end
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getMetroTrackChart( $metro, $country, $start = null, $end = null )
 	{
@@ -531,8 +531,8 @@ class Geo extends AbstractApi
 	 * @param string $country
 	 * @param int|null $start
 	 * @param int|null $end
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getMetroUniqueArtistChart( $metro, $country, $start = null, $end = null )
 	{
@@ -609,8 +609,8 @@ class Geo extends AbstractApi
 	 * @param string $country
 	 * @param int|null $start
 	 * @param int|null $end
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getMetroUniqueTrackChart( $metro, $country, $start = null, $end = null )
 	{
@@ -693,7 +693,7 @@ class Geo extends AbstractApi
 	 * @link http://www.last.fm/api/show/geo.getMetroWeeklyChartlist
 	 *
 	 * @param $metro
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getMetroWeeklyChartlist( $metro )
 	{
@@ -704,8 +704,8 @@ class Geo extends AbstractApi
 	 * @link http://www.last.fm/api/show/geo.getMetros
 	 *
 	 * @param string|null $country
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getMetros( $country = null )
 	{
@@ -749,8 +749,8 @@ class Geo extends AbstractApi
 	 * @link http://www.last.fm/api/show/geo.getTopArtists
 	 *
 	 * @param string $country
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopArtists( $country )
 	{
@@ -826,8 +826,8 @@ class Geo extends AbstractApi
 	 *
 	 * @param string $country
 	 * @param string|null $location
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopTracks( $country, $location = null )
 	{

@@ -46,8 +46,8 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getCorrection
 	 *
 	 * @param string $artist
-	 * @throws NotFoundException
-	 * @return Data\Artist\Artist
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	public function getCorrection( $artist )
 	{
@@ -79,7 +79,7 @@ class Artist extends AbstractApi
 	 * @param string $artist
 	 * @param bool $autocorrect
 	 * @param bool $festivalsonly
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getEvents( $artist, $autocorrect = false, $festivalsonly = false )
 	{
@@ -97,7 +97,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $mbid
 	 * @param bool $festivalsonly
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getEventsByMbid( $mbid, $festivalsonly = false )
 	{
@@ -116,7 +116,7 @@ class Artist extends AbstractApi
 	 * @param bool $autocorrect
 	 * @param string|null $lang      ISO 639 alpha-2 code
 	 * @param string|null $username  If supplied, the user's playcount for this artist is included in the response.
-	 * @return Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	public function getInfo( $artist, $autocorrect = false, $lang = null, $username = null )
 	{
@@ -136,7 +136,7 @@ class Artist extends AbstractApi
 	 * @param string $mbid
 	 * @param string|null $lang       ISO 639 alpha-2 code
 	 * @param string|null $username   If supplied, the user's playcount for this artist is included in the response.
-	 * @return Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	public function getInfoByMbid( $mbid, $lang = null, $username = null )
 	{
@@ -154,7 +154,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $artist
 	 * @param bool $autocorrect
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getPastEvents( $artist, $autocorrect = false )
 	{
@@ -170,7 +170,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getPastEvents
 	 *
 	 * @param string $mbid
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getPastEventsByMbid( $mbid )
 	{
@@ -207,7 +207,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $artist
 	 * @param bool $autocorrect
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getShouts( $artist, $autocorrect = false )
 	{
@@ -223,7 +223,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getShouts
 	 *
 	 * @param string $mbid
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getShoutsByMbid( $mbid )
 	{
@@ -240,7 +240,7 @@ class Artist extends AbstractApi
 	 * @param string $artist
 	 * @param bool $autocorrect
 	 * @param int|null $limit
-	 * @return Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	public function getSimilar( $artist, $autocorrect = false, $limit = null )
 	{
@@ -258,7 +258,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $mbid
 	 * @param int|null $limit
-	 * @return Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	public function getSimilarByMbid( $mbid, $limit = null )
 	{
@@ -276,7 +276,7 @@ class Artist extends AbstractApi
 	 * @param string $artist
 	 * @param string $username
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTags( $artist, $username, $autocorrect = false )
 	{
@@ -295,7 +295,7 @@ class Artist extends AbstractApi
 	 * @param string $artist
 	 * @param string $sk
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTagsAuth( $artist, $sk, $autocorrect = false )
 	{
@@ -313,7 +313,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $mbid
 	 * @param string $username
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTagsByMbid( $mbid, $username )
 	{
@@ -330,7 +330,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $mbid
 	 * @param string $sk
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTagsByMbidAuth( $mbid, $sk )
 	{
@@ -347,7 +347,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $artist
 	 * @param bool $autocorrect
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopAlbums( $artist, $autocorrect = false )
 	{
@@ -363,7 +363,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getTopAlbums
 	 *
 	 * @param string $mbid
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopAlbumsByMbid( $mbid )
 	{
@@ -379,7 +379,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $artist
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTopFans( $artist, $autocorrect = false )
 	{
@@ -395,7 +395,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getTopFans
 	 *
 	 * @param string $mbid
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTopFansByMbid( $mbid )
 	{
@@ -411,7 +411,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $artist
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTopTags( $artist, $autocorrect = false )
 	{
@@ -427,7 +427,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getTopTags
 	 *
 	 * @param string $mbid
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTopTagsByMbid( $mbid )
 	{
@@ -443,7 +443,7 @@ class Artist extends AbstractApi
 	 *
 	 * @param string $artist
 	 * @param bool $autocorrect
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopTracks( $artist, $autocorrect = false )
 	{
@@ -459,7 +459,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getTopTracks
 	 *
 	 * @param string $mbid
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopTracksByMbid( $mbid )
 	{
@@ -495,7 +495,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.search
 	 *
 	 * @param string $artist
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function search( $artist )
 	{
@@ -613,6 +613,7 @@ class Artist extends AbstractApi
 	 * @param string $artist
 	 * @param string $message
 	 * @param string $sk
+	 * @return string
 	 */
 	public function shout( $artist, $message, $sk )
 	{
@@ -629,8 +630,8 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	private function fetchTopTracks( array $params )
 	{
@@ -709,8 +710,8 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private function fetchTopTags( array $params )
 	{
@@ -749,8 +750,8 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private function fetchTopFans( array $params )
 	{
@@ -799,8 +800,8 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	private function fetchTopAlbums( array $params )
 	{
@@ -875,8 +876,8 @@ class Artist extends AbstractApi
 	/**
 	 * @param array $params
 	 * @param array $options
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private function fetchTags( array $params, array $options = array() )
 	{
@@ -914,7 +915,7 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @return Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	private function fetchSimilar( array $params )
 	{
@@ -954,8 +955,8 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	private function fetchShouts( array $params )
 	{
@@ -1011,8 +1012,8 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	private function fetchPastEvents( array $params )
 	{
@@ -1167,7 +1168,7 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @return Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	private function fetchInfo( array $params )
 	{
@@ -1243,8 +1244,8 @@ class Artist extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	private function fetchEvents( array $params )
 	{

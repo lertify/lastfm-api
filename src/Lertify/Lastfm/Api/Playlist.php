@@ -2,7 +2,8 @@
 namespace Lertify\Lastfm\Api;
 
 use Lertify\Lastfm\Util\Util,
-	Lertify\Lastfm\Api\Data\ArrayCollection;
+	Lertify\Lastfm\Api\Data\ArrayCollection,
+	Exception;
 
 class Playlist extends AbstractApi
 {
@@ -38,8 +39,8 @@ class Playlist extends AbstractApi
 	 * @param string $sk
 	 * @param string|null $title
 	 * @param string|null $description
-	 * @throws \Exception
-	 * @return Data\Playlist\Playlist
+	 * @throws Exception
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function create( $sk, $title = null, $description = null )
 	{
@@ -63,7 +64,7 @@ class Playlist extends AbstractApi
 
 		if ( ! isset( $resultPlaylists['playlist'] ) )
 		{
-			throw new \Exception( 'No playlist created!' );
+			throw new Exception( 'No playlist created!' );
 		}
 
 		$playlistRow = $resultPlaylists['playlist'];

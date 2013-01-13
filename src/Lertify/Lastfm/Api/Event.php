@@ -49,8 +49,8 @@ class Event extends AbstractApi
 	 * @link http://www.last.fm/api/show/event.getAttendees
 	 *
 	 * @param int $eventId
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getAttendees( $eventId )
 	{
@@ -118,7 +118,7 @@ class Event extends AbstractApi
 	 * @link http://www.last.fm/api/show/event.getInfo
 	 *
 	 * @param int $eventId
-	 * @return Data\Event\Event
+	 * @return \Lertify\Lastfm\Api\Data\Event\Event
 	 */
 	public function getInfo( $eventId )
 	{
@@ -251,8 +251,8 @@ class Event extends AbstractApi
 	 * @link http://www.last.fm/api/show/event.getShouts
 	 *
 	 * @param int $eventId
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getShouts( $eventId )
 	{

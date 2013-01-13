@@ -13,7 +13,7 @@ class Auth extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/auth.getToken
 	 *
-	 * @return Token
+	 * @return \Lertify\Lastfm\Api\Data\Auth\Token
 	 */
 	public function getToken()
 	{
@@ -29,7 +29,7 @@ class Auth extends AbstractApi
 	 * @link http://www.last.fm/api/show/auth.getSession
 	 *
 	 * @param string $token
-	 * @return Session
+	 * @return \Lertify\Lastfm\Api\Data\Auth\Session
 	 */
 	public function getSession( $token )
 	{
@@ -50,7 +50,7 @@ class Auth extends AbstractApi
 	 *
 	 * @param string $username
 	 * @param string $password
-	 * @return Session
+	 * @return \Lertify\Lastfm\Api\Data\Auth\Session
 	 */
 	public function getMobileSession( $username, $password )
 	{

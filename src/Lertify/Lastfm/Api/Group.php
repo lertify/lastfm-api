@@ -15,8 +15,8 @@ class Group extends AbstractApi
 	 * @link http://www.last.fm/api/show/group.getHype
 	 *
 	 * @param string $group
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getHype( $group )
 	{
@@ -75,8 +75,8 @@ class Group extends AbstractApi
 	 * @link http://www.last.fm/api/show/group.getMembers
 	 *
 	 * @param string $group
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getMembers( $group )
 	{
@@ -150,8 +150,8 @@ class Group extends AbstractApi
 	 * @param string $group
 	 * @param int|null $from
 	 * @param int|null $to
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getWeeklyAlbumChart( $group, $from = null, $to = null )
 	{
@@ -207,8 +207,8 @@ class Group extends AbstractApi
 	 * @param string $group
 	 * @param int|null $from
 	 * @param int|null $to
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getWeeklyArtistChart( $group, $from = null, $to = null )
 	{
@@ -269,8 +269,8 @@ class Group extends AbstractApi
 	 * @link http://www.last.fm/api/show/group.getWeeklyChartList
 	 *
 	 * @param string $group
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getWeeklyChartList( $group )
 	{
@@ -316,8 +316,8 @@ class Group extends AbstractApi
 	 * @param string $group
 	 * @param int|null $from
 	 * @param int|null $to
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getWeeklyTrackChart( $group, $from = null, $to = null )
 	{

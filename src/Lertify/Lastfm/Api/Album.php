@@ -52,7 +52,7 @@ class Album extends AbstractApi
 	 * @param string $album
 	 * @param string $country
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getBuylinks( $artist, $album, $country = 'United Kingdom', $autocorrect = false )
 	{
@@ -71,7 +71,7 @@ class Album extends AbstractApi
 	 *
 	 * @param string $mbId
 	 * @param string $country
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getBuylinksByMbid( $mbId, $country = 'United States' )
 	{
@@ -91,7 +91,7 @@ class Album extends AbstractApi
 	 * @param bool $autocorrect
 	 * @param string $username
 	 * @param string|null $lang
-	 * @return Data\Album\Album
+	 * @return \Lertify\Lastfm\Api\Data\Album\Album
 	 */
 	public function getInfo( $artist, $album, $autocorrect = false, $username = '', $lang = null )
 	{
@@ -112,7 +112,7 @@ class Album extends AbstractApi
 	 * @param string $mbId
 	 * @param string $username
 	 * @param string|null $lang
-	 * @return Data\Album\Album
+	 * @return \Lertify\Lastfm\Api\Data\Album\Album
 	 */
 	public function getInfoByMbid( $mbId, $username = '', $lang = null )
 	{
@@ -131,7 +131,7 @@ class Album extends AbstractApi
 	 * @param string $artist
 	 * @param string $album
 	 * @param bool $autocorrect
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getShouts( $artist, $album, $autocorrect = false )
 	{
@@ -148,7 +148,7 @@ class Album extends AbstractApi
 	 * @link http://www.last.fm/api/show/album.getShouts
 	 *
 	 * @param string $mbId
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getShoutsByMbid( $mbId )
 	{
@@ -166,7 +166,7 @@ class Album extends AbstractApi
 	 * @param string $album
 	 * @param string $username
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTags( $artist, $album, $username, $autocorrect = false )
 	{
@@ -187,7 +187,7 @@ class Album extends AbstractApi
 	 * @param string $album
 	 * @param string $sk
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTagsAuth( $artist, $album, $sk, $autocorrect = false )
 	{
@@ -206,7 +206,7 @@ class Album extends AbstractApi
 	 *
 	 * @param string $mbId
 	 * @param string $username
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTagsByMbid( $mbId, $username )
 	{
@@ -223,7 +223,7 @@ class Album extends AbstractApi
 	 *
 	 * @param string $mbId
 	 * @param string $sk
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTagsByMbidAuth( $mbId, $sk )
 	{
@@ -241,7 +241,7 @@ class Album extends AbstractApi
 	 * @param string $artist
 	 * @param string $album
 	 * @param bool $autocorrect
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTopTags( $artist, $album, $autocorrect = false )
 	{
@@ -258,7 +258,7 @@ class Album extends AbstractApi
 	 * @link http://www.last.fm/api/show/album.getTopTags
 	 *
 	 * @param string $mbId
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getTopTagsByMbid( $mbId )
 	{
@@ -294,7 +294,7 @@ class Album extends AbstractApi
 	 * @link http://www.last.fm/api/show/album.search
 	 *
 	 * @param string $album
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function search( $album )
 	{
@@ -412,7 +412,7 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private function fetchBuylinks( array $params )
 	{
@@ -493,7 +493,7 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @return Data\Album\Album
+	 * @return \Lertify\Lastfm\Api\Data\Album\Album
 	 */
 	private function fillAlbumInfo( array $params )
 	{
@@ -534,7 +534,7 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	private function getShoutsPageCollection( array $params )
 	{
@@ -578,7 +578,7 @@ class Album extends AbstractApi
 	/**
 	 * @param array $params
 	 * @param array $options
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private function fetchTags( array $params, array $options = array() )
 	{
@@ -629,7 +629,7 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private function fetchTopTagCollection( array $params )
 	{
@@ -680,7 +680,7 @@ class Album extends AbstractApi
 	}
 
 	/**
-	 * @param Data\Album\Album $Album
+	 * @param \Lertify\Lastfm\Api\Data\Album\Album $Album
 	 * @param array $tracks
 	 */
 	private function addTracks( Data\Album\Album $Album, array $tracks )
@@ -710,7 +710,7 @@ class Album extends AbstractApi
 	}
 
 	/**
-	 * @param Data\Album\Album $Album
+	 * @param \Lertify\Lastfm\Api\Data\Album\Album $Album
 	 * @param array $topTags
 	 */
 	private function addTopTags( Data\Album\Album $Album, array $topTags )
@@ -731,7 +731,7 @@ class Album extends AbstractApi
 	}
 
 	/**
-	 * @param Data\Album\Album $Album
+	 * @param \Lertify\Lastfm\Api\Data\Album\Album $Album
 	 * @param array $wiki
 	 */
 	private function addBiography( Data\Album\Album $Album, array $wiki )

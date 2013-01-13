@@ -19,7 +19,7 @@ class Tasteometer extends AbstractApi
 	 * @param string|array $valueTwo
 	 * @param int $limit
 	 * @throws InvalidArgumentException
-	 * @return Data\Tasteometer\Comparison
+	 * @return \Lertify\Lastfm\Api\Data\Tasteometer\Comparison
 	 */
 	public function compare( $typeOne, $typeTwo, $valueOne, $valueTwo, $limit = 5 )
 	{

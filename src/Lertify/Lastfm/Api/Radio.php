@@ -19,7 +19,7 @@ class Radio extends AbstractApi
 	 * @param string $station
 	 * @param string $sk
 	 * @param string|null $lang
-	 * @return Data\Radio\Station
+	 * @return \Lertify\Lastfm\Api\Data\Radio\Station
 	 */
 	public function tune( $station, $sk, $lang = null )
 	{
@@ -30,8 +30,8 @@ class Radio extends AbstractApi
 	 * @link http://www.last.fm/api/show/radio.search
 	 *
 	 * @param string $artist
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function search( $artist )
 	{

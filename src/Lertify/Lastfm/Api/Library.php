@@ -73,10 +73,12 @@ class Library extends AbstractApi
 	}
 
 	/**
+	 * @link http://www.last.fm/api/show/library.getAlbums
+	 *
 	 * @param string $user
 	 * @param string|null $artist
-	 * @return PagedCollection
 	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getAlbums( $user, $artist = null )
 	{
@@ -155,7 +157,7 @@ class Library extends AbstractApi
 	 *
 	 * @param string $user
 	 * @throws \Lertify\Lastfm\Exception\NotFoundException
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getArtists( $user )
 	{
@@ -228,7 +230,7 @@ class Library extends AbstractApi
 	 * @param string|null $artist
 	 * @param string|null $album
 	 * @throws \Lertify\Lastfm\Exception\NotFoundException
-	 * @return PagedCollection
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTracks( $user, $artist = null, $album = null )
 	{

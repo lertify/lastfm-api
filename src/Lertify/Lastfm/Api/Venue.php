@@ -16,8 +16,8 @@ class Venue extends AbstractApi
 	 *
 	 * @param int $venue
 	 * @param bool $festivalsonly
-	 * @throws NotFoundException
-	 * @return ArrayCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getEvents( $venue, $festivalsonly = false )
 	{
@@ -58,8 +58,8 @@ class Venue extends AbstractApi
 	 *
 	 * @param int $venue
 	 * @param bool $festivalsonly
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getPastEvents( $venue, $festivalsonly = false )
 	{
@@ -115,8 +115,8 @@ class Venue extends AbstractApi
 	 *
 	 * @param string $venue
 	 * @param string|null $country
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function search( $venue, $country = null )
 	{
@@ -194,7 +194,7 @@ class Venue extends AbstractApi
 
 	/**
 	 * @param array $eventRow
-	 * @return Data\Venue\Event
+	 * @return \Lertify\Lastfm\Api\Data\Venue\Event
 	 */
 	public function fillEvent( array $eventRow )
 	{

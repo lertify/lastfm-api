@@ -14,8 +14,8 @@ class Chart extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/chart.getHypedArtists
 	 *
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getHypedArtists()
 	{
@@ -87,8 +87,8 @@ class Chart extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/chart.getHypedTracks
 	 *
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getHypedTracks()
 	{
@@ -167,8 +167,8 @@ class Chart extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/chart.getLovedTracks
 	 *
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getLovedTracks()
 	{
@@ -247,8 +247,8 @@ class Chart extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/chart.getTopArtists
 	 *
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopArtists()
 	{
@@ -321,8 +321,8 @@ class Chart extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/chart.getTopTags
 	 *
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopTags()
 	{
@@ -386,8 +386,8 @@ class Chart extends AbstractApi
 	/**
 	 * @link http://www.last.fm/api/show/chart.getTopTracks
 	 *
-	 * @throws NotFoundException
-	 * @return PagedCollection
+	 * @throws \Lertify\Lastfm\Exception\NotFoundException
+	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	public function getTopTracks()
 	{
