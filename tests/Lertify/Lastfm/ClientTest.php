@@ -86,6 +86,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$LibraryService = $this->lastfm->library();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Library', $LibraryService, 'LibraryService is not of Api\Library type!' );
+
+		$TagService = $this->lastfm->api( 'tag' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Tag', $TagService, 'TagService is not of Api\Tag type!' );
+
+		$TagService = $this->lastfm->tag();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Tag', $TagService, 'TagService is not of Api\Tag type!' );
 	}
 
 	/**

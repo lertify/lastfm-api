@@ -314,6 +314,11 @@ class Client
 				return $this->library();
 			}
 
+			case 'tag':
+			{
+				return $this->tag();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -475,6 +480,19 @@ class Client
 		}
 
 		return $this->apis['library'];
+	}
+
+	/**
+	 * @return Api\Tag
+	 */
+	public function tag()
+	{
+		if ( ! isset( $this->apis['tag'] ) )
+		{
+			$this->apis['tag'] = new Api\Tag( $this );
+		}
+
+		return $this->apis['tag'];
 	}
 
 	public function clearHeaders()
