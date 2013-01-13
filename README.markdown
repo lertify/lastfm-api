@@ -12,5 +12,6 @@ Available services:
 - Library
 - Playlist
 - Radio
+- Tag
 - Tasteometer
 - Venue
