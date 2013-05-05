@@ -319,6 +319,11 @@ class Client
 				return $this->tag();
 			}
 
+			case 'track':
+			{
+				return $this->track();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -493,6 +498,19 @@ class Client
 		}
 
 		return $this->apis['tag'];
+	}
+
+	/**
+	 * @return Api\Track
+	 */
+	public function track()
+	{
+		if ( ! isset( $this->apis['track'] ) )
+		{
+			$this->apis['track'] = new Api\Track( $this );
+		}
+
+		return $this->apis['track'];
 	}
 
 	public function clearHeaders()

@@ -14,4 +14,5 @@ Available services:
 - Radio
 - Tag
 - Tasteometer
+- Track
 - Venue

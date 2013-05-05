@@ -11,7 +11,7 @@ class Album
 	private $name;
 
 	/**
-	 * @var Artist
+	 * @var \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	protected $artist;
 
@@ -31,12 +31,12 @@ class Album
 	private $playcount = 0;
 
 	/**
-	 * @var ArrayCollection
+	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private $images;
 
 	/**
-	 * @param ArrayCollection $images
+	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $images
 	 */
 	public function setImages( $images )
 	{
@@ -44,7 +44,7 @@ class Album
 	}
 
 	/**
-	 * @return ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getImages()
 	{
@@ -100,7 +100,7 @@ class Album
 	}
 
 	/**
-	 * @param Artist $Artist
+	 * @param \Lertify\Lastfm\Api\Data\Artist\Artist $Artist
 	 */
 	public function setArtist( Artist $Artist )
 	{
@@ -108,7 +108,7 @@ class Album
 	}
 
 	/**
-	 * @return Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
 	 */
 	public function getArtist()
 	{

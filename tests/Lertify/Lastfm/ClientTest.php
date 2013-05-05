@@ -92,6 +92,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$TagService = $this->lastfm->tag();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Tag', $TagService, 'TagService is not of Api\Tag type!' );
+
+		$TrackService = $this->lastfm->api( 'track' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Track', $TrackService, 'TrackService is not of Api\Track type!' );
+
+		$TrackService = $this->lastfm->track();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Track', $TrackService, 'TrackService is not of Api\Track type!' );
 	}
 
 	/**

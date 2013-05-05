@@ -377,7 +377,7 @@ class Album extends AbstractApi
 	 * @param string $sk
 	 * @param bool $public
 	 * @param string|null $message
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
 	public function share( $artist, $album, $recipient, $sk, $public = false, $message = null )
@@ -388,9 +388,18 @@ class Album extends AbstractApi
 			{
 				throw new InvalidArgumentException( 'The allowed maximum is 10 recipients per request' );
 			}
-
-			$recipient = implode( ',', $recipient );
 		}
+		else
+		{
+			$recipient = explode( ',', preg_replace( '#[\s]+#', '', $recipient ) );
+
+			if ( count( $recipient ) > 10 )
+			{
+				throw new InvalidArgumentException( 'The allowed maximum is 10 recipients per request' );
+			}
+		}
+
+		$recipient = implode( ',', $recipient );
 
 		$params = array(
 			'artist'    => $artist,
