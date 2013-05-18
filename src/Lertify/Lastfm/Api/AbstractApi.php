@@ -6,21 +6,21 @@ use Lertify\Lastfm\Client;
 abstract class AbstractApi implements ApiInterface
 {
 	/**
-	 * @var Client
+	 * @var \Lertify\Lastfm\Client
 	 */
 	private $client;
 
 	/**
-	 * @param Client $client
-	 * @return AbstractApi
+	 * @param \Lertify\Lastfm\Client $Client
+	 * @return \Lertify\Lastfm\Api\AbstractApi
 	 */
-	public function __construct( Client $client )
+	public function __construct( Client $Client )
 	{
-		$this->client = $client;
+		$this->client = $Client;
 	}
 
 	/**
-	 * @return Client
+	 * @return \Lertify\Lastfm\Client
 	 */
 	protected function getClient()
 	{

@@ -15,4 +15,5 @@ Available services:
 - Tag
 - Tasteometer
 - Track
+- User
 - Venue

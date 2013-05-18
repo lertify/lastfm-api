@@ -2,5 +2,8 @@
 
 require_once __DIR__ . '/SplClassLoader.php';
 
+$TestsLoader = new SplClassLoader( 'Lertify\Lastfm\Tests', __DIR__ );
+$TestsLoader->register();
+
 $Loader = new SplClassLoader( 'Lertify\Lastfm', __DIR__ . '/../src' );
 $Loader->register();

@@ -1,28 +1,33 @@
 <?php
 namespace Lertify\Lastfm\Api\Data\Group;
 
+use DateTime;
+
 class Chart
 {
 	/**
-	 * @var int
+	 * @var \DateTime
 	 */
 	private $from;
 
 	/**
-	 * @var int
+	 * @var \DateTime
 	 */
 	private $to;
 
 	/**
-	 * @param int $from
+	 * @param \DateTime $From
+	 * @return \Lertify\Lastfm\Api\Data\Group\Chart
 	 */
-	public function setFrom( $from )
+	public function setFrom( DateTime $From )
 	{
-		$this->from = $from;
+		$this->from = $From;
+
+		return $this;
 	}
 
 	/**
-	 * @return int
+	 * @return \DateTime
 	 */
 	public function getFrom()
 	{
@@ -30,15 +35,18 @@ class Chart
 	}
 
 	/**
-	 * @param int $to
+	 * @param \DateTime $To
+	 * @return \Lertify\Lastfm\Api\Data\Group\Chart
 	 */
-	public function setTo( $to )
+	public function setTo( DateTime $To )
 	{
-		$this->to = $to;
+		$this->to = $To;
+
+		return $this;
 	}
 
 	/**
-	 * @return int
+	 * @return \DateTime
 	 */
 	public function getTo()
 	{

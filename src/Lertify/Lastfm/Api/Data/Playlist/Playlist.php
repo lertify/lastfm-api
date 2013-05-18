@@ -1,71 +1,76 @@
 <?php
 namespace Lertify\Lastfm\Api\Data\Playlist;
 
-use Lertify\Lastfm\Api\Data\ArrayCollection;
+use Lertify\Lastfm\Api\Data\ArrayCollection,
+
+	DateTime;
 
 class Playlist
 {
 	/**
 	 * @var int
 	 */
-	private $id;
+	protected $id;
 
 	/**
 	 * @var string
 	 */
-	private $title;
+	protected $title;
 
 	/**
 	 * @var string
 	 */
-	private $description;
-
-	/**
-	 * @var string
-	 */
-	private $date;
+	protected $description;
 
 	/**
 	 * @var int
 	 */
-	private $size;
+	protected $size;
 
 	/**
 	 * @var int
 	 */
-	private $duration;
+	protected $duration;
 
 	/**
 	 * @var bool
 	 */
-	private $streamable;
+	protected $streamable;
 
 	/**
 	 * @var string
 	 */
-	private $creator;
+	protected $creator;
 
 	/**
 	 * @var string
 	 */
-	private $url;
+	protected $url;
 
 	/**
-	 * @var ArrayCollection
+	 * @var \DateTime
 	 */
-	private $images;
+	protected $date;
 
 	/**
-	 * @var User
+	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
-	private $user;
+	protected $images;
+
+	/**
+	 * @var \Lertify\Lastfm\Api\Data\Playlist\User
+	 */
+	protected $user;
 
 	/**
 	 * @param int $id
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setId( $id )
 	{
 		$this->id = $id;
+
+		return $this;
 	}
 
 	/**
@@ -78,10 +83,13 @@ class Playlist
 
 	/**
 	 * @param string $title
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setTitle( $title )
 	{
 		$this->title = $title;
+
+		return $this;
 	}
 
 	/**
@@ -94,10 +102,13 @@ class Playlist
 
 	/**
 	 * @param string $description
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setDescription( $description )
 	{
 		$this->description = $description;
+
+		return $this;
 	}
 
 	/**
@@ -109,27 +120,14 @@ class Playlist
 	}
 
 	/**
-	 * @param string $date
-	 */
-	public function setDate( $date )
-	{
-		$this->date = $date;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDate()
-	{
-		return $this->date;
-	}
-
-	/**
 	 * @param int $size
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setSize( $size )
 	{
 		$this->size = $size;
+
+		return $this;
 	}
 
 	/**
@@ -142,10 +140,13 @@ class Playlist
 
 	/**
 	 * @param int $duration
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setDuration( $duration )
 	{
 		$this->duration = $duration;
+
+		return $this;
 	}
 
 	/**
@@ -157,15 +158,18 @@ class Playlist
 	}
 
 	/**
-	 * @param boolean $streamable
+	 * @param bool $streamable
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setStreamable( $streamable )
 	{
 		$this->streamable = $streamable;
+
+		return $this;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getStreamable()
 	{
@@ -174,10 +178,13 @@ class Playlist
 
 	/**
 	 * @param string $creator
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setCreator( $creator )
 	{
 		$this->creator = $creator;
+
+		return $this;
 	}
 
 	/**
@@ -190,10 +197,13 @@ class Playlist
 
 	/**
 	 * @param string $url
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setUrl( $url )
 	{
 		$this->url = $url;
+
+		return $this;
 	}
 
 	/**
@@ -205,15 +215,37 @@ class Playlist
 	}
 
 	/**
-	 * @param ArrayCollection $Images
+	 * @param \DateTime $Date
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
-	public function setImages( $Images )
+	public function setDate( DateTime $Date )
 	{
-		$this->images = $Images;
+		$this->date = $Date;
+
+		return $this;
 	}
 
 	/**
-	 * @return ArrayCollection
+	 * @return \DateTime
+	 */
+	public function getDate()
+	{
+		return $this->date;
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $Images
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
+	 */
+	public function setImages( ArrayCollection $Images )
+	{
+		$this->images = $Images;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	public function getImages()
 	{
@@ -221,15 +253,18 @@ class Playlist
 	}
 
 	/**
-	 * @param User $User
+	 * @param \Lertify\Lastfm\Api\Data\Playlist\User $User
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\Playlist
 	 */
 	public function setUser( User $User )
 	{
 		$this->user = $User;
+
+		return $this;
 	}
 
 	/**
-	 * @return User
+	 * @return \Lertify\Lastfm\Api\Data\Playlist\User
 	 */
 	public function getUser()
 	{

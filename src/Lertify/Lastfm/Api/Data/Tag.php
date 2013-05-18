@@ -19,19 +19,14 @@ class Tag
 	private $count;
 
 	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->name;
-	}
-
-	/**
 	 * @param string $name
+	 * @return \Lertify\Lastfm\Api\Data\Tag
 	 */
 	public function setName( $name )
 	{
 		$this->name = $name;
+
+		return $this;
 	}
 
 	/**
@@ -44,10 +39,13 @@ class Tag
 
 	/**
 	 * @param string $url
+	 * @return \Lertify\Lastfm\Api\Data\Tag
 	 */
 	public function setUrl( $url )
 	{
 		$this->url = $url;
+
+		return $this;
 	}
 
 	/**
@@ -60,10 +58,13 @@ class Tag
 
 	/**
 	 * @param int $count
+	 * @return \Lertify\Lastfm\Api\Data\Tag
 	 */
 	public function setCount( $count )
 	{
 		$this->count = $count;
+
+		return $this;
 	}
 
 	/**

@@ -1,94 +1,73 @@
 <?php
 namespace Lertify\Lastfm\Api\Data;
 
-use Lertify\Lastfm\Api\Data\Artist\Artist;
+use DateTime;
 
 class Album
 {
 	/**
 	 * @var string
 	 */
-	private $name;
-
-	/**
-	 * @var \Lertify\Lastfm\Api\Data\Artist\Artist
-	 */
-	protected $artist;
+	protected $name;
 
 	/**
 	 * @var string
 	 */
-	private $url;
+	protected $url;
 
 	/**
 	 * @var string
 	 */
-	private $mbid;
+	protected $mbid;
 
 	/**
 	 * @var int
 	 */
-	private $playcount = 0;
+	protected $playcount;
+
+	/**
+	 * @var \Lertify\Lastfm\Api\Data\Artist
+	 */
+	protected $artist;
 
 	/**
 	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
-	private $images;
+	protected $images;
 
 	/**
-	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $images
+	 * @var \DateTime
 	 */
-	public function setImages( $images )
-	{
-		$this->images = $images;
-	}
+	protected $releaseDate;
 
 	/**
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @param string $name
+	 * @return \Lertify\Lastfm\Api\Data\Album
 	 */
-	public function getImages()
+	public function setName( $name )
 	{
-		return $this->images;
-	}
+		$this->name = $name;
 
-	/**
-	 * @param int $playcount
-	 */
-	public function setPlaycount( $playcount )
-	{
-		$this->playcount = $playcount;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getPlaycount()
-	{
-		return $this->playcount;
-	}
-
-	/**
-	 * @param string $mbid
-	 */
-	public function setMbid( $mbid )
-	{
-		$this->mbid = $mbid;
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getMbid()
+	public function getName()
 	{
-		return $this->mbid;
+		return $this->name;
 	}
 
 	/**
 	 * @param string $url
+	 * @return \Lertify\Lastfm\Api\Data\Album
 	 */
 	public function setUrl( $url )
 	{
 		$this->url = $url;
+
+		return $this;
 	}
 
 	/**
@@ -100,15 +79,75 @@ class Album
 	}
 
 	/**
-	 * @param \Lertify\Lastfm\Api\Data\Artist\Artist $Artist
+	 * @param string $mbid
+	 * @return \Lertify\Lastfm\Api\Data\Album
+	 */
+	public function setMbid( $mbid )
+	{
+		$this->mbid = $mbid;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMbid()
+	{
+		return $this->mbid;
+	}
+
+	/**
+	 * @param int $playcount
+	 * @return \Lertify\Lastfm\Api\Data\Album
+	 */
+	public function setPlaycount( $playcount )
+	{
+		$this->playcount = $playcount;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPlaycount()
+	{
+		return $this->playcount;
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $Images
+	 * @return \Lertify\Lastfm\Api\Data\Album
+	 */
+	public function setImages( ArrayCollection $Images )
+	{
+		$this->images = $Images;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 */
+	public function getImages()
+	{
+		return $this->images;
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Artist $Artist
+	 * @return \Lertify\Lastfm\Api\Data\Album
 	 */
 	public function setArtist( Artist $Artist )
 	{
 		$this->artist = $Artist;
+
+		return $this;
 	}
 
 	/**
-	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist
 	 */
 	public function getArtist()
 	{
@@ -116,18 +155,21 @@ class Album
 	}
 
 	/**
-	 * @param string $name
+	 * @param \DateTime $ReleaseDate
+	 * @return \Lertify\Lastfm\Api\Data\Album
 	 */
-	public function setName( $name )
+	public function setReleaseDate( DateTime $ReleaseDate )
 	{
-		$this->name = $name;
+		$this->releaseDate = $ReleaseDate;
+
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getReleaseDate()
 	{
-		return $this->name;
+		return $this->releaseDate;
 	}
 }

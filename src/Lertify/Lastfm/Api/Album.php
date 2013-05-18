@@ -298,11 +298,11 @@ class Album extends AbstractApi
 	 */
 	public function search( $album )
 	{
-		$self   = $this;
 		$params = array(
 			'album' => $album,
 		);
 
+		$self           = $this;
 		$resultCallback = function( $page, $limit ) use( $params, $self )
 		{
 			$params = array_merge( $params, array( 'page' => $page, 'limit' => $limit ) );

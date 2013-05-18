@@ -1,59 +1,62 @@
 <?php
 namespace Lertify\Lastfm\Api\Data;
 
-class Artist
+class Artist extends AbstractData
 {
 	/**
      * @var string
      */
-    private $name;
+    protected $name;
 
 	/**
      * @var string
      */
-    private $mbid;
+    protected $mbid;
 
 	/**
      * @var string
      */
-    private $url;
+    protected $url;
 
 	/**
 	 * @var bool
 	 */
-	private $streamable;
-
-	/**
-	 * @var ArrayCollection
-	 */
-	private $images;
+	protected $streamable;
 
 	/**
 	 * @var int
 	 */
-	private $playcount;
+	protected $playcount;
 
 	/**
 	 * @var int
 	 */
-	private $listeners;
+	protected $listeners;
 
 	/**
 	 * @var int
 	 */
-	private $percentageChange;
+	protected $percentageChange;
 
 	/**
 	 * @var int
 	 */
-	private $rank;
+	protected $rank;
+
+	/**
+	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
+	 */
+	protected $images;
 
 	/**
      * @param string $name
+	 * @return \Lertify\Lastfm\Api\Data\Artist
      */
     public function setName( $name )
     {
         $this->name = $name;
+
+	    return $this;
     }
 
     /**
@@ -66,10 +69,13 @@ class Artist
 
 	/**
      * @param string $mbid
+	 * @return \Lertify\Lastfm\Api\Data\Artist
      */
     public function setMbid( $mbid )
     {
         $this->mbid = $mbid;
+
+	    return $this;
     }
 
     /**
@@ -82,10 +88,13 @@ class Artist
 
 	/**
      * @param string $url
+	 * @return \Lertify\Lastfm\Api\Data\Artist
      */
     public function setUrl( $url )
     {
         $this->url = $url;
+
+	    return $this;
     }
 
     /**
@@ -98,10 +107,13 @@ class Artist
 
 	/**
 	 * @param bool $streamable
+	 * @return \Lertify\Lastfm\Api\Data\Artist
 	 */
 	public function setStreamable( $streamable )
 	{
 		$this->streamable = $streamable;
+
+		return $this;
 	}
 
 	/**
@@ -113,27 +125,14 @@ class Artist
 	}
 
 	/**
-	 * @param ArrayCollection $Images
-	 */
-	public function setImages( $Images )
-	{
-		$this->images = $Images;
-	}
-
-	/**
-	 * @return ArrayCollection
-	 */
-	public function getImages()
-	{
-		return $this->images;
-	}
-
-	/**
 	 * @param int $listeners
+	 * @return \Lertify\Lastfm\Api\Data\Artist
 	 */
 	public function setListeners( $listeners )
 	{
 		$this->listeners = $listeners;
+
+		return $this;
 	}
 
 	/**
@@ -146,10 +145,13 @@ class Artist
 
 	/**
 	 * @param int $playcount
+	 * @return \Lertify\Lastfm\Api\Data\Artist
 	 */
 	public function setPlaycount( $playcount )
 	{
 		$this->playcount = $playcount;
+
+		return $this;
 	}
 
 	/**
@@ -162,10 +164,13 @@ class Artist
 
 	/**
 	 * @param int $percentageChange
+	 * @return \Lertify\Lastfm\Api\Data\Artist
 	 */
 	public function setPercentageChange( $percentageChange )
 	{
 		$this->percentageChange = $percentageChange;
+
+		return $this;
 	}
 
 	/**
@@ -178,10 +183,13 @@ class Artist
 
 	/**
 	 * @param int $rank
+	 * @return \Lertify\Lastfm\Api\Data\Artist
 	 */
 	public function setRank( $rank )
 	{
 		$this->rank = $rank;
+
+		return $this;
 	}
 
 	/**
@@ -190,5 +198,24 @@ class Artist
 	public function getRank()
 	{
 		return $this->rank;
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $Images
+	 * @return \Lertify\Lastfm\Api\Data\Artist
+	 */
+	public function setImages( ArrayCollection $Images )
+	{
+		$this->images = $Images;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 */
+	public function getImages()
+	{
+		return $this->images;
 	}
 }

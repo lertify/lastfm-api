@@ -1,18 +1,10 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-class LibraryTest extends \PHPUnit_Framework_TestCase
+use Lertify\Lastfm\Tests\Setup;
+
+class LibraryTest extends Setup
 {
-	/**
-	 * @var \Lertify\Lastfm\Client
-	 */
-	protected $lastfm;
-
-	protected function setUp()
-	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
-	}
-
 	public function testAddAlbum()
 	{
 		$status = $this->lastfm->library()->addAlbum( 'Coldplay', 'X&Y', $GLOBALS['auth_session_key'] );

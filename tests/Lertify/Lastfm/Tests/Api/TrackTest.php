@@ -1,21 +1,10 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-class TrackTest extends \PHPUnit_Framework_TestCase
+use Lertify\Lastfm\Tests\Setup;
+
+class TrackTest extends Setup
 {
-	/**
-	 * @var \Lertify\Lastfm\Client
-	 */
-	protected $lastfm;
-
-	/**
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
-	}
-
 	/**
 	 * @return void
 	 */

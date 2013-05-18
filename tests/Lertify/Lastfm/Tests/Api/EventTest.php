@@ -1,18 +1,10 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-class EventTest extends \PHPUnit_Framework_TestCase
+use Lertify\Lastfm\Tests\Setup;
+
+class EventTest extends Setup
 {
-	/**
-	 * @var \Lertify\Lastfm\Client
-	 */
-	protected $lastfm;
-
-	protected function setUp()
-	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
-	}
-
 	public function testAttend()
 	{
 		$status = $this->lastfm->event()->attend( 3354362, \Lertify\Lastfm\Api\Event::EVENT_STATUS_MAYBE_ATTENDING, $GLOBALS['auth_session_key'] );

@@ -1,18 +1,10 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-class RadioTest extends \PHPUnit_Framework_TestCase
+use Lertify\Lastfm\Tests\Setup;
+
+class RadioTest extends Setup
 {
-	/**
-	 * @var \Lertify\Lastfm\Client
-	 */
-	protected $lastfm;
-
-	protected function setUp()
-	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
-	}
-
 	public function testGetPlaylist()
 	{
 		$this->lastfm->radio()->getPlaylist( $GLOBALS['auth_session_key'] );

@@ -6,74 +6,87 @@ class Track
 	/**
 	 * @var string
 	 */
-	private $name;
+	protected $name;
+
+	/**
+	 * @var string
+	 */
+	protected $url;
+
+	/**
+	 * @var string
+	 */
+	protected $mbId;
 
 	/**
 	 * @var int (seconds)
 	 */
-	private $duration;
-
-	/**
-	 * @var string
-	 */
-	private $mbId;
-
-	/**
-	 * @var string
-	 */
-	private $url;
+	protected $duration;
 
 	/**
 	 * @var bool
 	 */
-	private $streamable = false;
+	protected $streamable = false;
 
 	/**
 	 * @var bool
 	 */
-	private $streamableFulltrack = false;
+	protected $streamableFulltrack = false;
 
 	/**
 	 * @var int
 	 */
-	private $rank;
-
-	/**
-	 * @var string
-	 */
-	private $artistName;
-
-	/**
-	 * @var string
-	 */
-	private $artistMbId;
-
-	/**
-	 * @var string
-	 */
-	private $artistUrl;
-
-	/**
-	 * @var ArrayCollection
-	 */
-	private $images;
+	protected $rank;
 
 	/**
 	 * @var int
 	 */
-	private $playcount;
+	protected $playcount;
 
 	/**
 	 * @var int
 	 */
-	private $listeners;
+	protected $listeners;
+
+	/**
+	 * @var \Lertify\Lastfm\Api\Data\Artist
+	 */
+	protected $arist;
+
+	/**
+	 * @var string
+	 */
+	protected $artistName;
+
+	/**
+	 * @var string
+	 */
+	protected $artistMbId;
+
+	/**
+	 * @var string
+	 */
+	protected $artistUrl;
+
+	/**
+	 * @var \Lertify\Lastfm\Api\Data\Track\Album
+	 */
+	protected $album;
+
+	/**
+	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
+	 */
+	protected $images;
 
 	/**
 	 * @param string $name
+	 * @return \Lertify\Lastfm\Api\Data\Track
 	 */
 	public function setName( $name )
 	{
 		$this->name = $name;
+
+		return $this;
 	}
 
 	/**
@@ -85,43 +98,14 @@ class Track
 	}
 
 	/**
-	 * @param int $duration
-	 */
-	public function setDuration( $duration )
-	{
-		$this->duration = $duration;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getDuration()
-	{
-		return $this->duration;
-	}
-
-	/**
-	 * @param string $mbId
-	 */
-	public function setMbId( $mbId )
-	{
-		$this->mbId = $mbId;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMbId()
-	{
-		return $this->mbId;
-	}
-
-	/**
 	 * @param string $url
+	 * @return \Lertify\Lastfm\Api\Data\Track
 	 */
 	public function setUrl( $url )
 	{
 		$this->url = $url;
+
+		return $this;
 	}
 
 	/**
@@ -133,11 +117,52 @@ class Track
 	}
 
 	/**
+	 * @param string $mbId
+	 * @return \Lertify\Lastfm\Api\Data\Track
+	 */
+	public function setMbId( $mbId )
+	{
+		$this->mbId = $mbId;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMbId()
+	{
+		return $this->mbId;
+	}
+
+	/**
+	 * @param int $duration
+	 * @return \Lertify\Lastfm\Api\Data\Track
+	 */
+	public function setDuration( $duration )
+	{
+		$this->duration = $duration;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getDuration()
+	{
+		return $this->duration;
+	}
+
+	/**
 	 * @param boolean $streamable
+	 * @return \Lertify\Lastfm\Api\Data\Track
 	 */
 	public function setStreamable( $streamable )
 	{
 		$this->streamable = $streamable;
+
+		return $this;
 	}
 
 	/**
@@ -150,10 +175,13 @@ class Track
 
 	/**
 	 * @param boolean $streamableFulltrack
+	 * @return \Lertify\Lastfm\Api\Data\Track
 	 */
 	public function setStreamableFulltrack( $streamableFulltrack )
 	{
 		$this->streamableFulltrack = $streamableFulltrack;
+
+		return $this;
 	}
 
 	/**
@@ -166,10 +194,13 @@ class Track
 
 	/**
 	 * @param int $rank
+	 * @return \Lertify\Lastfm\Api\Data\Track
 	 */
 	public function setRank( $rank )
 	{
 		$this->rank = $rank;
+
+		return $this;
 	}
 
 	/**
@@ -178,6 +209,63 @@ class Track
 	public function getRank()
 	{
 		return $this->rank;
+	}
+
+	/**
+	 * @param int $playcount
+	 * @return \Lertify\Lastfm\Api\Data\Track
+	 */
+	public function setPlaycount( $playcount )
+	{
+		$this->playcount = $playcount;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPlaycount()
+	{
+		return $this->playcount;
+	}
+
+	/**
+	 * @param int $listeners
+	 * @return \Lertify\Lastfm\Api\Data\Track
+	 */
+	public function setListeners( $listeners )
+	{
+		$this->listeners = $listeners;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getListeners()
+	{
+		return $this->listeners;
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Artist $Artist
+	 * @return \Lertify\Lastfm\Api\Data\Track
+	 */
+	public function setArtist( Artist $Artist )
+	{
+		$this->arist = $Artist;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Lertify\Lastfm\Api\Data\Artist
+	 */
+	public function getArtist()
+	{
+		return $this->arist;
 	}
 
 	/**
@@ -229,11 +317,33 @@ class Track
 	}
 
 	/**
+	 * @param \Lertify\Lastfm\Api\Data\Album $Album
+	 * @return \Lertify\Lastfm\Api\Data\Track
+	 */
+	public function setAlbum( Album $Album )
+	{
+		$this->album = $Album;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Lertify\Lastfm\Api\Data\Track\Album
+	 */
+	public function getAlbum()
+	{
+		return $this->album;
+	}
+
+	/**
 	 * @param ArrayCollection $Images
+	 * @return \Lertify\Lastfm\Api\Data\Track
 	 */
 	public function setImages( ArrayCollection $Images )
 	{
 		$this->images = $Images;
+
+		return $this;
 	}
 
 	/**
@@ -242,37 +352,5 @@ class Track
 	public function getImages()
 	{
 		return $this->images;
-	}
-
-	/**
-	 * @param int $playcount
-	 */
-	public function setPlaycount( $playcount )
-	{
-		$this->playcount = $playcount;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getPlaycount()
-	{
-		return $this->playcount;
-	}
-
-	/**
-	 * @param int $listeners
-	 */
-	public function setListeners( $listeners )
-	{
-		$this->listeners = $listeners;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getListeners()
-	{
-		return $this->listeners;
 	}
 }

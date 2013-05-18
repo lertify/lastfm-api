@@ -1,18 +1,10 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-class PlaylistTest extends \PHPUnit_Framework_TestCase
+use Lertify\Lastfm\Tests\Setup;
+
+class PlaylistTest extends Setup
 {
-	/**
-	 * @var \Lertify\Lastfm\Client
-	 */
-	protected $lastfm;
-
-	protected function setUp()
-	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
-	}
-
 	public function testAddTrack()
 	{
 		$status = $this->lastfm->playlist()->addTrack( $GLOBALS['tests_playlist_id'], 'Feel So Close', 'Calvin Harris', $GLOBALS['auth_session_key'] );

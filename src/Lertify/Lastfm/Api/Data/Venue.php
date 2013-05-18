@@ -59,16 +59,19 @@ class Venue
 	private $phonenumber;
 
 	/**
-	 * @var ArrayCollection
+	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	private $images;
 
 	/**
 	 * @param int $id
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setId( $id )
 	{
 		$this->id = $id;
+
+		return $this;
 	}
 
 	/**
@@ -81,10 +84,13 @@ class Venue
 
 	/**
 	 * @param string $name
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setName( $name )
 	{
 		$this->name = $name;
+
+		return $this;
 	}
 
 	/**
@@ -97,10 +103,13 @@ class Venue
 
 	/**
 	 * @param string $city
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setCity( $city )
 	{
 		$this->city = $city;
+
+		return $this;
 	}
 
 	/**
@@ -113,10 +122,13 @@ class Venue
 
 	/**
 	 * @param string $country
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setCountry( $country )
 	{
 		$this->country = $country;
+
+		return $this;
 	}
 
 	/**
@@ -129,10 +141,13 @@ class Venue
 
 	/**
 	 * @param string $street
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setStreet( $street )
 	{
 		$this->street = $street;
+
+		return $this;
 	}
 
 	/**
@@ -145,10 +160,13 @@ class Venue
 
 	/**
 	 * @param int $postalcode
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setPostalcode( $postalcode )
 	{
 		$this->postalcode = $postalcode;
+
+		return $this;
 	}
 
 	/**
@@ -161,10 +179,13 @@ class Venue
 
 	/**
 	 * @param float $latitude
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setLatitude( $latitude )
 	{
 		$this->latitude = $latitude;
+
+		return $this;
 	}
 
 	/**
@@ -177,10 +198,13 @@ class Venue
 
 	/**
 	 * @param float $longitude
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setLongitude( $longitude )
 	{
 		$this->longitude = $longitude;
+
+		return $this;
 	}
 
 	/**
@@ -193,10 +217,13 @@ class Venue
 
 	/**
 	 * @param string $url
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setUrl( $url )
 	{
 		$this->url = $url;
+
+		return $this;
 	}
 
 	/**
@@ -209,10 +236,13 @@ class Venue
 
 	/**
 	 * @param string $website
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setWebsite( $website )
 	{
 		$this->website = $website;
+
+		return $this;
 	}
 
 	/**
@@ -225,10 +255,13 @@ class Venue
 
 	/**
 	 * @param string $phonenumber
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
 	public function setPhonenumber( $phonenumber )
 	{
 		$this->phonenumber = $phonenumber;
+
+		return $this;
 	}
 
 	/**
@@ -240,11 +273,14 @@ class Venue
 	}
 
 	/**
-	 * @param ArrayCollection $images
+	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $Images
+	 * @return \Lertify\Lastfm\Api\Data\Venue
 	 */
-	public function setImages( ArrayCollection $images )
+	public function setImages( ArrayCollection $Images )
 	{
-		$this->images = $images;
+		$this->images = $Images;
+
+		return $this;
 	}
 
 	/**

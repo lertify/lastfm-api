@@ -1,18 +1,10 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-class ChartTest extends \PHPUnit_Framework_TestCase
+use Lertify\Lastfm\Tests\Setup;
+
+class ChartTest extends Setup
 {
-	/**
-	 * @var \Lertify\Lastfm\Client
-	 */
-	protected $lastfm;
-
-	protected function setUp()
-	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
-	}
-
 	public function testGetHypedArtists()
 	{
 		$Artists = $this->lastfm->chart()->getHypedArtists();

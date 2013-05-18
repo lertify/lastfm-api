@@ -324,6 +324,11 @@ class Client
 				return $this->track();
 			}
 
+			case 'user':
+			{
+				return $this->user();
+			}
+
 			default:
 			{
 				throw new InvalidArgumentException( 'No such api at present time!' );
@@ -511,6 +516,19 @@ class Client
 		}
 
 		return $this->apis['track'];
+	}
+
+	/**
+	 * @return Api\User
+	 */
+	public function user()
+	{
+		if ( ! isset( $this->apis['user'] ) )
+		{
+			$this->apis['user'] = new Api\User( $this );
+		}
+
+		return $this->apis['user'];
 	}
 
 	public function clearHeaders()

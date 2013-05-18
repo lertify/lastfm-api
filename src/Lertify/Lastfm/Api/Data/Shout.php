@@ -1,6 +1,10 @@
 <?php
 namespace Lertify\Lastfm\Api\Data;
 
+use Lertify\Lastfm\Api\Data\User\User,
+
+	DateTime;
+
 class Shout
 {
 	/**
@@ -14,21 +18,24 @@ class Shout
 	private $body;
 
 	/**
-	 * @var string
+	 * @var \Lertify\Lastfm\Api\Data\User\User
 	 */
 	private $author;
 
 	/**
-	 * @var string
+	 * @var \DateTime
 	 */
 	private $date;
 
 	/**
 	 * @param string $artist
+	 * @return \Lertify\Lastfm\Api\Data\Shout
 	 */
 	public function setArtist( $artist )
 	{
 		$this->artist = $artist;
+
+		return $this;
 	}
 
 	/**
@@ -41,10 +48,13 @@ class Shout
 
 	/**
 	 * @param string $body
+	 * @return \Lertify\Lastfm\Api\Data\Shout
 	 */
 	public function setBody( $body )
 	{
 		$this->body = $body;
+
+		return $this;
 	}
 
 	/**
@@ -56,15 +66,18 @@ class Shout
 	}
 
 	/**
-	 * @param string $author
+	 * @param \Lertify\Lastfm\Api\Data\User\User $Author
+	 * @return \Lertify\Lastfm\Api\Data\Shout
 	 */
-	public function setAuthor( $author )
+	public function setAuthor( User $Author )
 	{
-		$this->author = $author;
+		$this->author = $Author;
+
+		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return \Lertify\Lastfm\Api\Data\User\User
 	 */
 	public function getAuthor()
 	{
@@ -72,15 +85,18 @@ class Shout
 	}
 
 	/**
-	 * @param string $date
+	 * @param \DateTime $Date
+	 * @return \Lertify\Lastfm\Api\Data\Shout
 	 */
-	public function setDate( $date )
+	public function setDate( DateTime $Date )
 	{
-		$this->date = $date;
+		$this->date = $Date;
+
+		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return \DateTime
 	 */
 	public function getDate()
 	{

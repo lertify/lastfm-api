@@ -1,18 +1,13 @@
 <?php
 namespace Lertify\Lastfm\Tests;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+use Lertify\Lastfm\Tests\Setup;
+
+class ClientTest extends Setup
 {
 	/**
-	 * @var \Lertify\Lastfm\Client
+	 * @return void
 	 */
-	protected $lastfm;
-
-	protected function setUp()
-	{
-		$this->lastfm = new \Lertify\Lastfm\Client( $GLOBALS['api_key'], $GLOBALS['api_secret_key'] );
-	}
-
 	public function testApi()
 	{
 		$AlbumService = $this->lastfm->api( 'album' );
@@ -98,6 +93,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
 		$TrackService = $this->lastfm->track();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Track', $TrackService, 'TrackService is not of Api\Track type!' );
+
+		$UserService = $this->lastfm->api( 'user' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\User', $UserService, 'UserService is not of Api\User type!' );
+
+		$UserService = $this->lastfm->user();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\User', $UserService, 'UserService is not of Api\User type!' );
 	}
 
 	/**

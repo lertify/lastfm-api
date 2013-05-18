@@ -11,11 +11,6 @@ class Track extends \Lertify\Lastfm\Api\Data\Track
 	protected $id;
 
 	/**
-	 * @var \Lertify\Lastfm\Api\Data\Track\Album
-	 */
-	protected $album;
-
-	/**
 	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
 	 */
 	protected $topTags;
@@ -54,22 +49,6 @@ class Track extends \Lertify\Lastfm\Api\Data\Track
 	public function getId()
 	{
 		return $this->id;
-	}
-
-	/**
-	 * @param \Lertify\Lastfm\Api\Data\Track\Album $Album
-	 */
-	public function setAlbum( Album $Album )
-	{
-		$this->album = $Album;
-	}
-
-	/**
-	 * @return \Lertify\Lastfm\Api\Data\Track\Album
-	 */
-	public function getAlbum()
-	{
-		return $this->album;
 	}
 
 	/**
