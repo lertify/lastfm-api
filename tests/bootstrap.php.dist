@@ -1,9 +1,12 @@
 <?php
 
-require_once __DIR__ . '/SplClassLoader.php';
+if ( ! $loader = @include( __DIR__ . '/../vendor/autoload.php' ) )
+{
+    die( 'You must set up the project dependencies, run the following commands:' . PHP_EOL .
+        'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL );
+}
 
-$TestsLoader = new SplClassLoader( 'Lertify\Lastfm\Tests', __DIR__ );
-$TestsLoader->register();
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
-$Loader = new SplClassLoader( 'Lertify\Lastfm', __DIR__ . '/../src' );
-$Loader->register();
+AnnotationRegistry::registerAutoloadNamespace( 'JMS\\Serializer', __DIR__ . '/../vendor/jms/serializer/src' );

@@ -5,6 +5,7 @@ use Lertify\Lastfm\Api,
 	Lertify\Lastfm\Util\Curl,
 	Lertify\Lastfm\Exception\NotFoundException,
 	Lertify\Lastfm\Exception\StatusCodeException,
+
 	InvalidArgumentException,
 	RuntimeException;
 
@@ -98,14 +99,14 @@ class Client
             $Curl->setCurlParam( CURLOPT_PORT, '445' );
         }
 
-		$response = $Curl->fetch();
+		$rawResponse = $Curl->fetch();
 
 		if ( false !== ( $error = $Curl->getError() ) )
 		{
 			throw new RuntimeException( $error );
 		}
 
-		$response = json_decode( $response, true );
+		//$response = json_decode( $response, true );
 		$httpCode = $Curl->getCurlInfo( CURLINFO_HTTP_CODE );
 
 		$Curl->closeRequest();
@@ -124,12 +125,12 @@ class Client
 		 * Process error codes
 		 * @link http://www.last.fm/api/errorcodes
 		 */
-		if ( isset( $response['error'] ) )
+		/*if ( isset( $response['error'] ) )
 		{
 			throw new StatusCodeException( $response['message'], $response['error'] );
-		}
+		}*/
 
-		return $response;
+		return $rawResponse;
 	}
 
 	/**

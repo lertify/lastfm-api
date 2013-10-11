@@ -9,7 +9,7 @@ class ArrayCollection implements Collection
      * Items of the collection.
      * @var array
      */
-    private $items;
+    protected $items;
 
 	/**
      * Create ArrayCollection.

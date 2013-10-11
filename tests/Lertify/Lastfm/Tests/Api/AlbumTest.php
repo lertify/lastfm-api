@@ -8,7 +8,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testAddTags()
+	public function t1estAddTags()
 	{
 		$status = $this->lastfm->album()->addTags( 'Coldplay', 'Mylo Xyloto', array( 'Awesome', 'Top' ), $GLOBALS['auth_session_key'] );
 		$this->assertEquals( 'ok', $status );
@@ -19,23 +19,53 @@ class AlbumTest extends Setup
 	 */
 	public function testGetBuylinks()
 	{
-		$Buylinks = $this->lastfm->album()->getBuylinks( 'The Offspring', 'Conspiracy of One', 'Estonia' );
+		$Buylinks = $this->lastfm->album()->getBuylinks( 'Cher', 'Believe', 'Estonia' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\BuyLinksCollection', $Buylinks, 'Buylinks is not an instance of Data\Album\BuyLinksCollection' );
 
-		$this->assertFalse( $Buylinks->isEmpty(), 'Is empty when it should not be' );
+		$Affiliations = $Buylinks->getAffiliations();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Affiliations, 'Affiliations is not an instance of Data\Album\AffiliationsCollection' );
+
+		$PhysicalAffiliations = $Affiliations->getPhysicals();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\PhysicalsCollection', $PhysicalAffiliations, 'PhysicalAffiliations is not an instance of Data\Album\PhysicalsCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $PhysicalAffiliations, 'PhysicalAffiliations is not an instance of Data\ArrayCollection' );
+
+		/** @var $PhysicalAffiliation \Lertify\Lastfm\Api\Data\Album\Affiliations */
+		foreach ( $PhysicalAffiliations as $PhysicalAffiliation )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Affiliations', $PhysicalAffiliation, 'PhysicalAffiliation is not an instance of Data\Album\Affiliations' );
+
+			if ( $Price = $PhysicalAffiliation->getPrice() )
+			{
+				$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Price', $Price, 'Price is not an instance of Data\Album\Price' );
+			}
+		}
+
+		$DownloadAffiliations = $Affiliations->getDownloads();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\DownloadsCollection', $DownloadAffiliations, 'DownloadAffiliations is not an instance of Data\Album\DownloadsCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $DownloadAffiliations, 'DownloadAffiliations is not an instance of Data\ArrayCollection' );
+
+		/** @var $DownloadAffiliation \Lertify\Lastfm\Api\Data\Album\Affiliations */
+		foreach ( $DownloadAffiliations as $DownloadAffiliation )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Affiliations', $DownloadAffiliation, 'DownloadAffiliation is not an instance of Data\Album\Affiliations' );
+
+			if ( $Price = $DownloadAffiliation->getPrice() )
+			{
+				$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Price', $Price, 'Price is not an instance of Data\Album\Price' );
+			}
+		}
+
+		//$Buylinks = $this->lastfm->album()->getBuylinksByMbid( '69766f29-b82f-4fcd-b242-27b02786e691', 'Estonia' );
+
+		/*$this->assertFalse( $Buylinks->isEmpty(), 'Is empty when it should not be' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Buylinks->get( 'physicals' ), 'Affiliations are not an instance of ArrayCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Buylinks->get( 'downloads' ), 'Affiliations are not an instance of ArrayCollection' );
-
-		$Buylinks = $this->lastfm->album()->getBuylinksByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4', 'Estonia' );
-
-		$this->assertFalse( $Buylinks->isEmpty(), 'Is empty when it should not be' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Buylinks->get( 'physicals' ), 'Affiliations are not an instance of ArrayCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Buylinks->get( 'downloads' ), 'Affiliations are not an instance of ArrayCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Buylinks->get( 'downloads' ), 'Affiliations are not an instance of ArrayCollection' );*/
 	}
 
 	/**
 	 * @return void
 	 */
-	public function testGetInfo()
+	public function t1estGetInfo()
 	{
 		$Album = $this->lastfm->album()->getInfo( 'The Offspring', 'Conspiracy of One' );
 
@@ -55,7 +85,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testGetShouts()
+	public function t1estGetShouts()
 	{
 		$PagedCollection = $this->lastfm->album()->getShouts( 'The Offspring', 'Conspiracy of One' );
 
@@ -77,7 +107,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testGetTags()
+	public function t1estGetTags()
 	{
 		$Tags = $this->lastfm->album()->getTags( 'The Offspring', 'Conspiracy of One', $GLOBALS['tests_username'] );
 
@@ -103,7 +133,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testGetTopTag()
+	public function t1estGetTopTag()
 	{
 		$TopTags = $this->lastfm->album()->getTopTags( 'Radiohead', 'The Bends' );
 
@@ -119,7 +149,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testRemoveTag()
+	public function t1estRemoveTag()
 	{
 		$status = $this->lastfm->album()->removeTag( 'Coldplay', 'Mylo Xyloto', 'great', $GLOBALS['auth_session_key'] );
 		$this->assertEquals( 'ok', $status );
@@ -131,7 +161,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testSearch()
+	public function t1estSearch()
 	{
 		$PagedCollection = $this->lastfm->album()->search( 'Conspiracy of One' );
 
@@ -155,7 +185,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testShare()
+	public function t1estShare()
 	{
 		$status = $this->lastfm->album()->share( 'Coldplay', 'Mylo Xyloto', $GLOBALS['tests_email'], $GLOBALS['auth_session_key'] );
 		$this->assertEquals( 'ok', $status );

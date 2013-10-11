@@ -1,7 +1,9 @@
 <?php
 namespace Lertify\Lastfm\Api;
 
-use Lertify\Lastfm\Client;
+use Lertify\Lastfm\Client,
+
+    JMS\Serializer\SerializerBuilder;
 
 abstract class AbstractApi implements ApiInterface
 {
@@ -28,16 +30,15 @@ abstract class AbstractApi implements ApiInterface
 	}
 
 	/**
+	 * @param string $class
 	 * @param string $method
 	 * @param array $parameters
 	 * @param array $options
 	 * @return mixed
 	 */
-	public function get( $method, array $parameters = array(), $options = array() )
+	public function get( $class, $method, array $parameters = array(), $options = array() )
 	{
-		$options['json'] = true;
-
-		return $this->client->get( $method, $parameters, $options );
+		return $this->deserializeResponse( $class, $this->client->get( $method, $parameters, $options ) );
 	}
 
 	/**
@@ -62,5 +63,22 @@ abstract class AbstractApi implements ApiInterface
 	public function put( $method, array $parameters = array(), $options = array() )
 	{
 		return $this->client->put( $method, $parameters, $options );
+	}
+
+	/**
+	 * @param string $class
+	 * @param string $response
+	 * @return mixed
+	 */
+	protected function deserializeResponse( $class, $response )
+	{
+		$class = 'Lertify\Lastfm\Api\Data\\' . $class;
+
+		/** @var $Builder \JMS\Serializer\SerializerBuilder */
+		$Builder = SerializerBuilder::create();
+
+		$Serializer = $Builder->build();
+
+		return $Serializer->deserialize( $response, $class, 'xml' );
 	}
 }
