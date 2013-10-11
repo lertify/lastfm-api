@@ -1,7 +1,9 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-use Lertify\Lastfm\Tests\Setup;
+use Lertify\Lastfm\Tests\Setup,
+	
+	Lertify\Lastfm\Api\Data\Album\AffiliationsCollection;
 
 class AlbumTest extends Setup
 {
@@ -25,6 +27,22 @@ class AlbumTest extends Setup
 		$Affiliations = $Buylinks->getAffiliations();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Affiliations, 'Affiliations is not an instance of Data\Album\AffiliationsCollection' );
 
+		$this->assertAffiliations( $Affiliations );
+
+		$Buylinks = $this->lastfm->album()->getBuylinksByMbid( '69766f29-b82f-4fcd-b242-27b02786e691', 'Estonia' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\BuyLinksCollection', $Buylinks, 'Buylinks is not an instance of Data\Album\BuyLinksCollection' );
+		
+		$Affiliations = $Buylinks->getAffiliations();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Affiliations, 'Affiliations is not an instance of Data\Album\AffiliationsCollection' );
+
+		$this->assertAffiliations( $Affiliations );
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Album\AffiliationsCollection $Affiliations
+	 */
+	protected function assertAffiliations( AffiliationsCollection $Affiliations )
+	{
 		$PhysicalAffiliations = $Affiliations->getPhysicals();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\PhysicalsCollection', $PhysicalAffiliations, 'PhysicalAffiliations is not an instance of Data\Album\PhysicalsCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $PhysicalAffiliations, 'PhysicalAffiliations is not an instance of Data\ArrayCollection' );
@@ -54,12 +72,6 @@ class AlbumTest extends Setup
 				$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Price', $Price, 'Price is not an instance of Data\Album\Price' );
 			}
 		}
-
-		//$Buylinks = $this->lastfm->album()->getBuylinksByMbid( '69766f29-b82f-4fcd-b242-27b02786e691', 'Estonia' );
-
-		/*$this->assertFalse( $Buylinks->isEmpty(), 'Is empty when it should not be' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Buylinks->get( 'physicals' ), 'Affiliations are not an instance of ArrayCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Buylinks->get( 'downloads' ), 'Affiliations are not an instance of ArrayCollection' );*/
 	}
 
 	/**

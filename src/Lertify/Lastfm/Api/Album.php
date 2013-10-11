@@ -71,7 +71,7 @@ class Album extends AbstractApi
 	 *
 	 * @param string $mbId
 	 * @param string $country
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\BuyLinksCollection
 	 */
 	public function getBuylinksByMbid( $mbId, $country = 'United States' )
 	{
@@ -80,7 +80,7 @@ class Album extends AbstractApi
 			'country' => $country,
 		);
 
-		return $this->fetchBuylinks( $params );
+		return $this->get( 'Album\BuyLinksCollection', self::PREFIX . 'getBuylinks', $params );
 	}
 
 	/**
