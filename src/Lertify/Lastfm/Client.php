@@ -2,6 +2,8 @@
 namespace Lertify\Lastfm;
 
 use Lertify\Lastfm\Api,
+	Lertify\Lastfm\Response\JsonResponse,
+	Lertify\Lastfm\Response\XmlResponse,
 	Lertify\Lastfm\Util\Curl,
 	Lertify\Lastfm\Exception\NotFoundException,
 	Lertify\Lastfm\Exception\StatusCodeException,
@@ -106,7 +108,6 @@ class Client
 			throw new RuntimeException( $error );
 		}
 
-		//$response = json_decode( $response, true );
 		$httpCode = $Curl->getCurlInfo( CURLINFO_HTTP_CODE );
 
 		$Curl->closeRequest();
@@ -116,21 +117,23 @@ class Client
             throw new RuntimeException( 'Limit exceeded' );
         }
 
+		$Response = $this->getResponse( $rawResponse, $options );
+
         if( 404 == $httpCode )
 		{
-            throw new NotFoundException( ( isset( $response['error'] ) ? $response['error'] : 'Unknown error message' ) );
+            throw new NotFoundException( $Response->getErrorMessage() );
         }
 
 		/**
 		 * Process error codes
 		 * @link http://www.last.fm/api/errorcodes
 		 */
-		/*if ( isset( $response['error'] ) )
+		if ( $Response->hasErrors() )
 		{
-			throw new StatusCodeException( $response['message'], $response['error'] );
-		}*/
+			throw new StatusCodeException( $Response->getErrorMessage(), $Response->getErrorCode() );
+		}
 
-		return $rawResponse;
+		return $Response->getResponse();
 	}
 
 	/**
@@ -152,14 +155,13 @@ class Client
             $Curl->setCurlParam( CURLOPT_PORT, '445' );
         }
 
-		$response = $Curl->fetch();
+		$rawResponse = $Curl->fetch();
 
 		if ( false !== ( $error = $Curl->getError() ) )
 		{
 			throw new RuntimeException( $error );
 		}
 
-		$response = json_decode( $response, true );
 		$httpCode = $Curl->getCurlInfo( CURLINFO_HTTP_CODE );
 
 		$Curl->closeRequest();
@@ -169,21 +171,23 @@ class Client
             throw new RuntimeException( 'Limit exceeded' );
         }
 
+		$Response = $this->getResponse( $rawResponse, $options );
+
         if( 404 == $httpCode )
 		{
-            throw new NotFoundException( ( isset( $response['error'] ) ? $response['error'] : 'Unknown error message' ) );
+            throw new NotFoundException( $Response->getErrorMessage() );
         }
 
 		/**
 		 * Process error codes
 		 * @link http://www.last.fm/api/errorcodes
 		 */
-		if ( isset( $response['error'] ) )
+		if ( $Response->hasErrors() )
 		{
-			throw new StatusCodeException( $response['message'], $response['error'] );
+			throw new StatusCodeException( $Response->getErrorMessage(), $Response->getErrorCode() );
 		}
 
-		return $response;
+		return $Response->getResponse();
 	}
 
 	/**
@@ -209,7 +213,7 @@ class Client
 	private function parseRequestParameters( $method, array $parameters = array(), $options = array() )
 	{
 		$defaultParameters = array(
-			'api_key'  => $this->apiKey,
+			'api_key' => $this->apiKey,
 		);
 
 		$parameters['method'] = $method;
@@ -532,12 +536,36 @@ class Client
 		return $this->apis['user'];
 	}
 
+	/**
+	 * @param string $rawResponse
+	 * @param array $options
+	 * @return \Lertify\Lastfm\Response\ResponseInterface
+	 */
+	public function getResponse( $rawResponse, array $options )
+	{
+		if ( isset( $options['json'] ) )
+		{
+			return new JsonResponse( $rawResponse );
+		}
+		else
+		{
+			return new XmlResponse( $rawResponse );
+		}
+	}
+
+	/**
+	 * @return void
+	 */
 	public function clearHeaders()
 	{
 		$this->setHeaders( array() );
 	}
 
-	public function setHeaders( $headers )
+	/**
+	 * @param array $headers
+	 * @return void
+	 */
+	public function setHeaders( array $headers )
 	{
 		$this->headers = $headers;
 	}

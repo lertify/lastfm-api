@@ -52,7 +52,7 @@ class Album extends AbstractApi
 	 * @param string $album
 	 * @param string $country
 	 * @param bool $autocorrect
-	 * @return \Lertify\Lastfm\Api\Data\Album\BuyLinksCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\AffiliationsCollection
 	 */
 	public function getBuylinks( $artist, $album, $country = 'United Kingdom', $autocorrect = false )
 	{
@@ -63,7 +63,7 @@ class Album extends AbstractApi
 			'country'     => $country,
 		);
 
-		return $this->get( 'Album\BuyLinksCollection', self::PREFIX . 'getBuylinks', $params );
+		return $this->get( 'Album\AffiliationsCollection', self::PREFIX . 'getBuylinks', $params );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Album extends AbstractApi
 	 *
 	 * @param string $mbId
 	 * @param string $country
-	 * @return \Lertify\Lastfm\Api\Data\Album\BuyLinksCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\AffiliationsCollection
 	 */
 	public function getBuylinksByMbid( $mbId, $country = 'United States' )
 	{
@@ -80,7 +80,7 @@ class Album extends AbstractApi
 			'country' => $country,
 		);
 
-		return $this->get( 'Album\BuyLinksCollection', self::PREFIX . 'getBuylinks', $params );
+		return $this->get( 'Album\AffiliationsCollection', self::PREFIX . 'getBuylinks', $params );
 	}
 
 	/**

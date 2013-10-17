@@ -2,7 +2,7 @@
 namespace Lertify\Lastfm\Tests\Api;
 
 use Lertify\Lastfm\Tests\Setup,
-	
+
 	Lertify\Lastfm\Api\Data\Album\AffiliationsCollection;
 
 class AlbumTest extends Setup
@@ -22,20 +22,14 @@ class AlbumTest extends Setup
 	public function testGetBuylinks()
 	{
 		$Buylinks = $this->lastfm->album()->getBuylinks( 'Cher', 'Believe', 'Estonia' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\BuyLinksCollection', $Buylinks, 'Buylinks is not an instance of Data\Album\BuyLinksCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Buylinks, 'Buylinks are not an instance of Data\Album\AffiliationsCollection' );
 
-		$Affiliations = $Buylinks->getAffiliations();
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Affiliations, 'Affiliations is not an instance of Data\Album\AffiliationsCollection' );
-
-		$this->assertAffiliations( $Affiliations );
+		$this->assertAffiliations( $Buylinks );
 
 		$Buylinks = $this->lastfm->album()->getBuylinksByMbid( '69766f29-b82f-4fcd-b242-27b02786e691', 'Estonia' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\BuyLinksCollection', $Buylinks, 'Buylinks is not an instance of Data\Album\BuyLinksCollection' );
-		
-		$Affiliations = $Buylinks->getAffiliations();
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Affiliations, 'Affiliations is not an instance of Data\Album\AffiliationsCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Buylinks, 'Buylinks are not an instance of Data\Album\AffiliationsCollection' );
 
-		$this->assertAffiliations( $Affiliations );
+		$this->assertAffiliations( $Buylinks );
 	}
 
 	/**

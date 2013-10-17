@@ -10,6 +10,7 @@ class DownloadsCollection extends ArrayCollection
 	/**
      * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Affiliations>")
      * @JMS\XmlList(inline=true, entry="affiliation")
+     * @var \Lertify\Lastfm\Api\Data\Album\Affiliations[]
      */
     protected $items;
 }
