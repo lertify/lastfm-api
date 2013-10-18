@@ -20,7 +20,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estGetBuylinks()
+	public function testGetBuylinks()
 	{
 		$Buylinks = $this->lastfm->album()->getBuylinks( 'Cher', 'Believe', 'Estonia' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Buylinks, 'Buylinks are not an instance of Data\Album\AffiliationsCollection' );
@@ -42,10 +42,10 @@ class AlbumTest extends Setup
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\PhysicalsCollection', $PhysicalAffiliations, 'PhysicalAffiliations is not an instance of Data\Album\PhysicalsCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $PhysicalAffiliations, 'PhysicalAffiliations is not an instance of Data\ArrayCollection' );
 
-		/** @var $PhysicalAffiliation \Lertify\Lastfm\Api\Data\Album\Affiliations */
+		/** @var $PhysicalAffiliation \Lertify\Lastfm\Api\Data\Album\Affiliation */
 		foreach ( $PhysicalAffiliations as $PhysicalAffiliation )
 		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Affiliations', $PhysicalAffiliation, 'PhysicalAffiliation is not an instance of Data\Album\Affiliations' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Affiliation', $PhysicalAffiliation, 'PhysicalAffiliation is not an instance of Data\Album\Affiliation' );
 
 			if ( $Price = $PhysicalAffiliation->getPrice() )
 			{
@@ -57,10 +57,10 @@ class AlbumTest extends Setup
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\DownloadsCollection', $DownloadAffiliations, 'DownloadAffiliations is not an instance of Data\Album\DownloadsCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $DownloadAffiliations, 'DownloadAffiliations is not an instance of Data\ArrayCollection' );
 
-		/** @var $DownloadAffiliation \Lertify\Lastfm\Api\Data\Album\Affiliations */
+		/** @var $DownloadAffiliation \Lertify\Lastfm\Api\Data\Album\Affiliation */
 		foreach ( $DownloadAffiliations as $DownloadAffiliation )
 		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Affiliations', $DownloadAffiliation, 'DownloadAffiliation is not an instance of Data\Album\Affiliations' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Affiliation', $DownloadAffiliation, 'DownloadAffiliation is not an instance of Data\Album\Affiliation' );
 
 			if ( $Price = $DownloadAffiliation->getPrice() )
 			{
@@ -72,7 +72,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testGetInfo()
+	public function t1estGetInfo()
 	{
 		$Album = $this->lastfm->album()->getInfo( 'The Offspring', 'Conspiracy of One' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Album', $Album, 'Album is not an instance of Data\Album\Album' );

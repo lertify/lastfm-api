@@ -1,45 +1,46 @@
 <?php
 namespace Lertify\Lastfm\Api\Data\Album;
 
+use JMS\Serializer\Annotation as JMS;
+
+/**
+ * @JMS\XmlRoot("affiliation")
+ */
 class Affiliation
 {
-	/**
+     /**
+	 * @JMS\Type("string")
+	 * @JMS\SerializedName("supplierName")
 	 * @var string
 	 */
-	private $supplierName;
+	protected $supplierName;
 
-	/**
-	 * @var string
-	 */
-	private $priceCurrency;
+    /**
+     * @JMS\Type("Lertify\Lastfm\Api\Data\Album\Price")
+     * @var \Lertify\Lastfm\Api\Data\Album\Price
+     */
+	protected $price;
 
-	/**
-	 * @var float
-	 */
-	private $priceAmount;
+    /**
+     * @JMS\Type("string")
+     * @JMS\SerializedName("buyLink")
+     * @var string
+     */
+	protected $buyLink;
 
-	/**
-	 * @var string
-	 */
-	private $buyLink;
+    /**
+     * @JMS\Type("string")
+     * @JMS\SerializedName("supplierIcon")
+     * @var string
+     */
+	protected $supplierIcon;
 
-	/**
-	 * @var string
-	 */
-	private $supplierIcon;
-
-	/**
-	 * @var bool
-	 */
-	private $isSearch;
-
-	/**
-	 * @param string $supplierName
-	 */
-	public function setSupplierName( $supplierName )
-	{
-		$this->supplierName = $supplierName;
-	}
+    /**
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("isSearch")
+     * @var int
+     */
+	protected $isSearch;
 
 	/**
 	 * @return string
@@ -50,43 +51,11 @@ class Affiliation
 	}
 
 	/**
-	 * @param string $priceCurrency
+	 * @return \Lertify\Lastfm\Api\Data\Album\Price
 	 */
-	public function setPriceCurrency( $priceCurrency )
+	public function getPrice()
 	{
-		$this->priceCurrency = $priceCurrency;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPriceCurrency()
-	{
-		return $this->priceCurrency;
-	}
-
-	/**
-	 * @param float $priceAmount
-	 */
-	public function setPriceAmount( $priceAmount )
-	{
-		$this->priceAmount = $priceAmount;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getPriceAmount()
-	{
-		return $this->priceAmount;
-	}
-
-	/**
-	 * @param string $buyLink
-	 */
-	public function setBuyLink( $buyLink )
-	{
-		$this->buyLink = $buyLink;
+		return $this->price;
 	}
 
 	/**
@@ -98,14 +67,6 @@ class Affiliation
 	}
 
 	/**
-	 * @param string $supplierIcon
-	 */
-	public function setSupplierIcon( $supplierIcon )
-	{
-		$this->supplierIcon = $supplierIcon;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getSupplierIcon()
@@ -114,15 +75,7 @@ class Affiliation
 	}
 
 	/**
-	 * @param boolean $isSearch
-	 */
-	public function setIsSearch( $isSearch )
-	{
-		$this->isSearch = $isSearch;
-	}
-
-	/**
-	 * @return boolean
+	 * @return int
 	 */
 	public function getIsSearch()
 	{

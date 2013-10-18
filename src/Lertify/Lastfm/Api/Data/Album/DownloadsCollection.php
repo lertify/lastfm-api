@@ -8,9 +8,9 @@ use Lertify\Lastfm\Api\Data\ArrayCollection,
 class DownloadsCollection extends ArrayCollection
 {
 	/**
-     * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Affiliations>")
+     * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Affiliation>")
      * @JMS\XmlList(inline=true, entry="affiliation")
-     * @var \Lertify\Lastfm\Api\Data\Album\Affiliations[]
+     * @var \Lertify\Lastfm\Api\Data\Album\Affiliation[]
      */
     protected $items;
 }
