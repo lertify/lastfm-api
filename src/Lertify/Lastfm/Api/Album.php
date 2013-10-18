@@ -103,7 +103,7 @@ class Album extends AbstractApi
 			'lang'        => $lang,
 		);
 
-		return $this->fillAlbumInfo( $params );
+		return $this->get( 'Album\Album', self::PREFIX . 'getInfo', $params );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Album extends AbstractApi
 			'lang'     => $lang,
 		);
 
-		return $this->fillAlbumInfo( $params );
+		return $this->get( 'Album\Album', self::PREFIX . 'getInfo', $params );
 	}
 
 	/**
@@ -417,87 +417,6 @@ class Album extends AbstractApi
 		$result = $this->post( self::PREFIX . 'share', $params, array( 'is_signed' => true ) );
 
 		return $result['status'];
-	}
-
-	/**
-	 * @param array $params
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
-	 */
-	private function fetchBuylinks( array $params )
-	{
-		$result = $this->get( self::PREFIX . 'getBuylinks', $params );
-
-		$PhysicalsList = new ArrayCollection();
-
-		if ( ! isset( $result['affiliations'] ) )
-		{
-			return new ArrayCollection();
-		}
-
-		if ( isset( $result['affiliations']['physicals']['affiliation'][0] ) )
-		{
-			$physicalsAffiliations = $result['affiliations']['physicals']['affiliation'];
-		}
-		else
-		{
-			$physicalsAffiliations = array( $result['affiliations']['physicals']['affiliation'] );
-		}
-
-		foreach ( $physicalsAffiliations as $affiliationRow )
-		{
-			$Affiliation = new Affiliation();
-
-			$Affiliation->setSupplierName( Util::toSting( $affiliationRow['supplierName'] ) );
-
-			if ( isset( $affiliationRow['price'] ) )
-			{
-				$Affiliation->setPriceCurrency( Util::toSting( $affiliationRow['price']['currency'] ) );
-				$Affiliation->setPriceAmount( Util::toSting( $affiliationRow['price']['amount'] ) );
-			}
-
-			$Affiliation->setBuyLink( Util::toSting( $affiliationRow['buyLink'] ) );
-			$Affiliation->setSupplierIcon( Util::toSting( $affiliationRow['supplierIcon'] ) );
-			$Affiliation->setIsSearch( (bool) ( (int) $affiliationRow['isSearch'] ) );
-
-			$PhysicalsList->add( $Affiliation );
-		}
-
-		$DownloadsList = new ArrayCollection();
-
-		if ( isset( $result['affiliations']['downloads']['affiliation'][0] ) )
-		{
-			$downloadsAffiliations = $result['affiliations']['downloads']['affiliation'];
-		}
-		else
-		{
-			$downloadsAffiliations = array( $result['affiliations']['downloads']['affiliation'] );
-		}
-
-		foreach ( $downloadsAffiliations as $affiliationRow )
-		{
-			$Affiliation = new Affiliation();
-
-			$Affiliation->setSupplierName( Util::toSting( $affiliationRow['supplierName'] ) );
-
-			if ( isset( $affiliationRow['price'] ) )
-			{
-				$Affiliation->setPriceCurrency( Util::toSting( $affiliationRow['price']['currency'] ) );
-				$Affiliation->setPriceAmount( Util::toSting( $affiliationRow['price']['amount'] ) );
-			}
-
-			$Affiliation->setBuyLink( Util::toSting( $affiliationRow['buyLink'] ) );
-			$Affiliation->setSupplierIcon( Util::toSting( $affiliationRow['supplierIcon'] ) );
-			$Affiliation->setIsSearch( (bool) ( (int) $affiliationRow['isSearch'] ) );
-
-			$DownloadsList->add( $Affiliation );
-		}
-
-		$List = new ArrayCollection();
-
-		$List->set( 'physicals', $PhysicalsList );
-		$List->set( 'downloads', $DownloadsList );
-
-		return $List;
 	}
 
 	/**

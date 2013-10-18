@@ -1,87 +1,94 @@
 <?php
 namespace Lertify\Lastfm\Api\Data\Album;
 
-use Lertify\Lastfm\Api\Data\Artist,
+use JMS\Serializer\Annotation as JMS,
 
-	Lertify\Lastfm\Api\Data\ArrayCollection,
+    DateTime;
 
-	DateTime;
-
-class Album extends \Lertify\Lastfm\Api\Data\Album
+/**
+ * @JMS\XmlRoot("album")
+ */
+class Album
 {
 	/**
-	 * @var int
+	 * @JMS\Type("string")
+	 * @var string
 	 */
-	private $id;
+	protected $name;
 
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
 	protected $artist;
 
 	/**
-	 * @var bool
-	 */
-	private $streamable;
-
-	/**
+	 * @JMS\Type("integer")
 	 * @var int
 	 */
-	private $listeners;
+	protected $id;
 
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $wikiSummary;
+	protected $mbid;
 
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $wikiContent;
+	protected $url;
 
 	/**
-	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @JMS\Type("string")
+	 * @var string
 	 */
-	private $tracks;
+	protected $releasedate;
 
 	/**
-	 * @var \Lertify\Lastfm\Api\Data\ArrayCollection
-	 */
-	private $topTags;
+     * @JMS\Type("Lertify\Lastfm\Api\Data\Album\ImagesCollection")
+	 * @JMS\XmlList(inline=true, entry="image")
+	 * @var \Lertify\Lastfm\Api\Data\Album\ImagesCollection
+     */
+	protected $images;
 
 	/**
-	 * @var \DateTime
+	 * @JMS\Type("integer")
+	 * @var int
 	 */
-	private $wikiPublishedAt;
+	protected $listeners;
 
 	/**
-	 * @param int $id
-	 * @return \Lertify\Lastfm\Api\Data\Album
+	 * @JMS\Type("integer")
+	 * @var int
 	 */
-	public function setId( $id )
+	protected $playcount;
+
+	/**
+     * @JMS\Type("Lertify\Lastfm\Api\Data\Album\TracksCollection")
+	 * @var \Lertify\Lastfm\Api\Data\Album\TracksCollection
+     */
+	protected $tracks;
+
+	/**
+	 * @JMS\Type("Lertify\Lastfm\Api\Data\Album\ToptagsCollection")
+	 * @var \Lertify\Lastfm\Api\Data\Album\ToptagsCollection
+	 */
+	protected $toptags;
+
+	/**
+	 * @JMS\Type("Lertify\Lastfm\Api\Data\Album\Wiki")
+	 * @var \Lertify\Lastfm\Api\Data\Album\Wiki
+	 */
+	protected $wiki;
+
+	/**
+	 * @return string
+	 */
+	public function getName()
 	{
-		$this->id = $id;
-
-		return $this;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * @param \Lertify\Lastfm\Api\Data\Artist $Artist
-	 * @return \Lertify\Lastfm\Api\Data\Album
-	 */
-	public function setArtist( Artist $Artist )
-	{
-		$this->artist = $Artist;
-
-		return $this;
+		return $this->name;
 	}
 
 	/**
@@ -93,33 +100,43 @@ class Album extends \Lertify\Lastfm\Api\Data\Album
 	}
 
 	/**
-	 * @param bool $streamable
-	 * @return \Lertify\Lastfm\Api\Data\Album
+	 * @return int
 	 */
-	public function setStreamable( $streamable )
+	public function getId()
 	{
-		$this->streamable = $streamable;
-
-		return $this;
+		return $this->id;
 	}
 
 	/**
-	 * @return bool
+	 * @return string
 	 */
-	public function getStreamable()
+	public function getMbid()
 	{
-		return $this->streamable;
+		return $this->mbid;
 	}
 
 	/**
-	 * @param int $listeners
-	 * @return \Lertify\Lastfm\Api\Data\Album
+	 * @return string
 	 */
-	public function setListeners( $listeners )
+	public function getUrl()
 	{
-		$this->listeners = $listeners;
+		return $this->url;
+	}
 
-		return $this;
+	/**
+	 * @return \DateTime
+	 */
+	public function getReleasedate()
+	{
+		return new DateTime( trim( $this->releasedate ) );
+	}
+
+	/**
+	 * @return \Lertify\Lastfm\Api\Data\Album\ImagesCollection
+	 */
+	public function getImages()
+	{
+		return $this->images;
 	}
 
 	/**
@@ -131,18 +148,15 @@ class Album extends \Lertify\Lastfm\Api\Data\Album
 	}
 
 	/**
-	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $Tracks
-	 * @return \Lertify\Lastfm\Api\Data\Album
+	 * @return int
 	 */
-	public function setTracks( ArrayCollection $Tracks )
+	public function getPlaycount()
 	{
-		$this->tracks = $Tracks;
-
-		return $this;
+		return $this->playcount;
 	}
 
 	/**
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TracksCollection
 	 */
 	public function getTracks()
 	{
@@ -150,78 +164,18 @@ class Album extends \Lertify\Lastfm\Api\Data\Album
 	}
 
 	/**
-	 * @param \Lertify\Lastfm\Api\Data\ArrayCollection $TopTags
-	 * @return \Lertify\Lastfm\Api\Data\Album
+	 * @return \Lertify\Lastfm\Api\Data\Album\ToptagsCollection
 	 */
-	public function setTopTags( ArrayCollection $TopTags )
+	public function getToptags()
 	{
-		$this->topTags = $TopTags;
-
-		return $this;
+		return $this->toptags;
 	}
 
 	/**
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\Wiki
 	 */
-	public function getTopTags()
+	public function getWiki()
 	{
-		return $this->topTags;
-	}
-
-	/**
-	 * @param \DateTime $WikiPublishedAt
-	 * @return \Lertify\Lastfm\Api\Data\Album
-	 */
-	public function setWikiPublishedAt( DateTime $WikiPublishedAt )
-	{
-		$this->wikiPublishedAt = $WikiPublishedAt;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getWikiPublishedAt()
-	{
-		return $this->wikiPublishedAt;
-	}
-
-	/**
-	 * @param string $wikiSummary
-	 * @return \Lertify\Lastfm\Api\Data\Album
-	 */
-	public function setWikiSummary( $wikiSummary )
-	{
-		$this->wikiSummary = $wikiSummary;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getWikiSummary()
-	{
-		return $this->wikiSummary;
-	}
-
-	/**
-	 * @param string $wikiContent
-	 * @return \Lertify\Lastfm\Api\Data\Album
-	 */
-	public function setWikiContent( $wikiContent )
-	{
-		$this->wikiContent = $wikiContent;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getWikiContent()
-	{
-		return $this->wikiContent;
+		return $this->wiki;
 	}
 }

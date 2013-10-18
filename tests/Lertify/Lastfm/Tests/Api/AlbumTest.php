@@ -3,7 +3,8 @@ namespace Lertify\Lastfm\Tests\Api;
 
 use Lertify\Lastfm\Tests\Setup,
 
-	Lertify\Lastfm\Api\Data\Album\AffiliationsCollection;
+    Lertify\Lastfm\Api\Data\Album\AffiliationsCollection,
+    Lertify\Lastfm\Api\Data\Album\Album;
 
 class AlbumTest extends Setup
 {
@@ -19,7 +20,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function testGetBuylinks()
+	public function t1estGetBuylinks()
 	{
 		$Buylinks = $this->lastfm->album()->getBuylinks( 'Cher', 'Believe', 'Estonia' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\AffiliationsCollection', $Buylinks, 'Buylinks are not an instance of Data\Album\AffiliationsCollection' );
@@ -71,21 +72,55 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estGetInfo()
+	public function testGetInfo()
 	{
 		$Album = $this->lastfm->album()->getInfo( 'The Offspring', 'Conspiracy of One' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Album', $Album, 'Album is not an instance of Data\Album\Album' );
 
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Album', $Album, 'Object is not the instance of Album' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Album->getImages(), 'Images are not an instance of ArrayCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Album->getTracks(), 'Tracks are not an instance of ArrayCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Album->getTopTags(), 'TopTags are not an instance of ArrayCollection' );
+		$this->assertAlbum( $Album );
 
-		$Album = $this->lastfm->album()->getInfoByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4' );
+		$Album = $this->lastfm->album()->getInfoByMbid( '86b5434d-9479-35e3-98ca-8fbcfcf4e357' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Album', $Album, 'Album is not an instance of Data\Album\Album' );
 
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Album', $Album, 'Object is not the instance of Album' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Album->getImages(), 'Images are not an instance of ArrayCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Album->getTracks(), 'Tracks are not an instance of ArrayCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Album->getTopTags(), 'TopTags are not an instance of ArrayCollection' );
+		$this->assertAlbum( $Album );
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Album\Album $Album
+	 */
+	protected function assertAlbum( Album $Album )
+	{
+		$this->assertInstanceOf( 'DateTime', $Album->getReleasedate(), 'Releasedate is not an instance of DateTime' );
+
+		$Images = $Album->getImages();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\ImagesCollection', $Images, 'Images are not an instance of Data\Album\ImagesCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Images, 'Images are not an instance of Data\ArrayCollection' );
+
+		foreach ( $Images as $Image )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Images', $Image, 'Image is not an instance of Data\Album\Images' );
+		}
+
+		$Tracks = $Album->getTracks();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TracksCollection', $Tracks, 'Tracks are not an instance of Data\Album\ImagesCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tracks, 'Tracks are not an instance of Data\ArrayCollection' );
+
+		/** @var $Track \Lertify\Lastfm\Api\Data\Album\Tracks */
+		foreach ( $Tracks as $Track )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tracks', $Track, 'Track is not an instance of Data\Album\Tracks' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Streamable', $Track->getStreamable(), 'Streamable is not an instance of Data\Album\Streamable' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Artist', $Track->getArtist(), 'Artist is not an instance of Data\Album\Artist' );
+		}
+
+		$Toptags = $Album->getToptags();
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\ToptagsCollection', $Toptags, 'Toptags are not an instance of Data\Album\ToptagsCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Toptags, 'Toptags are not an instance of Data\ArrayCollection' );
+
+		foreach ( $Toptags as $Toptag )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tags', $Toptag, 'Toptag is not an instance of Data\Album\Toptags' );
+		}
 	}
 
 	/**
