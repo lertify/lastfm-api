@@ -59,6 +59,11 @@ class XmlResponse implements ResponseInterface
 	{
 		$xml = next( $this->xml );
 
+		if ( '' === trim( $xml ) )
+		{
+			$xml = $this->xml;
+		}
+
 		return trim( $xml->asXml() );
 	}
 }

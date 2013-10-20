@@ -194,20 +194,6 @@ class Client
 	 * @param string $method
 	 * @param array $parameters
 	 * @param array $options
-	 * @return mixed
-	 */
-	public function put( $method, array $parameters = array(), $options = array() )
-	{
-		$Curl = new Curl();
-		$Curl->curlPut( $this->getApiUrl(), $this->parseRequestParameters( $method, $parameters, $options ) );
-
-		return $Curl->fetch();
-	}
-
-	/**
-	 * @param string $method
-	 * @param array $parameters
-	 * @param array $options
 	 * @return array
 	 */
 	private function parseRequestParameters( $method, array $parameters = array(), $options = array() )
