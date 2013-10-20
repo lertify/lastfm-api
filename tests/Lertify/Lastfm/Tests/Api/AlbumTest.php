@@ -15,8 +15,9 @@ class AlbumTest extends Setup
 	 */
 	public function testAddTags()
 	{
-		$status = $this->lastfm->album()->addTags( 'Coldplay', 'Mylo Xyloto', array( 'Awesome', 'Top' ), $GLOBALS['auth_session_key'] );
-		$this->assertEquals( 'ok', $status );
+		$PostResponse = $this->lastfm->album()->addTags( 'Coldplay', 'Mylo Xyloto', array( 'Awesome', 'Top' ), $GLOBALS['auth_session_key'] );
+
+		$this->assertEquals( 'ok', $PostResponse->getStatus() );
 	}
 
 	/**

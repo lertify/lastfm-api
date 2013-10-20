@@ -4,8 +4,6 @@ namespace Lertify\Lastfm\Api;
 use Lertify\Lastfm\Api\Data\ArrayCollection,
 	Lertify\Lastfm\Api\Data\PagedCollection,
 	Lertify\Lastfm\Api\Data,
-	Lertify\Lastfm\Api\Data\Album\Shout,
-	Lertify\Lastfm\Api\Data\Album\Affiliation,
 	Lertify\Lastfm\Api\Data\Album\Tag,
 	Lertify\Lastfm\Api\Data\Album\Track,
 	Lertify\Lastfm\Util\Util,
@@ -23,8 +21,8 @@ class Album extends AbstractApi
 	 * @param string $album
 	 * @param array $tags
 	 * @param string $sk
-	 * @throws InvalidArgumentException
-	 * @return string
+	 * @throws \InvalidArgumentException
+	 * @return \Lertify\Lastfm\Api\Data\PostResponse
 	 */
 	public function addTags( $artist, $album, array $tags, $sk )
 	{
@@ -40,9 +38,7 @@ class Album extends AbstractApi
 			'sk'     => $sk,
 		);
 
-		$result = $this->post( self::PREFIX . 'addTags', $params, array( 'is_signed' => true ) );
-
-		return $result['status'];
+		return $this->post( 'PostResponse', self::PREFIX . 'addTags', $params, array( 'is_signed' => true ) );
 	}
 
 	/**
