@@ -266,11 +266,13 @@ class Album extends AbstractApi
 	}
 
 	/**
+	 * @link http://www.last.fm/api/show/album.removeTag
+	 *
 	 * @param string $artist
 	 * @param string $album
 	 * @param string $tag
 	 * @param string $sk
-	 * @return string
+	 * @return \Lertify\Lastfm\Api\Data\PostResponse
 	 */
 	public function removeTag( $artist, $album, $tag, $sk )
 	{
@@ -281,9 +283,7 @@ class Album extends AbstractApi
 			'sk'     => $sk,
 		);
 
-		$result = $this->post( self::PREFIX . 'removeTag', $params, array( 'is_signed' => true ) );
-
-		return $result['status'];
+		return $this->post( 'PostResponse', self::PREFIX . 'removeTag', $params, array( 'is_signed' => true ) );
 	}
 
 	/**

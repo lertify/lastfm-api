@@ -211,13 +211,13 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estRemoveTag()
+	public function testRemoveTag()
 	{
-		$status = $this->lastfm->album()->removeTag( 'Coldplay', 'Mylo Xyloto', 'great', $GLOBALS['auth_session_key'] );
-		$this->assertEquals( 'ok', $status );
+		$PostResponse = $this->lastfm->album()->removeTag( 'Coldplay', 'Mylo Xyloto', 'great', $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $PostResponse->getStatus() );
 
-		$status = $this->lastfm->album()->removeTag( 'Coldplay', 'Mylo Xyloto', 'Awesome', $GLOBALS['auth_session_key'] );
-		$this->assertEquals( 'ok', $status );
+		$PostResponse = $this->lastfm->album()->removeTag( 'Coldplay', 'Mylo Xyloto', 'Awesome', $GLOBALS['auth_session_key'] );
+		$this->assertEquals( 'ok', $PostResponse->getStatus() );
 	}
 
 	/**
