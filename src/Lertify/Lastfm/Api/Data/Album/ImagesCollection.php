@@ -8,9 +8,9 @@ use Lertify\Lastfm\Api\Data\ArrayCollection,
 class ImagesCollection extends ArrayCollection
 {
 	/**
-     * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Images>")
+     * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Image>")
 	 * @JMS\XmlList(inline=true, entry="image")
-	 * @var \Lertify\Lastfm\Api\Data\Album\Images[]
+	 * @var \Lertify\Lastfm\Api\Data\Album\Image[]
      */
     protected $items;
 }

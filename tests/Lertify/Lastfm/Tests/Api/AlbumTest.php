@@ -72,7 +72,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estGetInfo()
+	public function testGetInfo()
 	{
 		$Album = $this->lastfm->album()->getInfo( 'The Offspring', 'Conspiracy of One' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Album', $Album, 'Album is not an instance of Data\Album\Album' );
@@ -98,17 +98,17 @@ class AlbumTest extends Setup
 
 		foreach ( $Images as $Image )
 		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Images', $Image, 'Image is not an instance of Data\Album\Images' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Image', $Image, 'Image is not an instance of Data\Album\Image' );
 		}
 
 		$Tracks = $Album->getTracks();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TracksCollection', $Tracks, 'Tracks are not an instance of Data\Album\ImagesCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tracks, 'Tracks are not an instance of Data\ArrayCollection' );
 
-		/** @var $Track \Lertify\Lastfm\Api\Data\Album\Tracks */
+		/** @var $Track \Lertify\Lastfm\Api\Data\Album\Track */
 		foreach ( $Tracks as $Track )
 		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tracks', $Track, 'Track is not an instance of Data\Album\Tracks' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Track', $Track, 'Track is not an instance of Data\Album\Track' );
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Streamable', $Track->getStreamable(), 'Streamable is not an instance of Data\Album\Streamable' );
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Artist', $Track->getArtist(), 'Artist is not an instance of Data\Album\Artist' );
 		}
@@ -119,7 +119,7 @@ class AlbumTest extends Setup
 
 		foreach ( $Toptags as $Toptag )
 		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tags', $Toptag, 'Toptag is not an instance of Data\Album\Toptags' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tag', $Toptag, 'Toptag is not an instance of Data\Album\Tag' );
 		}
 	}
 

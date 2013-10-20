@@ -1,47 +1,38 @@
 <?php
 namespace Lertify\Lastfm\Api\Data\Album;
 
-class Tag extends \Lertify\Lastfm\Api\Data\Tag
+use JMS\Serializer\Annotation as JMS;
+
+/**
+ * @JMS\XmlRoot("tag")
+ */
+class Tag
 {
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $artist;
+	protected $name;
 
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $album;
+	protected $url;
 
 	/**
-	 * @param string $artist
+	 * @return string
 	 */
-	public function setArtist( $artist )
+	public function getName()
 	{
-		$this->artist = $artist;
+		return $this->name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getArtist()
+	public function getUrl()
 	{
-		return $this->artist;
-	}
-
-	/**
-	 * @param string $album
-	 */
-	public function setAlbum( $album )
-	{
-		$this->album = $album;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAlbum()
-	{
-		return $this->album;
+		return $this->url;
 	}
 }

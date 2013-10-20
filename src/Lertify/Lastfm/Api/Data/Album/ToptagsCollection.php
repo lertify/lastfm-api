@@ -8,9 +8,9 @@ use Lertify\Lastfm\Api\Data\ArrayCollection,
 class ToptagsCollection extends ArrayCollection
 {
 	/**
-     * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Tags>")
+     * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Tag>")
      * @JMS\XmlList(inline=true, entry="tag")
-	 * @var \Lertify\Lastfm\Api\Data\Album\Tags[]
+	 * @var \Lertify\Lastfm\Api\Data\Album\Tag[]
      */
     protected $items;
 }

@@ -3,7 +3,7 @@ namespace Lertify\Lastfm\Api\Data\Album;
 
 use JMS\Serializer\Annotation as JMS;
 
-class Images
+class Image
 {
 	/**
 	 * @JMS\XmlAttribute
