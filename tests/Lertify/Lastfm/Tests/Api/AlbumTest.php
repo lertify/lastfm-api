@@ -196,17 +196,15 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estGetTopTag()
+	public function testGetTopTag()
 	{
 		$TopTags = $this->lastfm->album()->getTopTags( 'Radiohead', 'The Bends' );
-
 		$this->assertGreaterThan( 1, $TopTags->count() );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopTags, 'TopTags is not an instance of ArrayCollection' );
+		$this->assertTags( $TopTags );
 
-		$TopTags = $this->lastfm->album()->getTopTagsByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4' );
-
+		$TopTags = $this->lastfm->album()->getTopTagsByMbid( '86b5434d-9479-35e3-98ca-8fbcfcf4e357' );
 		$this->assertGreaterThan( 1, $TopTags->count() );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TopTags, 'TopTags is not an instance of ArrayCollection' );
+		$this->assertTags( $TopTags );
 	}
 
 	/**

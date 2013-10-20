@@ -241,7 +241,7 @@ class Album extends AbstractApi
 	 * @param string $artist
 	 * @param string $album
 	 * @param bool $autocorrect
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	public function getTopTags( $artist, $album, $autocorrect = false )
 	{
@@ -251,14 +251,14 @@ class Album extends AbstractApi
 			'autocorrect' => $autocorrect,
 		);
 
-		return $this->fetchTopTagCollection( $params );
+		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTopTags', $params );
 	}
 
 	/**
 	 * @link http://www.last.fm/api/show/album.getTopTags
 	 *
 	 * @param string $mbId
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	public function getTopTagsByMbid( $mbId )
 	{
@@ -266,7 +266,7 @@ class Album extends AbstractApi
 			'mbid' => $mbId,
 		);
 
-		return $this->fetchTopTagCollection( $params );
+		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTopTags', $params );
 	}
 
 	/**
