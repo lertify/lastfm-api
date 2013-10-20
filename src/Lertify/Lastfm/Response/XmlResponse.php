@@ -59,7 +59,7 @@ class XmlResponse implements ResponseInterface
 	{
 		$xml = next( $this->xml );
 
-		if ( '' === trim( $xml ) )
+		if ( is_string( $xml ) )
 		{
 			$xml = $this->xml;
 		}
