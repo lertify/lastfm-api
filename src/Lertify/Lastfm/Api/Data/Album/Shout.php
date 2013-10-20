@@ -1,26 +1,54 @@
 <?php
 namespace Lertify\Lastfm\Api\Data\Album;
 
-class Shout extends \Lertify\Lastfm\Api\Data\Shout
+use JMS\Serializer\Annotation as JMS,
+
+	DateTime;
+
+/**
+ * @JMS\XmlRoot("shout")
+ */
+class Shout
 {
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $album;
+	protected $body;
 
 	/**
-	 * @param string $album
+	 * @JMS\Type("string")
+	 * @var string
 	 */
-	public function setAlbum( $album )
+	protected $author;
+
+	/**
+	 * @JMS\Type("string")
+	 * @var string
+	 */
+	protected $date;
+
+	/**
+	 * @return string
+	 */
+	public function getBody()
 	{
-		$this->album = $album;
+		return $this->body;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAlbum()
+	public function getAuthor()
 	{
-		return $this->album;
+		return $this->author;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getDate()
+	{
+		return new DateTime( trim( $this->date ) );
 	}
 }

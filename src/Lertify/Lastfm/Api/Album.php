@@ -470,33 +470,13 @@ class Album extends AbstractApi
 		$resultCallback = function( $page, $limit ) use( $params, $self )
 		{
 			$params = array_merge( $params, array( 'page' => $page, 'limit' => $limit ) );
-
-			/** @var $self Album */
-			$result = $self->get( Album::PREFIX . 'getShouts', $params );
-			$resultShouts = $result['shouts'];
-
-			$totalPages = (int) $resultShouts['@attr']['totalPages'];
-			$total      = (int) $resultShouts['@attr']['total'];
-
-			$List = new ArrayCollection();
-
-			foreach ( $resultShouts['shout'] as $shoutRow )
-			{
-				$Shout = new Shout();
-
-				$Shout->setArtist( Util::toSting( $resultShouts['@attr']['artist'] ) );
-				$Shout->setAlbum( Util::toSting( $resultShouts['@attr']['album'] ) );
-				$Shout->setBody( Util::toSting( $shoutRow['body'] ) );
-				$Shout->setAuthor( Util::toSting( $shoutRow['author'] ) );
-				$Shout->setDate( Util::toSting( $shoutRow['date'] ) );
-
-				$List->add( $Shout );
-			}
+			/** @var $List \Lertify\Lastfm\Api\Data\Album\ShoutsCollection */
+			$List   = $self->get( 'Album\ShoutsCollection', \Lertify\Lastfm\Api\Album::PREFIX . 'getShouts', $params );
 
 			return array(
 				'results'       => $List,
-				'total_pages'   => $totalPages,
-				'total_results' => $total,
+				'total_pages'   => $List->getTotalPages(),
+				'total_results' => $List->getTotal(),
 			);
 		};
 

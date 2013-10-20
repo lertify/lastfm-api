@@ -3,6 +3,7 @@ namespace Lertify\Lastfm\Tests\Api;
 
 use Lertify\Lastfm\Tests\Setup,
 
+	Lertify\Lastfm\Api\Data\PagedCollection,
     Lertify\Lastfm\Api\Data\Album\AffiliationsCollection,
     Lertify\Lastfm\Api\Data\Album\Album;
 
@@ -11,7 +12,7 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estAddTags()
+	public function testAddTags()
 	{
 		$status = $this->lastfm->album()->addTags( 'Coldplay', 'Mylo Xyloto', array( 'Awesome', 'Top' ), $GLOBALS['auth_session_key'] );
 		$this->assertEquals( 'ok', $status );
@@ -126,23 +127,40 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estGetShouts()
+	public function testGetShouts()
 	{
 		$PagedCollection = $this->lastfm->album()->getShouts( 'The Offspring', 'Conspiracy of One' );
-
-		$this->assertInternalType( 'int', $PagedCollection->count(), 'Is not an integer value' );
-		$this->assertInternalType( 'int', $PagedCollection->countPages(), 'Is not an integer value' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $PagedCollection->getPage( 1 ), 'Page result is not an instance of ArrayCollection' );
-		$this->assertFalse( $PagedCollection->isEmpty(), 'Current result should not be empty' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $PagedCollection, 'PagedCollection is not an instance of Data\PagedCollection' );
 		$this->assertGreaterThanOrEqual( 102, $PagedCollection->count() );
 
-		$PagedCollection = $this->lastfm->album()->getShoutsByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4' );
+		$this->assertShoutsCollection( $PagedCollection );
 
+		$PagedCollection = $this->lastfm->album()->getShoutsByMbid( '86b5434d-9479-35e3-98ca-8fbcfcf4e357' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $PagedCollection, 'PagedCollection is not an instance of Data\PagedCollection' );
+		$this->assertGreaterThanOrEqual( 42, $PagedCollection->count() );
+
+		$this->assertShoutsCollection( $PagedCollection );
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\PagedCollection $PagedCollection
+	 */
+	protected function assertShoutsCollection( PagedCollection $PagedCollection )
+	{
 		$this->assertInternalType( 'int', $PagedCollection->count(), 'Is not an integer value' );
 		$this->assertInternalType( 'int', $PagedCollection->countPages(), 'Is not an integer value' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $PagedCollection->getPage( 1 ), 'Page result is not an instance of ArrayCollection' );
 		$this->assertFalse( $PagedCollection->isEmpty(), 'Current result should not be empty' );
-		$this->assertGreaterThanOrEqual( 673, $PagedCollection->count() );
+
+		$ShoutsCollection = $PagedCollection->getPage( 1 );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\ShoutsCollection', $ShoutsCollection, 'ShoutsCollection is not an instance of Data\Album\ShoutsCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $ShoutsCollection, 'ShoutsCollection is not an instance of Data\ArrayCollection' );
+
+		/** @var $Shout \Lertify\Lastfm\Api\Data\Album\Shout */
+		foreach ( $ShoutsCollection as $Shout )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Shout', $Shout, 'Shout is not an instance of Data\Album\Shout' );
+			$this->assertInstanceOf( 'DateTime', $Shout->getDate(), 'Shout date is not an instance of DateTime' );
+		}
 	}
 
 	/**
