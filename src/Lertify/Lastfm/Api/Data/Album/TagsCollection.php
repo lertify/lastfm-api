@@ -5,7 +5,7 @@ use Lertify\Lastfm\Api\Data\ArrayCollection,
 
 	JMS\Serializer\Annotation as JMS;
 
-class ToptagsCollection extends ArrayCollection
+class TagsCollection extends ArrayCollection
 {
 	/**
      * @JMS\Type("array<Lertify\Lastfm\Api\Data\Album\Tag>")

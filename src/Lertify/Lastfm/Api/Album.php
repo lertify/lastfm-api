@@ -166,7 +166,7 @@ class Album extends AbstractApi
 	 * @param string $album
 	 * @param string $username
 	 * @param bool $autocorrect
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	public function getTags( $artist, $album, $username, $autocorrect = false )
 	{
@@ -177,7 +177,7 @@ class Album extends AbstractApi
 			'autocorrect' => $autocorrect,
 		);
 
-		return $this->fetchTags( $params );
+		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTags', $params );
 	}
 
 	/**
@@ -187,7 +187,7 @@ class Album extends AbstractApi
 	 * @param string $album
 	 * @param string $sk
 	 * @param bool $autocorrect
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	public function getTagsAuth( $artist, $album, $sk, $autocorrect = false )
 	{
@@ -198,7 +198,7 @@ class Album extends AbstractApi
 			'autocorrect' => $autocorrect,
 		);
 
-		return $this->fetchTags( $params, array( 'is_signed' => true ) );
+		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTags', $params, array( 'is_signed' => true ) );
 	}
 
 	/**
@@ -206,7 +206,7 @@ class Album extends AbstractApi
 	 *
 	 * @param string $mbId
 	 * @param string $username
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	public function getTagsByMbid( $mbId, $username )
 	{
@@ -215,7 +215,7 @@ class Album extends AbstractApi
 			'user' => $username,
 		);
 
-		return $this->fetchTags( $params );
+		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTags', $params );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Album extends AbstractApi
 	 *
 	 * @param string $mbId
 	 * @param string $sk
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	public function getTagsByMbidAuth( $mbId, $sk )
 	{
@@ -232,7 +232,7 @@ class Album extends AbstractApi
 			'sk'   => $sk,
 		);
 
-		return $this->fetchTags( $params, array( 'is_signed' => true ) );
+		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTags', $params, array( 'is_signed' => true ) );
 	}
 
 	/**

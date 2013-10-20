@@ -72,8 +72,8 @@ class Album
 	protected $tracks;
 
 	/**
-	 * @JMS\Type("Lertify\Lastfm\Api\Data\Album\ToptagsCollection")
-	 * @var \Lertify\Lastfm\Api\Data\Album\ToptagsCollection
+	 * @JMS\Type("Lertify\Lastfm\Api\Data\Album\TagsCollection")
+	 * @var \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	protected $toptags;
 
@@ -164,7 +164,7 @@ class Album
 	}
 
 	/**
-	 * @return \Lertify\Lastfm\Api\Data\Album\ToptagsCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
 	 */
 	public function getToptags()
 	{

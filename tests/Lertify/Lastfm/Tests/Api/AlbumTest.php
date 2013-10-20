@@ -5,6 +5,7 @@ use Lertify\Lastfm\Tests\Setup,
 
 	Lertify\Lastfm\Api\Data\PagedCollection,
     Lertify\Lastfm\Api\Data\Album\AffiliationsCollection,
+	Lertify\Lastfm\Api\Data\Album\TagsCollection,
     Lertify\Lastfm\Api\Data\Album\Album;
 
 class AlbumTest extends Setup
@@ -114,14 +115,7 @@ class AlbumTest extends Setup
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Artist', $Track->getArtist(), 'Artist is not an instance of Data\Album\Artist' );
 		}
 
-		$Toptags = $Album->getToptags();
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\ToptagsCollection', $Toptags, 'Toptags are not an instance of Data\Album\ToptagsCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Toptags, 'Toptags are not an instance of Data\ArrayCollection' );
-
-		foreach ( $Toptags as $Toptag )
-		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tag', $Toptag, 'Toptag is not an instance of Data\Album\Tag' );
-		}
+		$this->assertTags( $Album->getToptags() );
 	}
 
 	/**
@@ -166,27 +160,37 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estGetTags()
+	public function testGetTags()
 	{
 		$Tags = $this->lastfm->album()->getTags( 'The Offspring', 'Conspiracy of One', $GLOBALS['tests_username'] );
-
 		$this->assertNotEmpty( $Tags, 'Can not be empty' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
+		$this->assertTags( $Tags );
 
 		$Tags = $this->lastfm->album()->getTagsAuth( 'The Offspring', 'Conspiracy of One', $GLOBALS['auth_session_key'] );
-
 		$this->assertNotEmpty( $Tags, 'Can not be empty' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
+		$this->assertTags( $Tags );
 
-		$Tags = $this->lastfm->album()->getTagsByMbid( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4', $GLOBALS['tests_username'] );
-
+		$Tags = $this->lastfm->album()->getTagsByMbid( '86b5434d-9479-35e3-98ca-8fbcfcf4e357', $GLOBALS['tests_username'] );
 		$this->assertEquals( 0, $Tags->count(), 'Must be empty' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
+		$this->assertTags( $Tags );
 
-		$Tags = $this->lastfm->album()->getTagsByMbidAuth( '0405cb4c-fc88-3338-b5d6-1fa71a9562e4', $GLOBALS['auth_session_key'] );
-
+		$Tags = $this->lastfm->album()->getTagsByMbidAuth( '86b5434d-9479-35e3-98ca-8fbcfcf4e357', $GLOBALS['auth_session_key'] );
 		$this->assertEquals( 0, $Tags->count(), 'Must be empty' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tags, 'Tags is not an instance of ArrayCollection' );
+		$this->assertTags( $Tags );
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Album\TagsCollection $TagsCollection
+	 */
+	public function assertTags( TagsCollection $TagsCollection )
+	{
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TagsCollection', $TagsCollection, 'TagsCollection are not an instance of Data\Album\TagsCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TagsCollection, 'TagsCollection are not an instance of Data\ArrayCollection' );
+
+		foreach ( $TagsCollection as $Tag )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tag', $Tag, 'Tag is not an instance of Data\Album\Tag' );
+		}
 	}
 
 	/**
