@@ -139,7 +139,6 @@ class AlbumTest extends Setup
 	}
 
 	/**
-	 * @group now
 	 * @return void
 	 */
 	public function testGetShouts()
@@ -201,20 +200,6 @@ class AlbumTest extends Setup
 	}
 
 	/**
-	 * @param \Lertify\Lastfm\Api\Data\Album\TagsCollection $TagsCollection
-	 */
-	public function assertTags( TagsCollection $TagsCollection )
-	{
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TagsCollection', $TagsCollection, 'TagsCollection are not an instance of Data\Album\TagsCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TagsCollection, 'TagsCollection are not an instance of Data\ArrayCollection' );
-
-		foreach ( $TagsCollection as $Tag )
-		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tag', $Tag, 'Tag is not an instance of Data\Album\Tag' );
-		}
-	}
-
-	/**
 	 * @return void
 	 */
 	public function testGetTopTag()
@@ -226,6 +211,20 @@ class AlbumTest extends Setup
 		$TopTags = $this->lastfm->album()->getTopTagsByMbid( '86b5434d-9479-35e3-98ca-8fbcfcf4e357' );
 		$this->assertGreaterThan( 1, $TopTags->count() );
 		$this->assertTags( $TopTags );
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Album\TagsCollection $TagsCollection
+	 */
+	protected function assertTags( TagsCollection $TagsCollection )
+	{
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TagsCollection', $TagsCollection, 'TagsCollection are not an instance of Data\Album\TagsCollection' );
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TagsCollection, 'TagsCollection are not an instance of Data\ArrayCollection' );
+
+		foreach ( $TagsCollection as $Tag )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Tag', $Tag, 'Tag is not an instance of Data\Album\Tag' );
+		}
 	}
 
 	/**

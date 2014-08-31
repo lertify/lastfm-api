@@ -237,7 +237,7 @@ class Album extends AbstractApi
 	 * @param string $artist
 	 * @param string $album
 	 * @param bool $autocorrect
-	 * @return \Lertify\Lastfm\Api\Data\Album\TagsCollection
+	 * @return \Lertify\Lastfm\Api\Data\Album\TopTagsCollection
 	 */
 	public function getTopTags( $artist, $album, $autocorrect = false )
 	{
@@ -247,7 +247,7 @@ class Album extends AbstractApi
 			'autocorrect' => $autocorrect,
 		);
 
-		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTopTags', $params );
+		return $this->get( 'Album\TopTagsCollection', self::PREFIX . 'getTopTags', $params );
 	}
 
 	/**

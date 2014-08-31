@@ -3,9 +3,6 @@ namespace Lertify\Lastfm\Api\Data\Album;
 
 use JMS\Serializer\Annotation as JMS;
 
-/**
- * @JMS\XmlRoot("tag")
- */
 class Tag
 {
 	/**

@@ -5,6 +5,9 @@ use Lertify\Lastfm\Api\Data\ArrayCollection,
 
 	JMS\Serializer\Annotation as JMS;
 
+/**
+ * @JMS\XmlRoot("tags")
+ */
 class TagsCollection extends ArrayCollection
 {
 	/**
