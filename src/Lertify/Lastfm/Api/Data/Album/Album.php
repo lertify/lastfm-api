@@ -29,20 +29,7 @@ class Album
 	 * @JMS\Type("string")
 	 * @var string
 	 */
-	protected $mbid;
-
-	/**
-	 * @JMS\Type("string")
-	 * @var string
-	 */
 	protected $url;
-
-	/**
-	 * @JMS\Accessor(setter="setReleasedate", getter="getReleasedate")
-	 * @JMS\Type("string")
-	 * @var \DateTime
-	 */
-	protected $releasedate;
 
 	/**
      * @JMS\Type("Lertify\Lastfm\Api\Data\Album\ImagesCollection")
@@ -50,6 +37,25 @@ class Album
 	 * @var \Lertify\Lastfm\Api\Data\Album\ImagesCollection
      */
 	protected $images;
+
+	/**
+	 * @JMS\Type("boolean")
+	 * @var bool
+	 */
+	protected $streamable;
+
+	/**
+	 * @JMS\Type("string")
+	 * @var string
+	 */
+	protected $mbid;
+
+	/**
+	 * @JMS\Accessor(setter="setReleasedate", getter="getReleasedate")
+	 * @JMS\Type("string")
+	 * @var \DateTime
+	 */
+	protected $releasedate;
 
 	/**
 	 * @JMS\Type("integer")

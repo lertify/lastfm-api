@@ -303,61 +303,13 @@ class Album extends AbstractApi
 		{
 			$params = array_merge( $params, array( 'page' => $page, 'limit' => $limit ) );
 
-			/** @var $self Album */
-			$result  = $self->get( Album::PREFIX . 'search', $params );
-			$results = $result['results'];
-
-			$totalResults = (int) $results['opensearch:totalResults'];
-			$itemsPerPage = (int) $results['opensearch:itemsPerPage'];
-
-			if ( empty( $results['albummatches'] ) )
-			{
-				return null;
-			}
-
-			if ( isset( $results['albummatches']['album'][0] ) )
-			{
-				$albumsList = $results['albummatches']['album'];
-			}
-			else
-			{
-				$albumsList = array( $results['albummatches']['album'] );
-			}
-
-			$Albums = new ArrayCollection();
-
-			foreach ( $albumsList as $albumRow )
-			{
-				$Album = new Data\Album\Album();
-
-				$Album->setId( (int) $albumRow['id'] );
-				$Album->setName( Util::toSting( $albumRow['name'] ) );
-				$Album->setArtist( Util::toSting( $albumRow['artist'] ) );
-				$Album->setUrl( Util::toSting( $albumRow['url'] ) );
-				$Album->setStreamable( (bool) ( (int) $albumRow['streamable'] ) );
-				$Album->setMbid( Util::toSting( $albumRow['mbid'] ) );
-
-				$Images = new ArrayCollection();
-
-				foreach ( $albumRow['image'] as $image )
-				{
-					if ( '' === ( $imageUrl = trim( $image['#text'] ) ) )
-					{
-						continue;
-					}
-
-					$Images->set( Util::toSting( $image['size'] ), Util::toSting( $imageUrl ) );
-				}
-
-				$Album->setImages( $Images );
-
-				$Albums->set( $Album->getId(), $Album );
-			}
+			/** @var \Lertify\Lastfm\Api\Data\Album\AlbumResults $List */
+			$List = $self->get( 'Album\AlbumResults', \Lertify\Lastfm\Api\Album::PREFIX . 'search', $params );
 
 			return array(
-				'results'       => $Albums,
-				'total_pages'   => ceil( $totalResults / $itemsPerPage ),
-				'total_results' => $totalResults,
+				'results'       => $List->getAlbummatches(),
+				'total_pages'   => $List->getTotalPages(),
+				'total_results' => $List->getTotalResults(),
 			);
 		};
 
@@ -417,47 +369,6 @@ class Album extends AbstractApi
 
 	/**
 	 * @param array $params
-	 * @return \Lertify\Lastfm\Api\Data\Album\Album
-	 */
-	private function fillAlbumInfo( array $params )
-	{
-		$result      = $this->get( self::PREFIX . 'getInfo', $params );
-		$resultAlbum = $result['album'];
-
-		$Album = new Data\Album\Album();
-
-		$Album->setId( (int) $resultAlbum['id'] );
-		$Album->setName( Util::toSting( $resultAlbum['name'] ) );
-		$Album->setArtist( Util::toSting( $resultAlbum['artist'] ) );
-		$Album->setUrl( Util::toSting( $resultAlbum['url'] ) );
-		$Album->setMbid( Util::toSting( $resultAlbum['mbid'] ) );
-		$Album->setReleaseDate( Util::toSting( $resultAlbum['releasedate'] ) );
-		$Album->setListeners( (int) $resultAlbum['listeners'] );
-		$Album->setPlaycount( (int) $resultAlbum['playcount'] );
-
-		$Images = new ArrayCollection();
-
-		foreach ( $resultAlbum['image'] as $image )
-		{
-			if ( '' === ( $imageUrl = Util::toSting( $image['#text'] ) ) )
-			{
-				continue;
-			}
-
-			$Images->set( Util::toSting( $image['size'] ), $imageUrl );
-		}
-
-		$Album->setImages( $Images );
-
-		$this->addTracks( $Album, $resultAlbum['tracks'] );
-		$this->addTopTags( $Album, $resultAlbum['toptags'] );
-		$this->addBiography( $Album, isset( $resultAlbum['wiki'] ) ? $resultAlbum['wiki'] : array() );
-
-		return $Album;
-	}
-
-	/**
-	 * @param array $params
 	 * @return \Lertify\Lastfm\Api\Data\PagedCollection
 	 */
 	private function getShoutsPageCollection( array $params )
@@ -466,7 +377,7 @@ class Album extends AbstractApi
 		$resultCallback = function( $page, $limit ) use( $params, $self )
 		{
 			$params = array_merge( $params, array( 'page' => $page, 'limit' => $limit ) );
-			/** @var $List \Lertify\Lastfm\Api\Data\Album\ShoutsCollection */
+			/** @var \Lertify\Lastfm\Api\Data\Album\ShoutsCollection $List */
 			$List   = $self->get( 'Album\ShoutsCollection', \Lertify\Lastfm\Api\Album::PREFIX . 'getShouts', $params );
 
 			return array(

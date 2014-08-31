@@ -98,7 +98,10 @@ class AlbumTest extends Setup
 	 */
 	protected function assertAlbum( Album $Album )
 	{
-		$this->assertInstanceOf( 'DateTime', $Album->getReleasedate(), 'Releasedate is not an instance of DateTime' );
+		if ( null !== $Album->getReleasedate() )
+		{
+			$this->assertInstanceOf( 'DateTime', $Album->getReleasedate(), 'Releasedate is not an instance of DateTime' );
+		}
 
 		$Images = $Album->getImages();
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\ImagesCollection', $Images, 'Images are not an instance of Data\Album\ImagesCollection' );
@@ -110,15 +113,19 @@ class AlbumTest extends Setup
 		}
 
 		$Tracks = $Album->getTracks();
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TracksCollection', $Tracks, 'Tracks are not an instance of Data\Album\ImagesCollection' );
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tracks, 'Tracks are not an instance of Data\ArrayCollection' );
 
-		/** @var \Lertify\Lastfm\Api\Data\Album\Track $Track */
-		foreach ( $Tracks as $Track )
+		if ( null !== $Tracks )
 		{
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Track', $Track, 'Track is not an instance of Data\Album\Track' );
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Streamable', $Track->getStreamable(), 'Streamable is not an instance of Data\Album\Streamable' );
-			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Artist', $Track->getArtist(), 'Artist is not an instance of Data\Album\Artist' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TracksCollection', $Tracks, 'Tracks are not an instance of Data\Album\TracksCollection' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tracks, 'Tracks are not an instance of Data\ArrayCollection' );
+
+			/** @var \Lertify\Lastfm\Api\Data\Album\Track $Track */
+			foreach ( $Tracks as $Track )
+			{
+				$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Track', $Track, 'Track is not an instance of Data\Album\Track' );
+				$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Streamable', $Track->getStreamable(), 'Streamable is not an instance of Data\Album\Streamable' );
+				$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Artist', $Track->getArtist(), 'Artist is not an instance of Data\Album\Artist' );
+			}
 		}
 
 		$this->assertTags( $Album->getToptags() );
@@ -216,8 +223,13 @@ class AlbumTest extends Setup
 	/**
 	 * @param \Lertify\Lastfm\Api\Data\Album\TagsCollection $TagsCollection
 	 */
-	protected function assertTags( TagsCollection $TagsCollection )
+	protected function assertTags( TagsCollection $TagsCollection = null )
 	{
+		if ( null === $TagsCollection )
+		{
+			return;
+		}
+
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TagsCollection', $TagsCollection, 'TagsCollection are not an instance of Data\Album\TagsCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $TagsCollection, 'TagsCollection are not an instance of Data\ArrayCollection' );
 
@@ -242,25 +254,30 @@ class AlbumTest extends Setup
 	/**
 	 * @return void
 	 */
-	public function t1estSearch()
+	public function testSearch()
 	{
 		$PagedCollection = $this->lastfm->album()->search( 'Conspiracy of One' );
 
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\PagedCollection', $PagedCollection );
 		$this->assertEquals( 'object', gettype( $PagedCollection ) );
-		$this->assertEquals( 1, $PagedCollection->count() );
+		$this->assertEquals( 2, $PagedCollection->count() );
 
-		/** @var $Album \Lertify\Lastfm\Api\Data\Album\Album */
+		/** @var \Lertify\Lastfm\Api\Data\Album\Album $Album */
 		foreach ( $PagedCollection->getPage( 1 ) as $Album )
 		{
-			$this->assertEquals( 'The Offspring', $Album->getArtist() );
-			$this->assertEquals( 'Conspiracy of One', $Album->getName() );
+			$this->assertAlbum( $Album );
 		}
 
 		$PagedCollection = $this->lastfm->album()->search( 'believe' );
 		$PagedCollection->setLimit( 10 );
 
 		$this->assertEquals( 10, $PagedCollection->getPage( 1 )->count() );
+
+		/** @var \Lertify\Lastfm\Api\Data\Album\Album $Album */
+		foreach ( $PagedCollection->getPage( 1 ) as $Album )
+		{
+			$this->assertAlbum( $Album );
+		}
 	}
 
 	/**
