@@ -7,7 +7,8 @@ use Lertify\Lastfm\Tests\Setup,
     Lertify\Lastfm\Api\Data\Album\AffiliationsCollection,
 	Lertify\Lastfm\Api\Data\Album\Affiliation,
 	Lertify\Lastfm\Api\Data\Album\TagsCollection,
-    Lertify\Lastfm\Api\Data\Album\Album;
+    Lertify\Lastfm\Api\Data\Album\Album,
+	Lertify\Lastfm\Api\Data\Album\Wiki;
 
 class AlbumTest extends Setup
 {
@@ -77,7 +78,6 @@ class AlbumTest extends Setup
 	}
 
 	/**
-	 * @group available
 	 * @return void
 	 */
 	public function testGetInfo()
@@ -87,7 +87,7 @@ class AlbumTest extends Setup
 
 		$this->assertAlbum( $Album );
 
-		$Album = $this->lastfm->album()->getInfoByMbid( '86b5434d-9479-35e3-98ca-8fbcfcf4e357' );
+		$Album = $this->lastfm->album()->getInfoByMbid( 'a57b3932-e915-4d58-ad9a-61d88dcc1baa' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Album', $Album, 'Album is not an instance of Data\Album\Album' );
 
 		$this->assertAlbum( $Album );
@@ -113,7 +113,7 @@ class AlbumTest extends Setup
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\TracksCollection', $Tracks, 'Tracks are not an instance of Data\Album\ImagesCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $Tracks, 'Tracks are not an instance of Data\ArrayCollection' );
 
-		/** @var $Track \Lertify\Lastfm\Api\Data\Album\Track */
+		/** @var \Lertify\Lastfm\Api\Data\Album\Track $Track */
 		foreach ( $Tracks as $Track )
 		{
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Track', $Track, 'Track is not an instance of Data\Album\Track' );
@@ -122,6 +122,20 @@ class AlbumTest extends Setup
 		}
 
 		$this->assertTags( $Album->getToptags() );
+		$this->assertWiki( $Album->getWiki() );
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Album\Wiki $Wiki
+	 */
+	protected function assertWiki( Wiki $Wiki = null )
+	{
+		if ( null === $Wiki )
+		{
+			return;
+		}
+
+		$this->assertInstanceOf( 'DateTime', $Wiki->getPublished(), 'Published is not an instance of DateTime' );
 	}
 
 	/**

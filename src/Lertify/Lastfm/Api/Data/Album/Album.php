@@ -5,9 +5,6 @@ use JMS\Serializer\Annotation as JMS,
 
     DateTime;
 
-/**
- * @JMS\XmlRoot("album")
- */
 class Album
 {
 	/**
@@ -41,8 +38,9 @@ class Album
 	protected $url;
 
 	/**
+	 * @JMS\Accessor(setter="setReleasedate", getter="getReleasedate")
 	 * @JMS\Type("string")
-	 * @var string
+	 * @var \DateTime
 	 */
 	protected $releasedate;
 
@@ -124,11 +122,19 @@ class Album
 	}
 
 	/**
+	 * @param string $releaseDate
+	 */
+	public function setReleasedate( $releaseDate )
+	{
+		$this->releasedate = new DateTime( trim( $releaseDate ) );
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getReleasedate()
 	{
-		return new DateTime( trim( $this->releasedate ) );
+		return $this->releasedate;
 	}
 
 	/**

@@ -8,8 +8,9 @@ use JMS\Serializer\Annotation as JMS,
 class Wiki
 {
 	/**
+	 * @JMS\Accessor(setter="setPublished", getter="getPublished")
 	 * @JMS\Type("string")
-	 * @var string
+	 * @var \DateTime
 	 */
 	protected $published;
 
@@ -26,11 +27,19 @@ class Wiki
 	protected $content;
 
 	/**
+	 * @param string $published
+	 */
+	public function setPublished( $published )
+	{
+		$this->published = new DateTime( trim( $published ) );
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getPublished()
 	{
-		return new DateTime( trim( $this->published ) );
+		return $this->published;
 	}
 
 	/**
