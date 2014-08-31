@@ -139,6 +139,7 @@ class AlbumTest extends Setup
 	}
 
 	/**
+	 * @group now
 	 * @return void
 	 */
 	public function testGetShouts()
@@ -169,7 +170,7 @@ class AlbumTest extends Setup
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\ShoutsCollection', $ShoutsCollection, 'ShoutsCollection is not an instance of Data\Album\ShoutsCollection' );
 		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\ArrayCollection', $ShoutsCollection, 'ShoutsCollection is not an instance of Data\ArrayCollection' );
 
-		/** @var $Shout \Lertify\Lastfm\Api\Data\Album\Shout */
+		/** @var \Lertify\Lastfm\Api\Data\Album\Shout $Shout */
 		foreach ( $ShoutsCollection as $Shout )
 		{
 			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Album\Shout', $Shout, 'Shout is not an instance of Data\Album\Shout' );

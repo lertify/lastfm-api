@@ -5,9 +5,6 @@ use JMS\Serializer\Annotation as JMS,
 
 	DateTime;
 
-/**
- * @JMS\XmlRoot("shout")
- */
 class Shout
 {
 	/**
@@ -23,8 +20,9 @@ class Shout
 	protected $author;
 
 	/**
+	 * @JMS\Accessor(setter="setDate", getter="getDate")
 	 * @JMS\Type("string")
-	 * @var string
+	 * @var \DateTime
 	 */
 	protected $date;
 
@@ -45,10 +43,18 @@ class Shout
 	}
 
 	/**
+	 * @param string $date
+	 */
+	public function setDate( $date )
+	{
+		$this->date = new DateTime( trim( $date ) );
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getDate()
 	{
-		return new DateTime( trim( $this->date ) );
+		return $this->date;
 	}
 }
