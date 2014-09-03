@@ -1,12 +1,8 @@
 <?php
 namespace Lertify\Lastfm\Api;
 
-use Lertify\Lastfm\Api\Data\ArrayCollection,
-	Lertify\Lastfm\Api\Data\PagedCollection,
+use Lertify\Lastfm\Api\Data\PagedCollection,
 	Lertify\Lastfm\Api\Data,
-	Lertify\Lastfm\Api\Data\Album\Tag,
-	Lertify\Lastfm\Api\Data\Album\Track,
-	Lertify\Lastfm\Util\Util,
 	InvalidArgumentException;
 
 class Album extends AbstractApi
@@ -262,7 +258,7 @@ class Album extends AbstractApi
 			'mbid' => $mbId,
 		);
 
-		return $this->get( 'Album\TagsCollection', self::PREFIX . 'getTopTags', $params );
+		return $this->get( 'Album\TopTagsCollection', self::PREFIX . 'getTopTags', $params );
 	}
 
 	/**
@@ -326,7 +322,7 @@ class Album extends AbstractApi
 	 * @param bool $public
 	 * @param string|null $message
 	 * @throws \InvalidArgumentException
-	 * @return string
+	 * @return \Lertify\Lastfm\Api\Data\PostResponse
 	 */
 	public function share( $artist, $album, $recipient, $sk, $public = false, $message = null )
 	{
@@ -362,9 +358,7 @@ class Album extends AbstractApi
 			$params['message'] = $message;
 		}
 
-		$result = $this->post( self::PREFIX . 'share', $params, array( 'is_signed' => true ) );
-
-		return $result['status'];
+		return $this->post( 'PostResponse', self::PREFIX . 'share', $params, array( 'is_signed' => true ) );
 	}
 
 	/**
@@ -388,174 +382,5 @@ class Album extends AbstractApi
 		};
 
 		return new PagedCollection( $resultCallback );
-	}
-
-	/**
-	 * @param array $params
-	 * @param array $options
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
-	 */
-	private function fetchTags( array $params, array $options = array() )
-	{
-		$result     = $this->get( self::PREFIX . 'getTags', $params, $options );
-		$resultTags = $result['tags'];
-
-		if ( isset( $resultTags['#text'] ) )
-		{
-			$artistName = Util::toSting( $resultTags['artist'] );
-			$albumName  = Util::toSting( $resultTags['album'] );
-		}
-		else
-		{
-			$artistName = Util::toSting( $resultTags['@attr']['artist'] );
-			$albumName  = Util::toSting( $resultTags['@attr']['album'] );
-		}
-
-		$List = new ArrayCollection();
-
-		if ( ! isset( $resultTags['tag'] ) )
-		{
-			return $List;
-		}
-
-		if ( isset( $resultTags['tag'][0] ) )
-		{
-			$tags = $resultTags['tag'];
-		}
-		else
-		{
-			$tags = array( $resultTags['tag'] );
-		}
-
-		foreach ( $tags as $tagRow )
-		{
-			$Tag = new Tag();
-
-			$Tag->setArtist( $artistName );
-			$Tag->setAlbum( $albumName );
-			$Tag->setName( Util::toSting( $tagRow['name'] ) );
-			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
-
-			$List->add( $Tag );
-		}
-
-		return $List;
-	}
-
-	/**
-	 * @param array $params
-	 * @return \Lertify\Lastfm\Api\Data\ArrayCollection
-	 */
-	private function fetchTopTagCollection( array $params )
-	{
-		$result        = $this->get( self::PREFIX . 'getTopTags', $params );
-		$resultTopTags = $result['toptags'];
-
-		if ( isset( $resultTopTags['#text'] ) )
-		{
-			$artistName = Util::toSting( $resultTopTags['artist'] );
-			$albumName  = Util::toSting( $resultTopTags['album'] );
-		}
-		else
-		{
-			$artistName = Util::toSting( $resultTopTags['@attr']['artist'] );
-			$albumName  = Util::toSting( $resultTopTags['@attr']['album'] );
-		}
-
-		$TopTags = new ArrayCollection();
-
-		if ( ! isset( $resultTopTags['tag'] ) )
-		{
-			return $TopTags;
-		}
-
-		if ( isset( $resultTopTags['tag'][0] ) )
-		{
-			$tags = $resultTopTags['tag'];
-		}
-		else
-		{
-			$tags = array( $resultTopTags['tag'] );
-		}
-
-		foreach ( $tags as $tagRow )
-		{
-			$Tag = new Tag();
-
-			$Tag->setArtist( $artistName );
-			$Tag->setAlbum( $albumName );
-			$Tag->setName( Util::toSting( $tagRow['name'] ) );
-			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
-			$Tag->setCount( (int) $tagRow['count'] );
-
-			$TopTags->add( $Tag );
-		}
-
-		return $TopTags;
-	}
-
-	/**
-	 * @param \Lertify\Lastfm\Api\Data\Album\Album $Album
-	 * @param array $tracks
-	 */
-	private function addTracks( Data\Album\Album $Album, array $tracks )
-	{
-		$Tracks = new ArrayCollection();
-
-		/** @var $TrackXml \SimpleXMLElement */
-		foreach ( $tracks['track'] as $trackRow )
-		{
-			$Track = new Track();
-
-			$Track->setRank( (int) $trackRow['@attr']['rank'] );
-			$Track->setName( Util::toSting( $trackRow['name'] ) );
-			$Track->setDuration( (int) $trackRow['duration'] );
-			$Track->setMbId( Util::toSting( $trackRow['mbid'] ) );
-			$Track->setUrl( Util::toSting( $trackRow['url'] ) );
-			$Track->setStreamableFulltrack( (bool) ( (int) $trackRow['streamable']['fulltrack'] ) );
-			$Track->setStreamable( (bool) ( (int) $trackRow['streamable']['#text'] ) );
-			$Track->setArtistName( Util::toSting( $trackRow['artist']['name'] ) );
-			$Track->setArtistMbId( Util::toSting( $trackRow['artist']['mbid'] ) );
-			$Track->setArtistUrl( Util::toSting( $trackRow['artist']['url'] ) );
-
-			$Tracks->add( $Track );
-		}
-
-		$Album->setTracks( $Tracks );
-	}
-
-	/**
-	 * @param \Lertify\Lastfm\Api\Data\Album\Album $Album
-	 * @param array $topTags
-	 */
-	private function addTopTags( Data\Album\Album $Album, array $topTags )
-	{
-		$TopTags = new ArrayCollection();
-
-		foreach ( $topTags['tag'] as $tagRow )
-		{
-			$Tag = new Tag();
-
-			$Tag->setName( Util::toSting( $tagRow['name'] ) );
-			$Tag->setUrl( Util::toSting( $tagRow['url'] ) );
-
-			$TopTags->add( $Tag );
-		}
-
-		$Album->setTopTags( $TopTags );
-	}
-
-	/**
-	 * @param \Lertify\Lastfm\Api\Data\Album\Album $Album
-	 * @param array $wiki
-	 */
-	private function addBiography( Data\Album\Album $Album, array $wiki )
-	{
-		if ( ! empty( $wiki ) )
-		{
-			$Album->setWikiPublishedAt( Util::toSting( $wiki['published'] ) );
-			$Album->setWikiSummary( Util::toSting( $wiki['summary'] ) );
-			$Album->setWikiContent( Util::toSting( $wiki['content'] ) );
-		}
 	}
 }
