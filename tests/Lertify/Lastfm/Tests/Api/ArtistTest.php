@@ -5,10 +5,14 @@ use Lertify\Lastfm\Tests\Setup;
 
 class ArtistTest extends Setup
 {
+	/**
+	 * @return void
+	 */
 	public function testAddTags()
 	{
-		$status = $this->lastfm->artist()->addTags( 'Coldplay', array( 'Awesome' ), $GLOBALS['auth_session_key'] );
-		$this->assertEquals( 'ok', $status );
+		$PostResponse = $this->lastfm->artist()->addTags( 'Coldplay', array( 'Awesome' ), $GLOBALS['auth_session_key'] );
+
+		$this->assertEquals( 'ok', $PostResponse->getStatus() );
 	}
 
 	public function testGetCorrection()

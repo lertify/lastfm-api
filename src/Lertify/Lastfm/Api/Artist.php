@@ -21,8 +21,8 @@ class Artist extends AbstractApi
 	 * @param string $artist
 	 * @param array $tags
 	 * @param string $sk
-	 * @throws InvalidArgumentException
-	 * @return string
+	 * @throws \InvalidArgumentException
+	 * @return \Lertify\Lastfm\Api\Data\PostResponse
 	 */
 	public function addTags( $artist, array $tags, $sk )
 	{
@@ -37,9 +37,7 @@ class Artist extends AbstractApi
 			'sk'     => $sk,
 		);
 
-		$result = $this->post( self::PREFIX . 'addTags', $params, array( 'is_signed' => true ) );
-
-		return $result['status'];
+		return $this->post( 'PostResponse', self::PREFIX . 'addTags', $params, array( 'is_signed' => true ) );
 	}
 
 	/**
