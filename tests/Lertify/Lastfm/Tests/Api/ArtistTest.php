@@ -1,7 +1,9 @@
 <?php
 namespace Lertify\Lastfm\Tests\Api;
 
-use Lertify\Lastfm\Tests\Setup;
+use Lertify\Lastfm\Tests\Setup,
+
+	Lertify\Lastfm\Api\Data\Artist\CorrectionsCollection;
 
 class ArtistTest extends Setup
 {
@@ -15,13 +17,19 @@ class ArtistTest extends Setup
 		$this->assertEquals( 'ok', $PostResponse->getStatus() );
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testGetCorrection()
 	{
-        $Artist = $this->lastfm->artist()->getCorrection( 'Metalca' );
+        $CorrectionsCollection = $this->lastfm->artist()->getCorrection( 'Madon' );
+		$this->assertCorrections( $CorrectionsCollection );
 
-		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Artist, 'Artist is not an instance of Lertify\Lastfm\Api\Data\Artist\Artist' );
+		$CorrectionsCollection = $this->lastfm->artist()->getCorrection( 'Me' );
+		$this->assertCorrections( $CorrectionsCollection );
 
-		// $Artist = $this->lastfm->artist()->getCorrection( 'Met' ); // @todo throws NotFoundException
+		$this->setExpectedException('Lertify\Lastfm\Exception\StatusCodeException');
+		$this->lastfm->artist()->getCorrection( 'Meetalloca' );
 	}
 
 	public function testGetEvents()
@@ -327,5 +335,20 @@ class ArtistTest extends Setup
 	{
 		$status = $this->lastfm->artist()->shout( 'Paramore', 'Awesome band', $GLOBALS['auth_session_key'] );
 		$this->assertEquals( 'ok', $status );
+	}
+
+	/**
+	 * @param \Lertify\Lastfm\Api\Data\Artist\CorrectionsCollection $CorrectionsCollection
+	 */
+	protected function assertCorrections( CorrectionsCollection $CorrectionsCollection )
+	{
+		$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\CorrectionsCollection', $CorrectionsCollection, 'CorrectionsCollection is not an instance of Lertify\Lastfm\Api\Data\Artist\CorrectionsCollection' );
+
+		/** @var \Lertify\Lastfm\Api\Data\Artist\Correction $Correction */
+		foreach ( $CorrectionsCollection as $Correction )
+		{
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Correction', $Correction, 'Correction is not an instance of Lertify\Lastfm\Api\Data\Artist\Correction' );
+			$this->assertInstanceOf( 'Lertify\Lastfm\Api\Data\Artist\Artist', $Correction->getArtist(), 'Artist is not an instance of Lertify\Lastfm\Api\Data\Artist\Artist' );
+		}
 	}
 }

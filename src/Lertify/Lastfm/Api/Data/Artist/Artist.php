@@ -1,154 +1,49 @@
 <?php
 namespace Lertify\Lastfm\Api\Data\Artist;
 
-use Lertify\Lastfm\Api\Data\ArrayCollection;
+use JMS\Serializer\Annotation as JMS;
 
-class Artist extends \Lertify\Lastfm\Api\Data\Artist
+class Artist
 {
 	/**
-	 * @var int
-	 */
-	private $userplaycount;
-
-	/**
-	 * @var ArrayCollection
-	 */
-	private $similar;
-
-	/**
-	 * @var float
-	 */
-	private $match;
-
-	/**
-	 * @var ArrayCollection
-	 */
-	private $tags;
-
-	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $published;
+	private $name;
 
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $summary;
+	private $mbid;
 
 	/**
+	 * @JMS\Type("string")
 	 * @var string
 	 */
-	private $content;
+	private $url;
 
 	/**
-	 * @param int $userplaycount
+	 * @return string
 	 */
-	public function setUserplaycount( $userplaycount )
+	public function getName()
 	{
-		$this->userplaycount = $userplaycount;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getUserplaycount()
-	{
-		return $this->userplaycount;
-	}
-
-	/**
-	 * @param ArrayCollection $similar
-	 */
-	public function setSimilar( $similar )
-	{
-		$this->similar = $similar;
-	}
-
-	/**
-	 * @return ArrayCollection
-	 */
-	public function getSimilar()
-	{
-		return $this->similar;
-	}
-
-	/**
-	 * @param float $match
-	 */
-	public function setMatch( $match )
-	{
-		$this->match = $match;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getMatch()
-	{
-		return $this->match;
-	}
-
-	/**
-	 * @param ArrayCollection $Tags
-	 */
-	public function setTags( $Tags )
-	{
-		$this->tags = $Tags;
-	}
-
-	/**
-	 * @return ArrayCollection
-	 */
-	public function getTags()
-	{
-		return $this->tags;
-	}
-
-	/**
-	 * @param string $published
-	 */
-	public function setPublished( $published )
-	{
-		$this->published = $published;
+		return $this->name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPublished()
+	public function getMbid()
 	{
-		return $this->published;
-	}
-
-	/**
-	 * @param string $summary
-	 */
-	public function setSummary( $summary )
-	{
-		$this->summary = $summary;
+		return $this->mbid;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSummary()
+	public function getUrl()
 	{
-		return $this->summary;
-	}
-
-	/**
-	 * @param string $content
-	 */
-	public function setContent( $content )
-	{
-		$this->content = $content;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getContent()
-	{
-		return $this->content;
+		return $this->url;
 	}
 }

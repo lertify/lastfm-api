@@ -44,8 +44,7 @@ class Artist extends AbstractApi
 	 * @link http://www.last.fm/api/show/artist.getCorrection
 	 *
 	 * @param string $artist
-	 * @throws \Lertify\Lastfm\Exception\NotFoundException
-	 * @return \Lertify\Lastfm\Api\Data\Artist\Artist
+	 * @return \Lertify\Lastfm\Api\Data\Artist\CorrectionsCollection
 	 */
 	public function getCorrection( $artist )
 	{
@@ -53,22 +52,7 @@ class Artist extends AbstractApi
 			'artist' => $artist,
 		);
 
-		$result           = $this->get( self::PREFIX . 'getCorrection', $params );
-		$resultCorrection = $result['corrections'];
-
-		if ( ! is_array( $resultCorrection ) )
-		{
-			throw new NotFoundException( 'No artist found!' );
-		}
-
-        $Artist           = new Data\Artist\Artist();
-		$artistCorrection = $resultCorrection['correction']['artist'];
-
-		$Artist->setName( Util::toSting( $artistCorrection['name'] ) );
-		$Artist->setMbid( Util::toSting( $artistCorrection['mbid'] ) );
-		$Artist->setUrl( Util::toSting( $artistCorrection['url'] ) );
-
-		return $Artist;
+		return $this->get( 'Artist\CorrectionsCollection', self::PREFIX . 'getCorrection', $params );
 	}
 
 	/**
